@@ -1,0 +1,54 @@
+# On-premise stack: app (PHP-FPM) + MySQL 8 + Nginx.
+#   cp .env.example .env   (set APP_KEY, DB_PASSWORD, APP_URL)
+#   docker compose up -d --build
+#   docker compose exec app php artisan pack:install packs/demo
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+    volumes:
+      - storage:/var/www/html/storage
+      - public:/var/www/public-shared
+      - ./packs:/var/www/html/packs:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-8080}:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - public:/var/www/html/public:ro
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-educateees}
+      MYSQL_USER: ${DB_USERNAME:-educateees}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-change-me-root}
+    # Needed so the migration can create the triggers that make audit_logs append-only.
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--log-bin-trust-function-creators=1"]
+    volumes:
+      - mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$$MYSQL_ROOT_PASSWORD\""]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  storage:
+  public:
+  mysql:

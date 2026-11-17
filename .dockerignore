@@ -1,0 +1,15 @@
+.git
+.github
+.env
+node_modules
+vendor
+public/build
+public/hot
+storage/logs/*
+storage/framework/*/*
+storage/app/*
+database/*.sqlite
+packs/*
+!packs/_skeleton
+!packs/demo
+tests
