@@ -1,0 +1,14 @@
+code: POL-01
+title: { el: "Πολιτική Αποδεκτής Χρήσης Διαδικτύου", en: "Acceptable Internet Use Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Το διαδίκτυο της εταιρείας προορίζεται για την εργασία σας· η περιορισμένη προσωπική χρήση επιτρέπεται εφόσον δεν επηρεάζει τη δουλειά ή την ασφάλεια."
+    en: "The company internet connection is for work; limited personal use is allowed as long as it does not affect your work or security."
+  - el: "Μην κατεβάζετε και μην εγκαθιστάτε λογισμικό που δεν έχει εγκρίνει το τμήμα Πληροφορικής."
+    en: "Do not download or install software that IT has not approved."
+  - el: "Μην ανεβάζετε εταιρικά αρχεία σε προσωπικές υπηρεσίες cloud, εφαρμογές ανταλλαγής αρχείων ή εργαλεία τεχνητής νοημοσύνης που δεν έχουν εγκριθεί."
+    en: "Do not upload company files to personal cloud storage, file-sharing apps or AI tools that have not been approved."
+  - el: "Η χρήση του διαδικτύου καταγράφεται για λόγους ασφάλειας, σύμφωνα με τη νομοθεσία προστασίας προσωπικών δεδομένων."
+    en: "Internet use is logged for security purposes, in line with data protection law."

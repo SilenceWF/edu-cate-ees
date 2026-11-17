@@ -1,0 +1,108 @@
+key: cyber-everyday
+title: { el: "Η κυβερνοασφάλεια στην καθημερινή εργασία", en: "Cybersecurity in everyday work" }
+subtitle: { el: "Όσα χρειάζεται να γνωρίζετε για να προστατεύετε την εταιρεία και τον εαυτό σας", en: "What you need to know to protect the company and yourself" }
+minutes: 12
+slides:
+  - title: { el: "Γιατί είμαστε εδώ", en: "Why we are here" }
+    icon: shield-check
+    summary:
+      el: "Η ασφάλεια πληροφοριών δεν είναι υπόθεση μόνο του τμήματος Πληροφορικής. Αφορά τον τρόπο με τον οποίο δουλεύουμε όλοι, κάθε μέρα."
+      en: "Information security is not just a matter for IT. It is about the way all of us work, every day."
+    bullets:
+      - el: "Η Helios Foods εφαρμόζει Σύστημα Διαχείρισης Ασφάλειας Πληροφοριών σύμφωνα με το πρότυπο ISO/IEC 27001."
+        en: "Helios Foods runs an Information Security Management System in line with ISO/IEC 27001."
+      - el: "Η ευρωπαϊκή οδηγία NIS2 απαιτεί τακτική εκπαίδευση του προσωπικού και της διοίκησης στην κυβερνοασφάλεια."
+        en: "The European NIS2 Directive requires regular cybersecurity training for staff and management."
+      - el: "Προστατεύουμε τις συνταγές μας, τα δεδομένα πελατών και προμηθευτών και την απρόσκοπτη λειτουργία της παραγωγής."
+        en: "We protect our recipes, our customers' and suppliers' data and the uninterrupted running of production."
+      - el: "Η εκπαίδευση επαναλαμβάνεται κάθε χρόνο και ολοκληρώνεται με ένα σύντομο κουίζ."
+        en: "The training is repeated every year and ends with a short quiz."
+    callout:
+      el: "Η ασφάλεια είναι μέρος της δουλειάς του καθενός μας, όχι μια επιπλέον υποχρέωση."
+      en: "Security is part of everyone's job, not an extra chore."
+
+  - title: { el: "Ο ανθρώπινος παράγοντας", en: "The human factor" }
+    icon: users
+    summary:
+      el: "Οι περισσότερες επιθέσεις δεν παραβιάζουν συστήματα· πείθουν ανθρώπους. Οι επιτιθέμενοι εκμεταλλεύονται τη βιασύνη, την ευγένεια και τη ρουτίνα μας."
+      en: "Most attacks do not break into systems; they persuade people. Attackers exploit our haste, our politeness and our routine."
+    bullets:
+      - el: "Η πίεση χρόνου («επείγον», «σήμερα κιόλας») είναι το πιο συνηθισμένο τέχνασμα."
+        en: "Time pressure ('urgent', 'today at the latest') is the most common trick."
+      - el: "Ένα μήνυμα μπορεί να μοιάζει ότι προέρχεται από συνάδελφο, προϊστάμενο ή γνωστό προμηθευτή."
+        en: "A message can look as if it comes from a colleague, a manager or a familiar supplier."
+      - el: "Αν κάτι σας φαίνεται ασυνήθιστο, σταματήστε και επιβεβαιώστε πριν ενεργήσετε."
+        en: "If something seems unusual, stop and verify before you act."
+    callout:
+      el: "Σταματώ, σκέφτομαι, επιβεβαιώνω."
+      en: "Stop, think, verify."
+
+  - title: { el: "Email, phishing και απάτες με πληρωμές", en: "Email, phishing and payment fraud" }
+    icon: mail-warning
+    summary:
+      el: "Το email είναι ο συχνότερος δρόμος μιας επίθεσης. Στην απάτη τύπου BEC, κάποιος υποδύεται στέλεχος ή προμηθευτή για να εκτρέψει μια πληρωμή."
+      en: "Email is the most common route for an attack. In business email compromise (BEC), someone poses as an executive or supplier to divert a payment."
+    bullets:
+      - el: "Ελέγχετε την πλήρη διεύθυνση του αποστολέα, όχι μόνο το όνομα που εμφανίζεται."
+        en: "Check the sender's full address, not just the display name."
+      - el: "Μην ανοίγετε απρόσμενους συνδέσμους και συνημμένα, και μην πληκτρολογείτε τον κωδικό σας σε σελίδα που άνοιξε από email."
+        en: "Do not open unexpected links or attachments, and never type your password into a page opened from an email."
+      - el: "Αλλαγή IBAN προμηθευτή ή έκτακτη πληρωμή; Επιβεβαιώστε τηλεφωνικά, σε αριθμό που γνωρίζετε ήδη."
+        en: "A supplier's new IBAN or an unusual payment? Confirm by phone, on a number you already know."
+      - el: "Αναφέρετε το ύποπτο μήνυμα στο τμήμα Πληροφορικής· μην το προωθείτε σε συναδέλφους."
+        en: "Report the suspicious message to IT; do not forward it to colleagues."
+    callout:
+      el: "Καμία αλλαγή τραπεζικών στοιχείων χωρίς τηλεφωνική επιβεβαίωση."
+      en: "No change of bank details without confirmation by phone."
+
+  - title: { el: "Καθαρό γραφείο, καθαρή οθόνη, εκτυπώσεις", en: "Clean desk, clear screen and printing" }
+    icon: printer
+    summary:
+      el: "Οι πληροφορίες δεν χάνονται μόνο ψηφιακά. Μια ξεκλείδωτη οθόνη ή ένα έγγραφο ξεχασμένο στον εκτυπωτή αρκούν."
+      en: "Information is not only lost digitally. An unlocked screen or a document forgotten on the printer is enough."
+    bullets:
+      - el: "Κλειδώνετε την οθόνη κάθε φορά που σηκώνεστε (Windows + L)."
+        en: "Lock your screen every time you get up (Windows + L)."
+      - el: "Στο τέλος της ημέρας, το γραφείο μένει χωρίς έγγραφα και χωρίς σημειώσεις με κωδικούς."
+        en: "At the end of the day, your desk is left free of documents and of notes with passwords."
+      - el: "Χρησιμοποιείτε ασφαλή εκτύπωση για τα εμπιστευτικά έγγραφα και τα παραλαμβάνετε αμέσως."
+        en: "Use secure print for confidential documents and collect them straight away."
+      - el: "Ό,τι δεν χρειάζεται πλέον καταστρέφεται στον καταστροφέα εγγράφων."
+        en: "Anything no longer needed goes into the shredder."
+    callout:
+      el: "Φεύγετε από τη θέση σας; Κλειδώστε την οθόνη."
+      en: "Leaving your desk? Lock your screen."
+
+  - title: { el: "USB, κωδικοί και τηλεργασία", en: "USB, passwords and remote work" }
+    icon: key-round
+    summary:
+      el: "Τρεις απλές συνήθειες κλείνουν τις περισσότερες πόρτες στους επιτιθέμενους."
+      en: "Three simple habits close most doors to attackers."
+    bullets:
+      - el: "Δεν συνδέετε προσωπικά ή άγνωστα USB· οι θύρες είναι εξ ορισμού αποκλεισμένες και ένα USB που βρήκατε παραδίδεται στο τμήμα Πληροφορικής."
+        en: "Do not connect personal or unknown USB sticks; ports are blocked by default and a stick you find goes to IT."
+      - el: "Χρησιμοποιείτε μεγάλο, μοναδικό κωδικό για κάθε σύστημα μαζί με MFA, και δεν τον μοιράζεστε με κανέναν."
+        en: "Use a long, unique password for each system together with MFA, and share it with no one."
+      - el: "Τηλεργασία μόνο με εταιρικό εξοπλισμό και πάντα μέσω VPN· αποφεύγετε τα δημόσια δίκτυα Wi-Fi."
+        en: "Work remotely only on company equipment and always through the VPN; avoid public Wi-Fi."
+    callout:
+      el: "Το τμήμα Πληροφορικής δεν θα σας ζητήσει ποτέ τον κωδικό σας."
+      en: "IT will never ask you for your password."
+
+  - title: { el: "Αναφορά περιστατικών", en: "Reporting incidents" }
+    icon: siren
+    summary:
+      el: "Λάθη συμβαίνουν σε όλους. Αυτό που κάνει τη διαφορά είναι πόσο γρήγορα θα το μάθει το τμήμα Πληροφορικής."
+      en: "Everyone makes mistakes. What makes the difference is how quickly IT hears about it."
+    bullets:
+      - el: "Πατήσατε ύποπτο σύνδεσμο, χάσατε συσκευή ή είδατε κάτι παράξενο; Αναφέρετέ το αμέσως."
+        en: "Clicked a suspicious link, lost a device or noticed something odd? Report it immediately."
+      - el: "Επικοινωνήστε με το τμήμα Πληροφορικής ή με τον προϊστάμενό σας, τηλεφωνικά αν το ζήτημα είναι επείγον."
+        en: "Contact IT or your manager, by phone if the matter is urgent."
+      - el: "Μη διαγράφετε τίποτα και μην προσπαθείτε να το διορθώσετε μόνοι σας."
+        en: "Do not delete anything and do not try to fix it yourself."
+      - el: "Κανείς δεν τιμωρείται επειδή ανέφερε έγκαιρα ένα περιστατικό."
+        en: "Nobody is penalised for reporting an incident promptly."
+    callout:
+      el: "Καλύτερα δέκα αναφορές χωρίς λόγο παρά ένα περιστατικό που δεν αναφέρθηκε."
+      en: "Better ten false alarms than one incident that went unreported."

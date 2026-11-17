@@ -1,0 +1,58 @@
+# Helios Foods: the fictional demo company pack that ships with the platform.
+# Install with:  php artisan pack:install packs/demo
+format: 1
+slug: demo
+version: "1.0"
+
+company:
+  name: Helios Foods
+  legal_name: Helios Foods S.A.
+  frameworks:
+    el: "ISO/IEC 27001:2022 (7.2, 7.3, A.6.3) · Οδηγία NIS2 (άρθρα 20 και 21)"
+    en: "ISO/IEC 27001:2022 (7.2, 7.3, A.6.3) · NIS2 Directive (Articles 20 and 21)"
+  admin_role_label:
+    el: "Υπεύθυνος Ασφάλειας Πληροφοριών"
+    en: "Information Security Officer"
+  trainer: Δάφνη Αστερίου
+  signatory:
+    name: Δάφνη Αστερίου
+    title:
+      el: "Υπεύθυνη Ασφάλειας Πληροφοριών"
+      en: "Information Security Officer"
+  contact_email: security@helios-foods.example
+
+locales: [el, en]
+default_locale: el
+timezone: Europe/Athens
+
+branding:
+  logo: branding/logo.svg
+  colors:
+    primary: "#0F766E"
+    primary_dark: "#115E59"
+    header: "#0B1F3A"
+    on_primary: "#FFFFFF"
+
+quiz:
+  pass_threshold: 80
+
+kiosk:
+  pin: "2468"
+
+declaration:
+  el: "Δηλώνω ότι έχω διαβάσει και κατανοήσει τις εγκεκριμένες πολιτικές ασφάλειας πληροφοριών της εταιρείας, τις αποδέχομαι και δεσμεύομαι να τις τηρώ."
+  en: "I declare that I have read and understood the company's approved information security policies, that I accept them and that I will comply with them."
+
+campaign:
+  name: "2026"
+  starts_on: 2026-01-01
+
+locations: ["Head Office", "North Plant", "South DC"]
+
+import:
+  default_track: office_extensive
+  track_rules:
+    - { contains: "Βασική", track: shopfloor_basic }
+    - { contains: "Basic", track: shopfloor_basic }
+    - { contains: "Διαχειριστών", track: it_specialized }
+    - { contains: "Administrator", track: it_specialized }

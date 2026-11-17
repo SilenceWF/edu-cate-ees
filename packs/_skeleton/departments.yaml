@@ -1,0 +1,4 @@
+# Optional. Departments are also created automatically by the spreadsheet importer.
+- name: Finance - Head office
+  location: Head office
+  color: "#F59E0A"           # org-chart colour used for badges

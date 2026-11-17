@@ -1,0 +1,15 @@
+# A track is one learning path: which modules to read and how many quiz questions.
+- key: office                 # stable id, never change it after go-live
+  name: Office staff
+  modules: [security-basics]  # module keys, in the order people take them
+  quiz_questions: 2           # how many questions are drawn from quizzes/office.yaml
+  policies: true              # must people on this track acknowledge the policies?
+  kiosk: false                # may this track be completed in supervised kiosk mode?
+  # quiz_from: other-track    # optional: reuse another track's question bank instead of quizzes/<key>.yaml
+
+- key: shopfloor
+  name: Shop floor
+  modules: [security-basics]
+  quiz_questions: 2
+  policies: false
+  kiosk: true

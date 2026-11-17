@@ -1,0 +1,14 @@
+code: POL-07
+title: { el: "Πολιτική Καθαρού Γραφείου και Καθαρής Οθόνης", en: "Clean Desk and Clear Screen Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Κλειδώνετε την οθόνη σας κάθε φορά που απομακρύνεστε από τη θέση σας, ακόμη και για ένα λεπτό."
+    en: "Lock your screen every time you leave your desk, even for a minute."
+  - el: "Στο τέλος της ημέρας δεν μένουν στο γραφείο έγγραφα, σημειώσεις με κωδικούς ή φορητά μέσα αποθήκευσης."
+    en: "At the end of the day no documents, notes with passwords or portable storage media are left on your desk."
+  - el: "Τα εμπιστευτικά έγγραφα εκτυπώνονται με ασφαλή εκτύπωση και παραλαμβάνονται αμέσως από τον εκτυπωτή."
+    en: "Confidential documents are printed with secure print and collected from the printer immediately."
+  - el: "Τα έγγραφα που δεν χρειάζονται πλέον καταστρέφονται στον καταστροφέα εγγράφων, όχι στον κάδο ανακύκλωσης."
+    en: "Documents that are no longer needed go into the shredder, not the recycling bin."

@@ -1,0 +1,14 @@
+code: POL-09
+title: { el: "Πολιτική Διαχείρισης Εξοπλισμού", en: "Asset Management Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Κάθε φορητός υπολογιστής, κινητό τηλέφωνο και φορητό τερματικό (scanner) είναι καταγεγραμμένο και χρεωμένο σε συγκεκριμένο χρήστη."
+    en: "Every laptop, mobile phone and handheld scanner is registered and assigned to a named user."
+  - el: "Φροντίζετε τον εξοπλισμό που σας έχει ανατεθεί και δεν τον δανείζετε ή τον μεταβιβάζετε χωρίς να ενημερώσετε το τμήμα Πληροφορικής."
+    en: "Look after the equipment assigned to you and do not lend or hand it over without informing IT."
+  - el: "Αναφέρετε αμέσως κάθε απώλεια ή κλοπή εξοπλισμού, όποια ώρα κι αν συμβεί."
+    en: "Report any loss or theft of equipment immediately, whatever the time."
+  - el: "Όταν αλλάζετε θέση ή αποχωρείτε από την εταιρεία, επιστρέφετε όλο τον εξοπλισμό στο τμήμα Πληροφορικής."
+    en: "When you change role or leave the company, return all equipment to IT."

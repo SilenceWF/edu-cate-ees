@@ -1,0 +1,14 @@
+code: POL-08
+title: { el: "Πολιτική Αφαιρούμενων Μέσων Αποθήκευσης", en: "Removable Media Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Οι θύρες USB είναι εξ ορισμού αποκλεισμένες για μέσα αποθήκευσης· εξαιρέσεις εγκρίνει μόνο το τμήμα Πληροφορικής."
+    en: "USB ports are blocked for storage devices by default; only IT can approve exceptions."
+  - el: "Δεν συνδέετε ποτέ προσωπικά ή άγνωστα USB, εξωτερικούς δίσκους ή κινητά τηλέφωνα σε εταιρικό εξοπλισμό."
+    en: "Never connect personal or unknown USB sticks, external drives or mobile phones to company equipment."
+  - el: "Αν βρείτε ένα USB, παραδώστε το στο τμήμα Πληροφορικής χωρίς να το συνδέσετε πουθενά."
+    en: "If you find a USB stick, hand it to IT without plugging it in anywhere."
+  - el: "Όταν η μεταφορά δεδομένων με αφαιρούμενο μέσο είναι απαραίτητη, χρησιμοποιείται μόνο εταιρικό, κρυπτογραφημένο μέσο."
+    en: "When data must be transferred on removable media, only a company-issued, encrypted device is used."

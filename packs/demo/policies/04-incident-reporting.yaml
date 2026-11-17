@@ -1,0 +1,14 @@
+code: POL-04
+title: { el: "Πολιτική Αναφοράς Περιστατικών Ασφάλειας", en: "Security Incident Reporting Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Αναφέρετε αμέσως κάθε περιστατικό ή υποψία περιστατικού στο τμήμα Πληροφορικής ή στον προϊστάμενό σας."
+    en: "Report every incident or suspected incident immediately to IT or to your manager."
+  - el: "Η έγκαιρη αναφορά δεν έχει ποτέ συνέπειες για εσάς, ακόμη κι αν το λάθος ήταν δικό σας."
+    en: "Reporting promptly never has consequences for you, even if the mistake was your own."
+  - el: "Μην προσπαθείτε να διορθώσετε το πρόβλημα μόνοι σας και μη διαγράφετε τίποτα· τα στοιχεία είναι απαραίτητα για τη διερεύνηση."
+    en: "Do not try to fix the problem yourself and do not delete anything; the evidence is needed for the investigation."
+  - el: "Η επικοινωνία με πελάτες, αρχές και μέσα ενημέρωσης γίνεται μόνο από τα εξουσιοδοτημένα πρόσωπα."
+    en: "Only authorised persons communicate with customers, authorities and the media."

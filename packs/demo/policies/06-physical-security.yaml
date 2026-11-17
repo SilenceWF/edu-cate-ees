@@ -1,0 +1,14 @@
+code: POL-06
+title: { el: "Πολιτική Φυσικής και Περιβαλλοντικής Ασφάλειας", en: "Physical and Environmental Security Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Οι επισκέπτες καταγράφονται στην υποδοχή, φορούν κάρτα επισκέπτη και συνοδεύονται σε όλη τη διάρκεια της παραμονής τους."
+    en: "Visitors sign in at reception, wear a visitor badge and are escorted for the whole of their stay."
+  - el: "Η κάρτα εισόδου είναι προσωπική· δεν τη δανείζετε και δεν επιτρέπετε σε άλλους να περάσουν μαζί σας χωρίς τη δική τους."
+    en: "Your access card is personal; you do not lend it and you do not let others follow you in without their own."
+  - el: "Οι πόρτες ασφαλείας, οι ράμπες φόρτωσης και οι χώροι των διακομιστών παραμένουν κλειστοί και δεν ασφαλίζονται ποτέ ανοιχτοί."
+    en: "Security doors, loading bays and server rooms stay closed and are never wedged open."
+  - el: "Αν δείτε άγνωστο πρόσωπο χωρίς συνοδό ή κάρτα, ρωτήστε ευγενικά πώς μπορείτε να βοηθήσετε και ενημερώστε την υποδοχή."
+    en: "If you see an unknown person without an escort or badge, politely ask how you can help and inform reception."

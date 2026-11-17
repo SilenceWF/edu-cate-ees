@@ -1,0 +1,36 @@
+key: shopfloor-emergency
+title: { el: "Οδηγίες έκτακτης ανάγκης", en: "Emergency instructions" }
+subtitle: { el: "Τι κάνουμε όταν τα συστήματα δεν λειτουργούν", en: "What we do when the systems are down" }
+minutes: 2
+slides:
+  - title: { el: "Αν πέσουν τα συστήματα", en: "If the systems go down" }
+    icon: clipboard-list
+    summary:
+      el: "Οθόνες, scanner ή μηχανές μπορεί να σταματήσουν ξαφνικά. Υπάρχει σχέδιο και γι' αυτό."
+      en: "Screens, scanners or machines may suddenly stop. There is a plan for that too."
+    bullets:
+      - el: "Μείνετε ψύχραιμοι."
+        en: "Stay calm."
+      - el: "Ακολουθήστε τις οδηγίες του προϊσταμένου σας."
+        en: "Follow your supervisor's instructions."
+      - el: "Δουλέψτε με τα έντυπα, όπως σας έχουν δείξει."
+        en: "Work with the paper forms, as you have been shown."
+    callout:
+      el: "Ψυχραιμία, προϊστάμενος, χαρτί."
+      en: "Stay calm, follow the supervisor, use paper."
+
+  - title: { el: "Ποιον ενημερώνετε και τι δεν λέτε", en: "Who to call and what not to say" }
+    icon: phone-call
+    summary:
+      el: "Σε κάθε πρόβλημα, πρώτα ενημερώνετε τον προϊστάμενό σας."
+      en: "Whatever the problem, tell your supervisor first."
+    bullets:
+      - el: "Δεν τον βρίσκετε; Καλέστε τον υπεύθυνο βάρδιας."
+        en: "Cannot find them? Call the shift manager."
+      - el: "Δεν μιλάτε ποτέ σε πελάτες ή δημοσιογράφους εκ μέρους της εταιρείας."
+        en: "Never speak to customers or the media on behalf of the company."
+      - el: "Δεν ανεβάζετε φωτογραφίες ή σχόλια στα μέσα κοινωνικής δικτύωσης."
+        en: "Do not post photos or comments on social media."
+    callout:
+      el: "Μιλάτε μόνο στον προϊστάμενό σας. Για την εταιρεία μιλά η Διοίκηση."
+      en: "Speak only to your supervisor. Management speaks for the company."

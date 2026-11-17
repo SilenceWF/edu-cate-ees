@@ -1,0 +1,68 @@
+key: shopfloor-rules
+title: { el: "Οι 4 χρυσοί κανόνες ασφάλειας", en: "The 4 golden security rules" }
+subtitle: { el: "Για την παραγωγή και την αποθήκη", en: "For production and the warehouse" }
+minutes: 4
+slides:
+  - title: { el: "Κανόνας 1: Τίποτα δικό σας στις θύρες USB", en: "Rule 1: Nothing of yours in a USB port" }
+    icon: usb
+    summary:
+      el: "Ένα USB ή ένας φορτιστής μπορεί να μεταφέρει ιό και να σταματήσει τη γραμμή."
+      en: "A USB stick or a charger can carry a virus and stop the line."
+    bullets:
+      - el: "Όχι προσωπικά ή άγνωστα USB."
+        en: "No personal or unknown USB sticks."
+      - el: "Όχι φόρτιση κινητού σε μηχανές, PLC ή scanner."
+        en: "No phone charging on machines, PLCs or scanners."
+      - el: "Βρήκατε USB; Δώστε το στον προϊστάμενό σας."
+        en: "Found a USB stick? Give it to your supervisor."
+    callout:
+      el: "Οι θύρες των μηχανών δεν είναι για προσωπική χρήση."
+      en: "Machine ports are not for personal use."
+
+  - title: { el: "Κανόνας 2: Οι πόρτες μένουν κλειστές", en: "Rule 2: Doors stay closed" }
+    icon: door-closed
+    summary:
+      el: "Μια ανοιχτή πόρτα αφήνει να μπει όποιος θέλει."
+      en: "An open door lets anyone walk in."
+    bullets:
+      - el: "Κλείνετε τις πόρτες ασφαλείας και τις ράμπες φόρτωσης."
+        en: "Close security doors and loading doors."
+      - el: "Δεν βάζετε ποτέ σφήνα ή παλέτα για να μείνουν ανοιχτές."
+        en: "Never wedge them open with a block or a pallet."
+      - el: "Είδατε πόρτα ανοιχτή; Κλείστε την και πείτε το στον προϊστάμενο."
+        en: "See an open door? Close it and tell your supervisor."
+    callout:
+      el: "Πόρτα κλειστή, χώρος ασφαλής."
+      en: "Closed door, safe site."
+
+  - title: { el: "Κανόνας 3: Κανένας επισκέπτης μόνος του", en: "Rule 3: No visitor walks alone" }
+    icon: truck
+    summary:
+      el: "Οι επισκέπτες και οι εξωτερικοί οδηγοί έχουν πάντα συνοδό."
+      en: "Visitors and external drivers are always escorted."
+    bullets:
+      - el: "Οι οδηγοί μένουν στον χώρο που τους έχει υποδειχθεί."
+        en: "Drivers stay in the area they have been shown."
+      - el: "Άγνωστος χωρίς συνοδό; Ρωτήστε ευγενικά ποιον ψάχνει."
+        en: "A stranger with no escort? Politely ask who they are looking for."
+      - el: "Συνοδέψτε τον στον προϊστάμενο ή στην υποδοχή."
+        en: "Take them to your supervisor or to reception."
+    callout:
+      el: "Κάθε επισκέπτης έχει συνοδό, πάντα."
+      en: "Every visitor has an escort, always."
+
+  - title: { el: "Κανόνας 4: Παράξενη οθόνη; Μην πατήσετε τίποτα", en: "Rule 4: Strange screen? Press nothing" }
+    icon: monitor-x
+    summary:
+      el: "Ένα παράξενο μήνυμα ή μια μαύρη ή κόκκινη οθόνη μπορεί να σημαίνει επίθεση."
+      en: "A strange message or a black or red screen may mean an attack."
+    bullets:
+      - el: "Μην πατήσετε κανένα πλήκτρο."
+        en: "Do not press any key."
+      - el: "Μη σβήσετε και μην επανεκκινήσετε το τερματικό."
+        en: "Do not switch off or restart the terminal."
+      - el: "Ενημερώστε αμέσως τον προϊστάμενό σας."
+        en: "Tell your supervisor immediately."
+    callout:
+      el: "Δεν αγγίζω τίποτα, φωνάζω τον προϊστάμενο."
+      en: "Touch nothing, call the supervisor."

@@ -1,0 +1,72 @@
+# Question bank for shopfloor_basic. The app draws 4 of these 6 questions at random.
+- question:
+    el: "Το κινητό σας έχει ξεμείνει από μπαταρία. Μπορείτε να το φορτίσετε στη θύρα USB μιας μηχανής ή ενός scanner;"
+    en: "Your phone is out of battery. May you charge it from the USB port of a machine or a scanner?"
+  options:
+    A: { el: "Ναι, αν είναι μόνο για λίγα λεπτά.", en: "Yes, if it is only for a few minutes." }
+    B: { el: "Όχι, ποτέ.", en: "No, never." }
+    C: { el: "Ναι, αν η μηχανή είναι σταματημένη.", en: "Yes, if the machine is stopped." }
+  correct: B
+  explanation:
+    el: "Ένα κινητό ή ένα USB μπορεί να μεταφέρει ιό στη μηχανή και να σταματήσει τη γραμμή."
+    en: "A phone or a USB stick can pass a virus to the machine and stop the line."
+
+- question:
+    el: "Βλέπετε την πόρτα της ράμπας φόρτωσης ανοιχτή, με μια σφήνα. Τι κάνετε;"
+    en: "You see the loading door wedged open. What do you do?"
+  options:
+    A: { el: "Βγάζετε τη σφήνα, κλείνετε την πόρτα και το λέτε στον προϊστάμενο.", en: "Remove the wedge, close the door and tell your supervisor." }
+    B: { el: "Την αφήνετε· κάποιος θα τη χρειάζεται ανοιχτή.", en: "Leave it; someone probably needs it open." }
+    C: { el: "Δεν είναι δική σας δουλειά.", en: "It is not your job." }
+  correct: A
+  explanation:
+    el: "Οι πόρτες ασφαλείας και φόρτωσης μένουν κλειστές. Από μια ανοιχτή πόρτα μπαίνει όποιος θέλει."
+    en: "Security and loading doors stay closed. Anyone can walk in through an open door."
+
+- question:
+    el: "Ένας άγνωστος οδηγός περπατά μόνος του μέσα στην αποθήκη. Τι κάνετε;"
+    en: "An unknown driver is walking around the warehouse alone. What do you do?"
+  options:
+    A: { el: "Τίποτα· μάλλον ξέρει πού πηγαίνει.", en: "Nothing; they probably know where they are going." }
+    B: { el: "Του δείχνετε τον δρόμο και συνεχίζετε τη δουλειά σας.", en: "Point the way and carry on working." }
+    C: { el: "Τον ρωτάτε ευγενικά ποιον ψάχνει και τον πηγαίνετε στον προϊστάμενο.", en: "Politely ask who they are looking for and take them to your supervisor." }
+  correct: C
+  explanation:
+    el: "Οι επισκέπτες και οι εξωτερικοί οδηγοί έχουν πάντα συνοδό."
+    en: "Visitors and external drivers are always escorted."
+
+- question:
+    el: "Η οθόνη του τερματικού σας γίνεται κόκκινη και δείχνει ένα παράξενο μήνυμα. Τι κάνετε;"
+    en: "Your terminal screen turns red and shows a strange message. What do you do?"
+  options:
+    A: { el: "Δεν πατάτε τίποτα και ενημερώνετε αμέσως τον προϊστάμενο.", en: "Press nothing and tell your supervisor immediately." }
+    B: { el: "Πατάτε «ΟΚ» για να φύγει το μήνυμα.", en: "Press 'OK' to make the message go away." }
+    C: { el: "Σβήνετε και ανάβετε ξανά το τερματικό.", en: "Switch the terminal off and on again." }
+  correct: A
+  explanation:
+    el: "Μπορεί να είναι επίθεση. Αν πατήσετε κάτι, η ζημιά μπορεί να γίνει μεγαλύτερη."
+    en: "It may be an attack. Pressing something can make the damage worse."
+
+- question:
+    el: "Τα συστήματα έπεσαν και τα scanner δεν λειτουργούν. Τι κάνετε;"
+    en: "The systems are down and the scanners are not working. What do you do?"
+  options:
+    A: { el: "Φεύγετε για το σπίτι.", en: "Go home." }
+    B: { el: "Μένετε ψύχραιμοι, ακολουθείτε τον προϊστάμενο και δουλεύετε με τα έντυπα.", en: "Stay calm, follow your supervisor and work with the paper forms." }
+    C: { el: "Προσπαθείτε να φτιάξετε το scanner μόνοι σας.", en: "Try to fix the scanner yourself." }
+  correct: B
+  explanation:
+    el: "Για αυτές τις περιπτώσεις υπάρχουν διαδικασίες στο χαρτί. Ο προϊστάμενος θα σας πει τι να κάνετε."
+    en: "There are paper procedures for these cases. Your supervisor will tell you what to do."
+
+- question:
+    el: "Μετά από ένα πρόβλημα στο εργοστάσιο, κάποιος σας τηλεφωνεί, λέει ότι είναι δημοσιογράφος και ρωτά τι έγινε. Τι κάνετε;"
+    en: "After a problem at the plant, someone phones you, says they are a journalist and asks what happened. What do you do?"
+  options:
+    A: { el: "Του λέτε όσα ξέρετε.", en: "Tell them what you know." }
+    B: { el: "Του λέτε ότι όλα είναι καλά.", en: "Tell them that everything is fine." }
+    C: { el: "Δεν λέτε τίποτα και ενημερώνετε τον προϊστάμενό σας.", en: "Say nothing and inform your supervisor." }
+  correct: C
+  explanation:
+    el: "Για λογαριασμό της εταιρείας μιλούν μόνο τα πρόσωπα που έχει ορίσει η Διοίκηση."
+    en: "Only the people appointed by management speak on behalf of the company."

@@ -1,0 +1,22 @@
+# Learning paths of the Helios Foods demo.
+- key: office_extensive
+  name: { el: "Εκτεταμένη εκπαίδευση προσωπικού γραφείου", en: "Office staff – extensive training" }
+  modules: [cyber-everyday, business-continuity]
+  quiz_questions: 8
+  policies: true
+  kiosk: false
+
+- key: shopfloor_basic
+  name: { el: "Βασική εκπαίδευση παραγωγής και αποθήκης", en: "Shop floor – basic training" }
+  modules: [shopfloor-rules, shopfloor-emergency]
+  quiz_questions: 4
+  policies: false
+  kiosk: true
+
+- key: it_specialized
+  name: { el: "Εξειδικευμένη εκπαίδευση διαχειριστών Πληροφορικής", en: "IT administrators – specialised training" }
+  modules: [cyber-everyday, business-continuity]
+  quiz_questions: 8
+  quiz_from: office_extensive
+  policies: true
+  kiosk: false

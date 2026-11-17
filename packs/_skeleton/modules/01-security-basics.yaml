@@ -1,0 +1,17 @@
+key: security-basics         # stable id, referenced from tracks.yaml
+title: Security basics
+subtitle: What everyone needs to know
+minutes: 5                   # estimated reading time
+slides:
+  - title: Why this matters
+    icon: shield-check       # any icon name from https://lucide.dev/icons
+    summary: One or two sentences that introduce the slide.
+    bullets:
+      - First point.
+      - Second point.
+    callout: A short sentence to remember.   # optional highlighted box
+  - title: Report it
+    icon: siren
+    summary: If something looks wrong, tell IT immediately.
+    bullets:
+      - You will never be blamed for reporting.

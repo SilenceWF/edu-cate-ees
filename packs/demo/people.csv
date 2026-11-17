@@ -1,0 +1,27 @@
+group,department,name,note,email,employee_code,role,password
+group-6,IT - Head Office,Δάφνη Αστερίου,Διαχειριστών,admin@helios-foods.example,,admin,password
+group-2,Human Resources - Head Office,Μυρτώ Καλλιγά,,hr@helios-foods.example,,hr_auditor,password
+group-4,Warehouse - North Plant,Στάθης Βουνάκης,Βασική,supervisor@helios-foods.example,,supervisor,password
+group-1,Management - Head Office,Αριάδνη Φωτεινού,,ariadni.foteinou@helios-foods.example,,employee,
+group-1,Management - Head Office,Oliver Brightwater,,oliver.brightwater@helios-foods.example,,employee,
+group-2,Finance - Head Office,Νικηφόρος Ηλιάδης,,employee@helios-foods.example,,employee,password
+group-2,Finance - Head Office,Ισμήνη Θαλασσινού,,ismini.thalassinou@helios-foods.example,,employee,
+group-2,Human Resources - Head Office,Clara Winterfeld,,clara.winterfeld@helios-foods.example,,employee,
+group-3,Sales - Head Office,Λέανδρος Ανεμογιάννης,,leandros.anemogiannis@helios-foods.example,,employee,
+group-3,Sales - Head Office,Sofia Lindmarrow,,sofia.lindmarrow@helios-foods.example,,employee,
+group-3,Procurement - Head Office,Φοίβος Κυματάς,,foivos.kymatas@helios-foods.example,,employee,
+group-3,Procurement - Head Office,Marco Bellavigna,,marco.bellavigna@helios-foods.example,,employee,
+group-6,IT - Head Office,Ορέστης Δικτυάκης,Διαχειριστών,orestis.diktyakis@helios-foods.example,,employee,
+group-6,IT - Head Office,Priya Nightingale,Διαχειριστών,priya.nightingale@helios-foods.example,,employee,
+group-4,Warehouse - North Plant,Παντελής Ραφιώτης,Βασική,,10001,employee,
+group-4,Warehouse - North Plant,Κατερίνα Παλετάκη,Βασική,,10002,employee,
+group-4,Warehouse - North Plant,Tomasz Wintergreen,Βασική,,10003,employee,
+group-4,Logistics - South DC,Θοδωρής Δρομάκης,Βασική,,10004,employee,
+group-4,Logistics - South DC,Βασιλική Φορτηγού,Βασική,,10005,employee,
+group-4,Logistics - South DC,Amir Silverbrook,Βασική,,10006,employee,
+group-5,Production - North Plant,Γιώργος Ζυμαράκης,Βασική,,10007,employee,
+group-5,Production - North Plant,Ελπίδα Σιταροπούλου,Βασική,,10008,employee,
+group-5,Production - North Plant,Μανώλης Ελαιώνας,Βασική,,10009,employee,
+group-5,Production - North Plant,Ράνια Μελισσάκη,Βασική,,10010,employee,
+group-5,Production - North Plant,Ivan Harvestmoor,Βασική,,10011,employee,
+group-5,Production - North Plant,Χρύσα Αμπελιώτη,Βασική,,10012,employee,

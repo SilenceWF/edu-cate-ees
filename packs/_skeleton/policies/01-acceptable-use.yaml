@@ -1,0 +1,12 @@
+# One file per policy (or one file holding a list of policies).
+code: POL-01                 # stable id, shown to people
+title: Acceptable Use Policy
+version: "1"                 # raise this to ask everyone to acknowledge again
+effective_date: 2026-01-01
+# Full document: a file inside this pack (documents/...) or an https link. Optional.
+# document: documents/pol-01.pdf
+mandatory_all: true          # false + "tracks: [office]" limits it to some tracks
+key_rules:                   # 3-4 short takeaways
+  - Use company systems for work purposes.
+  - Never install software that IT has not approved.
+  - Report anything suspicious straight away.

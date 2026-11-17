@@ -1,0 +1,28 @@
+# Departments are named "<Function> - <Site>"; people.csv refers to these names exactly.
+- name: Management - Head Office
+  location: Head Office
+  color: "#4F46E5"
+- name: Finance - Head Office
+  location: Head Office
+  color: "#0EA5E9"
+- name: Human Resources - Head Office
+  location: Head Office
+  color: "#DB2777"
+- name: Sales - Head Office
+  location: Head Office
+  color: "#7C3AED"
+- name: Procurement - Head Office
+  location: Head Office
+  color: "#0D9488"
+- name: IT - Head Office
+  location: Head Office
+  color: "#2563EB"
+- name: Production - North Plant
+  location: North Plant
+  color: "#16A34A"
+- name: Warehouse - North Plant
+  location: North Plant
+  color: "#65A30D"
+- name: Logistics - South DC
+  location: South DC
+  color: "#E11D48"

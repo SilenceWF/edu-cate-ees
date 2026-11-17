@@ -1,0 +1,16 @@
+# File name = track key. Questions are drawn at random from this list.
+- question: You receive an unexpected email asking you to change a supplier's bank account. What do you do?
+  options:
+    A: Pay immediately.
+    B: Reply to the email to ask if it is real.
+    C: Confirm by phone on a number you already know.
+    D: Forward it to everyone.
+  correct: C
+  explanation: Always confirm through a different channel.
+
+- question: You leave your desk for five minutes. What must you do?
+  options:
+    A: Lock your computer.
+    B: Turn off the monitor.
+  correct: A
+  explanation: Locking the screen prevents unauthorised access.

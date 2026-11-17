@@ -1,0 +1,14 @@
+code: POL-02
+title: { el: "Πολιτική Χρήσης Ηλεκτρονικού Ταχυδρομείου", en: "Email Use Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Ελέγχετε προσεκτικά τον αποστολέα πριν ανοίξετε συνδέσμους ή συνημμένα· αν έχετε αμφιβολία, μην τα ανοίξετε."
+    en: "Check the sender carefully before opening links or attachments; if in doubt, do not open them."
+  - el: "Κάθε αίτημα αλλαγής τραπεζικού λογαριασμού ή έκτακτης πληρωμής επιβεβαιώνεται τηλεφωνικά, σε αριθμό που γνωρίζετε ήδη — ποτέ σε αριθμό που αναφέρει το ίδιο το μήνυμα."
+    en: "Every request to change bank details or make an unusual payment is confirmed by phone on a number you already know – never on a number given in the message itself."
+  - el: "Αναφέρετε τα ύποπτα μηνύματα στο τμήμα Πληροφορικής· μην τα προωθείτε σε συναδέλφους."
+    en: "Report suspicious messages to IT; do not forward them to colleagues."
+  - el: "Μην προωθείτε εταιρική αλληλογραφία σε προσωπικούς λογαριασμούς email."
+    en: "Do not forward company email to personal email accounts."

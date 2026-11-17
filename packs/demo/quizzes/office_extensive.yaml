@@ -1,0 +1,131 @@
+# Question bank for office_extensive (also used by it_specialized via quiz_from).
+# The app draws 8 of these 10 questions at random.
+- question:
+    el: "Λαμβάνετε email από γνωστό προμηθευτή που σας ενημερώνει ότι άλλαξε ο τραπεζικός του λογαριασμός (IBAN) και ζητά η επόμενη πληρωμή να γίνει στον νέο. Τι κάνετε;"
+    en: "You receive an email from a familiar supplier saying that their bank account (IBAN) has changed and asking for the next payment to go to the new one. What do you do?"
+  options:
+    A: { el: "Ενημερώνετε τα στοιχεία στο σύστημα, αφού το email προέρχεται από γνωστή επαφή.", en: "Update the details in the system, since the email comes from a known contact." }
+    B: { el: "Απαντάτε στο ίδιο email και ζητάτε επιβεβαίωση.", en: "Reply to the same email and ask for confirmation." }
+    C: { el: "Τηλεφωνείτε στον προμηθευτή, σε αριθμό που γνωρίζετε ήδη, πριν αλλάξετε οτιδήποτε.", en: "Phone the supplier on a number you already know before changing anything." }
+    D: { el: "Καλείτε τον αριθμό που αναγράφεται στην υπογραφή του email.", en: "Call the number shown in the email signature." }
+  correct: C
+  explanation:
+    el: "Η αλλαγή τραπεζικών στοιχείων είναι το κλασικό σενάριο απάτης BEC. Επιβεβαιώνεται πάντα τηλεφωνικά, σε αριθμό που έχετε ήδη καταχωρισμένο· το email και ο αριθμός που αναφέρει μπορεί να ελέγχονται από τον απατεώνα."
+    en: "A change of bank details is the classic BEC fraud scenario. It is always confirmed by phone on a number you already have on file; the email and any number in it may be controlled by the fraudster."
+
+- question:
+    el: "Σηκώνεστε από το γραφείο σας για πέντε λεπτά για να πάρετε έναν καφέ. Τι πρέπει να κάνετε πρώτα;"
+    en: "You leave your desk for five minutes to get a coffee. What must you do first?"
+  options:
+    A: { el: "Κλειδώνετε την οθόνη σας (Windows + L).", en: "Lock your screen (Windows + L)." }
+    B: { el: "Τίποτα· η οθόνη θα κλειδώσει μόνη της σε λίγα λεπτά.", en: "Nothing; the screen will lock by itself in a few minutes." }
+    C: { el: "Κλείνετε μόνο το πρόγραμμα του email.", en: "Close only the email program." }
+    D: { el: "Ζητάτε από τον διπλανό συνάδελφο να προσέχει τον υπολογιστή σας.", en: "Ask the colleague next to you to keep an eye on your computer." }
+  correct: A
+  explanation:
+    el: "Η οθόνη κλειδώνεται κάθε φορά που απομακρύνεστε, ακόμη και για λίγο. Λίγα δευτερόλεπτα αρκούν για να δει ή να στείλει κάποιος κάτι από τον λογαριασμό σας."
+    en: "The screen is locked every time you step away, however briefly. A few seconds are enough for someone to see or send something from your account."
+
+- question:
+    el: "Βρίσκετε ένα USB στον χώρο στάθμευσης της εταιρείας, με ετικέτα «Μισθοδοσία 2026». Τι κάνετε;"
+    en: "You find a USB stick in the company car park labelled 'Payroll 2026'. What do you do?"
+  options:
+    A: { el: "Το συνδέετε στον υπολογιστή σας για να βρείτε σε ποιον ανήκει.", en: "Plug it into your computer to find out who it belongs to." }
+    B: { el: "Το συνδέετε σε έναν παλιό υπολογιστή που δεν χρησιμοποιείται πια.", en: "Plug it into an old computer that is no longer used." }
+    C: { el: "Το αφήνετε στην υποδοχή, μήπως το αναζητήσει κάποιος.", en: "Leave it at reception in case someone comes looking for it." }
+    D: { el: "Το παραδίδετε στο τμήμα Πληροφορικής χωρίς να το συνδέσετε πουθενά.", en: "Hand it to IT without plugging it in anywhere." }
+  correct: D
+  explanation:
+    el: "Τα «ξεχασμένα» USB με ελκυστική ετικέτα είναι γνωστή μέθοδος επίθεσης. Δεν συνδέονται σε κανέναν εταιρικό υπολογιστή· τα ελέγχει μόνο το τμήμα Πληροφορικής."
+    en: "'Forgotten' USB sticks with a tempting label are a well-known attack method. They are never plugged into any company computer; only IT examines them."
+
+- question:
+    el: "Πατήσατε έναν σύνδεσμο σε email και αμέσως μετά καταλάβατε ότι το μήνυμα ήταν ύποπτο. Τι κάνετε;"
+    en: "You clicked a link in an email and immediately realised that the message was suspicious. What do you do?"
+  options:
+    A: { el: "Διαγράφετε το email και συνεχίζετε τη δουλειά σας· μάλλον δεν έγινε τίποτα.", en: "Delete the email and carry on working; probably nothing happened." }
+    B: { el: "Ενημερώνετε αμέσως το τμήμα Πληροφορικής και περιγράφετε τι ακριβώς συνέβη.", en: "Inform IT immediately and describe exactly what happened." }
+    C: { el: "Περιμένετε λίγες ημέρες για να δείτε αν θα παρουσιαστεί κάποιο πρόβλημα.", en: "Wait a few days to see whether a problem appears." }
+    D: { el: "Κάνετε επανεκκίνηση του υπολογιστή και δεν το αναφέρετε σε κανέναν.", en: "Restart the computer and mention it to no one." }
+  correct: B
+  explanation:
+    el: "Η άμεση αναφορά περιορίζει τη ζημιά. Κανείς δεν τιμωρείται επειδή ανέφερε έγκαιρα ένα λάθος· η σιωπή και η διαγραφή στοιχείων είναι αυτά που δυσκολεύουν την αντιμετώπιση."
+    en: "Reporting at once limits the damage. Nobody is penalised for reporting a mistake promptly; silence and deleted evidence are what make the response harder."
+
+- question:
+    el: "Ποια από τις παρακάτω πρακτικές για τους κωδικούς πρόσβασης είναι η σωστή;"
+    en: "Which of the following password practices is correct?"
+  options:
+    A: { el: "Ο ίδιος ισχυρός κωδικός σε όλα τα συστήματα, για να μην τον ξεχνάτε.", en: "The same strong password on every system, so that you do not forget it." }
+    B: { el: "Ο κωδικός σημειωμένος σε χαρτάκι κάτω από το πληκτρολόγιο.", en: "The password written on a note under the keyboard." }
+    C: { el: "Μεγάλος, μοναδικός κωδικός για κάθε σύστημα, μαζί με MFA όπου υπάρχει.", en: "A long, unique password for each system, together with MFA where available." }
+    D: { el: "Να δίνετε τον κωδικό σας σε συνάδελφο όταν λείπετε σε άδεια.", en: "Giving your password to a colleague while you are on leave." }
+  correct: C
+  explanation:
+    el: "Αν ο ίδιος κωδικός χρησιμοποιείται παντού, μία διαρροή αρκεί για να εκτεθούν όλα τα συστήματα. Οι κωδικοί είναι προσωπικοί και δεν μοιράζονται με κανέναν, ούτε με το τμήμα Πληροφορικής."
+    en: "If the same password is used everywhere, a single leak exposes every system. Passwords are personal and are shared with no one, not even IT."
+
+- question:
+    el: "Πρέπει να εκτυπώσετε μια κατάσταση μισθοδοσίας στον κοινόχρηστο εκτυπωτή του ορόφου. Ποιος είναι ο σωστός τρόπος;"
+    en: "You need to print a payroll report on the shared printer on your floor. What is the right way to do it?"
+  options:
+    A: { el: "Την εκτυπώνετε κανονικά και την παραλαμβάνετε όταν βρείτε χρόνο.", en: "Print it as usual and collect it when you find the time." }
+    B: { el: "Χρησιμοποιείτε ασφαλή εκτύπωση, την αποδεσμεύετε εσείς στον εκτυπωτή και την παίρνετε αμέσως.", en: "Use secure print, release the job yourself at the printer and take it straight away." }
+    C: { el: "Ζητάτε από έναν συνάδελφο που περνά από εκεί να σας τη φέρει.", en: "Ask a colleague who is passing by to bring it to you." }
+    D: { el: "Τη στέλνετε στο προσωπικό σας email για να την εκτυπώσετε στο σπίτι.", en: "Send it to your personal email to print at home." }
+  correct: B
+  explanation:
+    el: "Με την ασφαλή εκτύπωση το έγγραφο τυπώνεται μόνο όταν βρίσκεστε μπροστά στον εκτυπωτή, ώστε να μη μένει εκτεθειμένο στον δίσκο εξόδου."
+    en: "With secure print the document is printed only when you are standing at the printer, so it is never left exposed in the output tray."
+
+- question:
+    el: "Εργάζεστε από το σπίτι και χρειάζεστε πρόσβαση στα εταιρικά συστήματα. Ποιος είναι ο σωστός τρόπος;"
+    en: "You are working from home and need access to company systems. What is the right way?"
+  options:
+    A: { el: "Από τον προσωπικό σας υπολογιστή, εφόσον διαθέτει πρόγραμμα προστασίας από ιούς.", en: "From your personal computer, provided it has antivirus software." }
+    B: { el: "Από τον εταιρικό φορητό, μέσω του δωρεάν Wi-Fi ενός καφέ και χωρίς VPN.", en: "From the company laptop, over a café's free Wi-Fi and without the VPN." }
+    C: { el: "Προωθείτε τα αρχεία στο προσωπικό σας email και δουλεύετε εκεί.", en: "Forward the files to your personal email and work on them there." }
+    D: { el: "Από τον εταιρικό φορητό, συνδεδεμένο στο εταιρικό VPN.", en: "From the company laptop, connected to the company VPN." }
+  correct: D
+  explanation:
+    el: "Η τηλεργασία γίνεται μόνο με εταιρικό εξοπλισμό και πάντα μέσω VPN. Οι προσωπικές συσκευές και οι προσωπικοί λογαριασμοί βρίσκονται εκτός της προστασίας της εταιρείας."
+    en: "Remote work is done only on company equipment and always through the VPN. Personal devices and personal accounts are outside the company's protection."
+
+- question:
+    el: "Ένα πρωί κανένα εταιρικό σύστημα δεν λειτουργεί και ανακοινώνεται ότι ενεργοποιήθηκε το Σχέδιο Επιχειρησιακής Συνέχειας. Τι κάνετε;"
+    en: "One morning no company system is working and it is announced that the Business Continuity Plan has been activated. What do you do?"
+  options:
+    A: { el: "Ακολουθείτε τις οδηγίες του προϊσταμένου σας και εφαρμόζετε τις χειροκίνητες διαδικασίες του τμήματός σας.", en: "Follow your manager's instructions and apply your department's manual procedures." }
+    B: { el: "Συνεχίζετε τη δουλειά από το προσωπικό σας email και το κινητό σας.", en: "Carry on working from your personal email and phone." }
+    C: { el: "Ενημερώνετε εσείς τους πελάτες σας ότι η εταιρεία δέχθηκε κυβερνοεπίθεση.", en: "Tell your customers yourself that the company has suffered a cyberattack." }
+    D: { el: "Επανεκκινείτε επανειλημμένα τον υπολογιστή σας, μέχρι να επανέλθει το σύστημα.", en: "Keep restarting your computer until the system comes back." }
+  correct: A
+  explanation:
+    el: "Σε κρίση, τον συντονισμό έχει η Ομάδα Διαχείρισης Περιστατικών και οι οδηγίες φτάνουν σε εσάς μέσω του προϊσταμένου σας. Η επικοινωνία με τρίτους γίνεται μόνο από τα εξουσιοδοτημένα πρόσωπα."
+    en: "In a crisis the incident management team coordinates and instructions reach you through your manager. Only authorised persons communicate with third parties."
+
+- question:
+    el: "Μπαίνετε στο κτίριο με την κάρτα σας και ένας άγνωστος, χωρίς κάρτα, προσπαθεί να περάσει πίσω σας πριν κλείσει η πόρτα. Τι κάνετε;"
+    en: "You enter the building with your card and a stranger without a badge tries to follow you in before the door closes. What do you do?"
+  options:
+    A: { el: "Του κρατάτε την πόρτα· θα ήταν αγένεια να την κλείσετε.", en: "Hold the door for them; it would be rude to shut it." }
+    B: { el: "Τον ρωτάτε ευγενικά ποιον θέλει να δει και τον συνοδεύετε στην υποδοχή.", en: "Politely ask who they have come to see and walk them to reception." }
+    C: { el: "Τον αφήνετε να περάσει, αφού φορά στολή τεχνικού.", en: "Let them in, since they are wearing a technician's uniform." }
+    D: { el: "Δεν λέτε τίποτα· ο έλεγχος είναι δουλειά της φύλαξης.", en: "Say nothing; checking people is the security guards' job." }
+  correct: B
+  explanation:
+    el: "Όλοι οι επισκέπτες καταγράφονται στην υποδοχή και έχουν συνοδό. Μια ευγενική ερώτηση δεν προσβάλλει κανέναν και εμποδίζει την είσοδο όσων δεν έχουν λόγο να βρίσκονται στον χώρο."
+    en: "All visitors sign in at reception and are escorted. A polite question offends no one and keeps out people who have no reason to be on site."
+
+- question:
+    el: "Το βράδυ της Παρασκευής διαπιστώνετε ότι χάσατε το εταιρικό σας κινητό. Τι κάνετε;"
+    en: "On Friday evening you realise that you have lost your company mobile phone. What do you do?"
+  options:
+    A: { el: "Το αναφέρετε τη Δευτέρα, όταν επιστρέψετε στο γραφείο.", en: "Report it on Monday, when you are back in the office." }
+    B: { el: "Το αναζητάτε μόνοι σας για μερικές ημέρες πριν ενημερώσετε κάποιον.", en: "Look for it yourself for a few days before telling anyone." }
+    C: { el: "Αγοράζετε ένα παρόμοιο, για να μη χρειαστεί να το αναφέρετε.", en: "Buy a similar one so that you do not have to report it." }
+    D: { el: "Το αναφέρετε αμέσως στο τμήμα Πληροφορικής, ακόμη κι αν είναι εκτός ωραρίου.", en: "Report it to IT immediately, even though it is outside working hours." }
+  correct: D
+  explanation:
+    el: "Όσο νωρίτερα μάθει το τμήμα Πληροφορικής για την απώλεια, τόσο νωρίτερα μπορεί να κλειδώσει ή να διαγράψει τη συσκευή από απόσταση, πριν αποκτήσει κάποιος πρόσβαση στα δεδομένα."
+    en: "The sooner IT knows about the loss, the sooner it can lock or wipe the device remotely, before anyone gains access to the data."

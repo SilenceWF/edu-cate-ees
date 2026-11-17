@@ -1,0 +1,70 @@
+key: business-continuity
+title: { el: "Επιχειρησιακή συνέχεια", en: "Business continuity" }
+subtitle: { el: "Πώς συνεχίζουμε να λειτουργούμε όταν κάτι πάει στραβά", en: "How we keep operating when something goes wrong" }
+minutes: 7
+slides:
+  - title: { el: "Τι είναι το Σχέδιο Επιχειρησιακής Συνέχειας", en: "What a Business Continuity Plan is" }
+    icon: life-buoy
+    summary:
+      el: "Το Σχέδιο Επιχειρησιακής Συνέχειας (BCP) περιγράφει πώς συνεχίζουμε να παράγουμε και να παραδίδουμε όταν ένα σοβαρό συμβάν διακόψει την κανονική λειτουργία."
+      en: "The Business Continuity Plan (BCP) describes how we keep producing and delivering when a serious event interrupts normal operations."
+    bullets:
+      - el: "Καλύπτει σενάρια όπως κυβερνοεπίθεση, παρατεταμένη διακοπή συστημάτων, πυρκαγιά ή διακοπή ρεύματος."
+        en: "It covers scenarios such as a cyberattack, a prolonged system outage, a fire or a power cut."
+      - el: "Ορίζει ποιες λειτουργίες είναι κρίσιμες και σε πόσο χρόνο πρέπει να αποκατασταθούν."
+        en: "It defines which activities are critical and how quickly they must be restored."
+      - el: "Δοκιμάζεται με ασκήσεις τουλάχιστον μία φορά τον χρόνο."
+        en: "It is tested with exercises at least once a year."
+    callout:
+      el: "Δεν μπορούμε να προβλέψουμε κάθε κρίση· μπορούμε όμως να είμαστε προετοιμασμένοι."
+      en: "We cannot predict every crisis, but we can be prepared."
+
+  - title: { el: "Η Ομάδα Διαχείρισης Περιστατικών", en: "The incident management team" }
+    icon: users
+    summary:
+      el: "Σε ένα σοβαρό συμβάν, τον συντονισμό αναλαμβάνει η Ομάδα Διαχείρισης Περιστατικών, με εκπροσώπους της Διοίκησης, της Πληροφορικής και των κρίσιμων τμημάτων."
+      en: "In a serious event, the incident management team takes charge, with members from management, IT and the critical departments."
+    bullets:
+      - el: "Αποφασίζει αν θα ενεργοποιηθεί το Σχέδιο και ποιες προτεραιότητες ισχύουν."
+        en: "It decides whether the plan is activated and which priorities apply."
+      - el: "Ενημερώνει το προσωπικό μέσω των προϊσταμένων και των προκαθορισμένων καναλιών."
+        en: "It keeps staff informed through managers and the agreed channels."
+      - el: "Είναι η μόνη που επικοινωνεί με πελάτες, αρχές και μέσα ενημέρωσης."
+        en: "It is the only body that communicates with customers, authorities and the media."
+    callout:
+      el: "Σε κρίση, οι οδηγίες έρχονται από την Ομάδα Διαχείρισης Περιστατικών μέσω του προϊσταμένου σας."
+      en: "In a crisis, instructions come from the incident management team through your manager."
+
+  - title: { el: "Χειροκίνητες εναλλακτικές διαδικασίες", en: "Manual workarounds" }
+    icon: clipboard-list
+    summary:
+      el: "Όταν τα συστήματα δεν είναι διαθέσιμα, οι κρίσιμες εργασίες συνεχίζονται με προκαθορισμένες χειροκίνητες διαδικασίες."
+      en: "When systems are unavailable, critical work continues using predefined manual procedures."
+    bullets:
+      - el: "Κάθε τμήμα διαθέτει έντυπα και οδηγίες για παραγγελίες, παραλαβές, αποστολές και ιχνηλασιμότητα."
+        en: "Each department has paper forms and instructions for orders, receipts, dispatches and traceability."
+      - el: "Φροντίστε να γνωρίζετε πού φυλάσσονται τα έντυπα του τμήματός σας."
+        en: "Make sure you know where your department's forms are kept."
+      - el: "Συμπληρώνετε τα έντυπα καθαρά και πλήρως· τα στοιχεία θα καταχωριστούν στο σύστημα μόλις αυτό επανέλθει."
+        en: "Fill in the forms clearly and completely; the data will be entered into the system once it is back."
+    callout:
+      el: "Ό,τι καταγράφεται σωστά στο χαρτί δεν χάνεται."
+      en: "What is recorded properly on paper is not lost."
+
+  - title: { el: "Ο δικός σας ρόλος σε μια κρίση", en: "Your role in a crisis" }
+    icon: phone-call
+    summary:
+      el: "Σε μια κρίση δεν χρειάζεται να αυτοσχεδιάσετε. Χρειάζεται ψυχραιμία και να ακολουθήσετε τις οδηγίες."
+      en: "In a crisis you do not need to improvise. You need to stay calm and follow instructions."
+    bullets:
+      - el: "Ακολουθείτε τις οδηγίες του προϊσταμένου σας και τις διαδικασίες του τμήματός σας."
+        en: "Follow your manager's instructions and your department's procedures."
+      - el: "Μην επανεκκινείτε συστήματα και μη χρησιμοποιείτε προσωπικές συσκευές ή λογαριασμούς για να «εξυπηρετηθείτε»."
+        en: "Do not restart systems and do not use personal devices or accounts as a shortcut."
+      - el: "Μη σχολιάζετε το συμβάν σε πελάτες, δημοσιογράφους ή στα μέσα κοινωνικής δικτύωσης."
+        en: "Do not comment on the event to customers, journalists or on social media."
+      - el: "Κρατάτε ενημερωμένα τα στοιχεία επικοινωνίας σας, ώστε να μπορούμε να σας βρούμε."
+        en: "Keep your contact details up to date so that we can reach you."
+    callout:
+      el: "Ψυχραιμία, οδηγίες προϊσταμένου, καμία δήλωση προς τρίτους."
+      en: "Stay calm, follow your manager, make no statements to outsiders."

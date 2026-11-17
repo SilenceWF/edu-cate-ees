@@ -1,0 +1,24 @@
+# Training groups of the Helios Foods demo.
+- key: group-1
+  name: { el: "Group 1 - Διοίκηση", en: "Group 1 - Management" }
+  track: office_extensive
+
+- key: group-2
+  name: { el: "Group 2 - Οικονομικά & Ανθρώπινο Δυναμικό", en: "Group 2 - Finance & HR" }
+  track: office_extensive
+
+- key: group-3
+  name: { el: "Group 3 - Πωλήσεις & Προμήθειες", en: "Group 3 - Sales & Procurement" }
+  track: office_extensive
+
+- key: group-4
+  name: { el: "Group 4 - Αποθήκη & Διακίνηση", en: "Group 4 - Warehouse & Logistics" }
+  track: shopfloor_basic
+
+- key: group-5
+  name: { el: "Group 5 - Παραγωγή", en: "Group 5 - Production" }
+  track: shopfloor_basic
+
+- key: group-6
+  name: { el: "Group 6 - Πληροφορική", en: "Group 6 - IT" }
+  track: it_specialized

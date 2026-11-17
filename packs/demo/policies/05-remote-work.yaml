@@ -1,0 +1,14 @@
+code: POL-05
+title: { el: "Πολιτική Τηλεργασίας", en: "Remote Work Policy" }
+version: "1"
+effective_date: 2026-01-01
+mandatory_all: true
+key_rules:
+  - el: "Η τηλεργασία γίνεται μόνο με εταιρικό εξοπλισμό· δεν χρησιμοποιείτε προσωπικούς υπολογιστές για εταιρικά δεδομένα."
+    en: "Remote work is done only on company equipment; you do not use personal computers for company data."
+  - el: "Συνδέεστε στα εταιρικά συστήματα αποκλειστικά μέσω του εταιρικού VPN."
+    en: "You connect to company systems only through the company VPN."
+  - el: "Αποφεύγετε τα δημόσια δίκτυα Wi-Fi· αν δεν υπάρχει άλλη επιλογή, χρησιμοποιήστε το hotspot του εταιρικού σας κινητού."
+    en: "Avoid public Wi-Fi; if there is no alternative, use the hotspot of your company phone."
+  - el: "Ο εταιρικός εξοπλισμός δεν χρησιμοποιείται από μέλη της οικογένειας ή τρίτους και δεν μένει ποτέ αφύλακτος."
+    en: "Company equipment is not used by family members or third parties and is never left unattended."

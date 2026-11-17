@@ -1,0 +1,3 @@
+group,department,name,note,email,employee_code,role,password
+group-1,Finance - Head office,Jane Doe,,jane.doe@example.com,,admin,
+group-2,Warehouse,John Smith,Basic,,10001,employee,

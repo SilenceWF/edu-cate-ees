@@ -1,0 +1,8 @@
+# Training groups (how you organise people for reporting and live sessions).
+- key: group-1
+  name: Group 1 - Management
+  track: office              # default track for people in this group
+
+- key: group-2
+  name: Group 2 - Warehouse
+  track: shopfloor

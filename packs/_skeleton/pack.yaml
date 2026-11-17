@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Company pack manifest. Copy this folder, rename it, fill it in, then run:
+#   php artisan pack:install packs/<your-folder>
+# or zip the folder and upload it under Admin → Settings → Company pack.
+#
+# Any text shown to people can be written either as a plain string (uses
+# default_locale) or per language:   title: { el: "Τίτλος", en: "Title" }
+# ─────────────────────────────────────────────────────────────────────────────
+format: 1
+slug: my-company            # short id, lowercase, no spaces
+version: "1.0"
+
+company:
+  name: My Company                      # short name shown in the header
+  legal_name: My Company S.A.           # used on certificates and attendance sheets
+  frameworks: "ISO/IEC 27001:2022 (7.2, 7.3, A.6.3)"   # reference line printed on PDFs
+  admin_role_label: Security Officer    # what your admin role is called
+  trainer: Jane Doe                     # default trainer for live sessions
+  signatory:                            # signature block on the certificate
+    name: Jane Doe
+    title: Information Security Officer
+  contact_email: security@example.com   # shown to people who need help
+
+locales: [en]               # languages offered in the interface: el, en
+default_locale: en
+timezone: Europe/Athens     # times are stored in UTC and shown in this timezone
+
+branding:
+  logo: branding/logo.svg   # optional; svg or png
+  colors:
+    primary: "#2563EB"      # main accent (buttons, progress)
+    primary_dark: "#1D4ED8" # hover / pressed accent
+    header: "#0F172A"       # top bar and headings
+    on_primary: "#FFFFFF"   # text colour on top of the accent
+
+quiz:
+  pass_threshold: 80        # percent needed to pass
+
+kiosk:
+  pin: "1234"               # initial kiosk PIN (4-8 digits). Change it in Admin → Settings.
+
+# Statement people sign when they acknowledge the policies.
+declaration: "I declare that I have read, understood and accept the company's approved policies."
+
+# First training cycle. Later cycles are started from Admin → Settings.
+campaign:
+  name: "2026"
+  starts_on: 2026-01-01
+
+# Places where live sessions happen (free list, used in the session form).
+locations: ["Head office"]
+
+# How the spreadsheet importer picks a track from column D ("training type").
+# The first rule whose text is found in the cell wins; otherwise default_track is used.
+import:
+  default_track: office
+  track_rules:
+    - { contains: "Basic", track: shopfloor }
