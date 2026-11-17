@@ -1,0 +1,1 @@
+<span @class(['chip !text-xs', 'bg-emerald-100 text-emerald-800' => $status === 'complete', 'bg-amber-100 text-amber-900' => $status === 'in_progress', 'bg-slate-100 text-slate-600' => $status === 'pending'])>{{ __('admin.status.'.$status) }}</span>
