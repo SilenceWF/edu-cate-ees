@@ -44,6 +44,30 @@
     [x-cloak] {
         display: none !important;
     }
+    /* Scrollbars in the company accent on a transparent track (Firefox, Chrome 121+, Edge, Safari 18.2+). */
+    * {
+        scrollbar-color: var(--brand) transparent;
+        scrollbar-width: thin;
+    }
+    /* Older WebKit/Blink browsers that ignore scrollbar-color. */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+        background: transparent;
+    }
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: var(--brand);
+        border: 2px solid transparent;
+        border-radius: 999px;
+        background-clip: padding-box;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: var(--brand-dark);
+    }
     :focus-visible {
         outline: 3px solid var(--brand);
         outline-offset: 2px;
