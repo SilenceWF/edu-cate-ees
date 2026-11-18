@@ -138,7 +138,7 @@ return [
     ],
     'logo' => [
         'title' => 'Logo',
-        'lead' => 'Shown in the header, the browser tab icon and on PDF certificates and attendance sheets, next to the company name.',
+        'lead' => 'Shown in the header, the browser tab icon and on PDF certificates and attendance sheets. When a logo is set, the header shows only the logo, without the company name.',
         'none' => 'No logo set',
         'upload' => 'Upload',
         'hint' => 'SVG (preferred) or PNG / JPG / WebP, up to 2 MB. Ideally with a transparent background so it reads on the dark header.',

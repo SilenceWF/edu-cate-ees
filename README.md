@@ -105,9 +105,11 @@ People sign in only if their email is on the roster. Once SSO works, set `ENABLE
 
 | What | Where |
 | --- | --- |
-| All records (people, acknowledgments, quiz attempts, sessions, audit log, settings) | The database in `.env`. With `DB_CONNECTION=sqlite` that is the single file `database/database.sqlite`; with MySQL it is the configured database. **Admin → Settings → System check** shows which one is in use. |
+| All records (people, acknowledgments, quiz attempts, sessions, audit log, settings) | The database in `.env`. With `DB_CONNECTION=sqlite` it is one file: `database/database.sqlite` by default, or whatever path `DB_DATABASE` gives (a bare name such as `educateees` means a file with that name in the project folder). With MySQL it is the configured database. **Admin → Settings → System check** shows the exact one in use. |
 | Uploaded files (logo, policy PDFs) | `storage/app/pack/` |
 | Application log (errors) | `storage/logs/laravel.log` |
+
+**Moving an existing SQLite file** (e.g. an older install created `educateees` in the project folder): this is optional. Stop the site, move the file to `database/database.sqlite`, remove the `DB_DATABASE` line from `.env` (or point it at the new path), then run `php artisan config:clear`.
 
 Back up the database (or the `.sqlite` file) **and** `storage/app/` together. Copy the SQLite file while the site is idle, or use `sqlite3 database/database.sqlite ".backup backup.sqlite"`.
 

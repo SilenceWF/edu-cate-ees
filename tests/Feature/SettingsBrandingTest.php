@@ -140,4 +140,21 @@ class SettingsBrandingTest extends TestCase
         $this->actingAs($this->admin)->get('/admin/settings')->assertOk()
             ->assertSee(__('admin.system.title'))->assertSee('PHP: zip')->assertSee(__('admin.logo.title'));
     }
+
+    public function test_header_shows_only_the_logo_when_one_is_set(): void
+    {
+        $nameSpan = '<span class="text-xl font-extrabold tracking-tight">Helios Foods</span>';
+        $this->actingAs($this->admin)->delete('/admin/settings/logo');
+        app(Settings::class)->flush();
+        $html = $this->actingAs($this->admin)->get('/')->getContent();
+        $this->assertStringNotContainsString('/brand/logo?v=', $html);
+        $this->assertStringContainsString($nameSpan, $html, 'no logo: company name as text');
+
+        $this->actingAs($this->admin)->post('/admin/settings/logo', ['logo' => $this->png()]);
+        app(Settings::class)->flush();
+
+        $html = $this->actingAs($this->admin)->get('/')->getContent();
+        $this->assertStringContainsString('alt="Helios Foods"', $html);
+        $this->assertStringNotContainsString($nameSpan, $html);
+    }
 }

@@ -51,8 +51,8 @@
         <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('image', 'size-6') !!}{{ __('admin.logo.title') }}</h2>
         <p class="mt-2 text-muted">{{ __('admin.logo.lead') }}</p>
         <div class="mt-4 flex items-center gap-4 rounded-2xl bg-header p-5 text-white">
-            @if ($logoUrl)<img src="{{ $logoUrl }}" alt="" class="h-12 w-auto max-w-48 object-contain">@else<span class="text-sm text-white/60">{{ __('admin.logo.none') }}</span>@endif
-            <span class="text-xl font-extrabold">{{ setting('company.name') }}</span>
+            @include('partials.logo')
+            @unless ($logoUrl)<span class="text-sm text-white/60">· {{ __('admin.logo.none') }}</span>@endunless
         </div>
         @error('logo')<p class="mt-3 rounded-xl bg-red-50 p-3 font-semibold text-red-900">{{ $message }}</p>@enderror
         <form method="POST" action="{{ route('admin.settings.logo') }}" enctype="multipart/form-data" class="mt-4 flex flex-wrap gap-3">
