@@ -70,6 +70,11 @@ return [
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
         ],
 
+        // Microsoft 365 via Microsoft Graph, using the Entra app in config/services.php (microsoft).
+        'graph' => [
+            'transport' => 'graph',
+        ],
+
         'log' => [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),

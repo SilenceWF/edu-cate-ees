@@ -77,6 +77,14 @@ docker compose exec app php artisan pack:install packs/<φάκελος-εται�
 
 Συνδέονται μόνο όσοι υπάρχουν στο μητρώο. Όταν λειτουργήσει, ορίστε `ENABLE_LOCAL_AUTH=false`.
 
+## Email μέσω Microsoft 365 (Graph)
+
+Η πλατφόρμα στέλνει υπενθυμίσεις από γραμματοκιβώτιο Microsoft 365 μέσω Microsoft Graph, με την ίδια εφαρμογή Entra που χρησιμοποιεί για τη σύνδεση.
+
+1. Το IT δίνει δικαίωμα αποστολής **μόνο** από ένα γραμματοκιβώτιο, με *RBAC for Applications* στο Exchange Online. Τις εντολές τις βρίσκετε στο [README.md](README.md#email-through-microsoft-365-graph).
+2. Στο `.env`: `MAIL_MAILER=graph`, `MAIL_FROM_ADDRESS=…` και το πραγματικό `MICROSOFT_TENANT_ID` (όχι `common`). Μετά τρέξτε `php artisan config:clear`.
+3. Πηγαίνετε στο **Διαχείριση → Ρυθμίσεις → Αποστολή email**, στείλτε δοκιμαστικό και μετά ενεργοποιήστε την αποστολή.
+
 ## Πού αποθηκεύονται τα δεδομένα; Αντίγραφα ασφαλείας
 
 | Τι | Πού |

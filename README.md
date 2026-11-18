@@ -101,6 +101,25 @@ MICROSOFT_TENANT_ID=<Directory (tenant) ID>
 
 People sign in only if their email is on the roster. Once SSO works, set `ENABLE_LOCAL_AUTH=false`.
 
+## Email through Microsoft 365 (Graph)
+
+The platform can send reminders from a Microsoft 365 mailbox through Microsoft Graph, using the same Entra app as sign-in.
+
+1. IT gives the app permission to send from **one** mailbox only, with Exchange Online *RBAC for Applications*. A shared mailbox such as `training@company.com` is best.
+
+    ```powershell
+    New-ServicePrincipal -AppId <Client ID> -ObjectId <Enterprise Application object ID> -DisplayName "edu-cate-ees"
+    New-ManagementScope -Name "edu-cate-ees mailbox" -RecipientRestrictionFilter "PrimarySmtpAddress -eq 'training@company.com'"
+    New-ManagementRoleAssignment -App <Client ID> -Role "Application Mail.Send" -CustomResourceScope "edu-cate-ees mailbox"
+    ```
+
+    Do **not** grant `Mail.Send` as an application permission in Entra: that allows sending as anyone in the organisation.
+
+2. In `.env` set `MAIL_MAILER=graph`, `MAIL_FROM_ADDRESS=training@company.com` and the real `MICROSOFT_TENANT_ID` (not `common`), then run `php artisan config:clear`.
+3. Go to **Admin → Settings → Sending email**, send a test email, then turn sending on. Until then, reminders keep opening the admin's own mail client.
+
+To change the sender later, IT updates the scope filter and you update `MAIL_FROM_ADDRESS`.
+
 ## Where is my data? Backups
 
 | What | Where |

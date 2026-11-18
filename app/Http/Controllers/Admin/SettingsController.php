@@ -10,15 +10,18 @@ use App\Packs\PackLoader;
 use App\Services\Audit;
 use App\Support\Favicon;
 use App\Support\Logo;
+use App\Support\MailStatus;
 use App\Support\Settings;
 use App\Support\SystemCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use InvalidArgumentException;
+use Throwable;
 
 class SettingsController extends Controller
 {
-    public function index(SystemCheck $system, Logo $logo, Favicon $favicon)
+    public function index(SystemCheck $system, Logo $logo, Favicon $favicon, MailStatus $mail)
     {
         return view('admin.settings', [
             'campaigns' => Campaign::orderByDesc('id')->get(),
@@ -26,6 +29,7 @@ class SettingsController extends Controller
             'system' => $system->report(),
             'logoUrl' => $logo->url(),
             'faviconUrl' => $favicon->url(),
+            'mail' => $mail,
         ]);
     }
 
@@ -41,6 +45,43 @@ class SettingsController extends Controller
         Audit::log('settings.logo_changed', null, ['file' => $request->file('logo')->getClientOriginalName()]);
 
         return back()->with('status', __('admin.logo.saved'));
+    }
+
+    public function mailToggle(Request $request, Settings $settings, MailStatus $mail)
+    {
+        $on = $request->boolean('enabled');
+        if ($on && ! $mail->configured()) {
+            return back()->withErrors(['mail' => __('admin.mail.missing', ['keys' => implode(', ', $mail->missing())])]);
+        }
+        $settings->set('mail', array_merge((array) $settings->get('mail', []), ['sending_enabled' => $on]));
+        Audit::log($on ? 'mail.sending_enabled' : 'mail.sending_disabled', null, ['mailer' => $mail->mailer(), 'from' => $mail->from()]);
+
+        return back()->with('status', __($on ? 'admin.mail.enabled' : 'admin.mail.disabled'));
+    }
+
+    /** Send a test message to the signed-in admin (works even while sending is switched off). */
+    public function mailTest(Request $request, MailStatus $mail)
+    {
+        $to = $request->user()->email;
+        if (! $mail->configured()) {
+            return back()->withErrors(['mail' => __('admin.mail.missing', ['keys' => implode(', ', $mail->missing())])]);
+        }
+        if (! $to) {
+            return back()->withErrors(['mail' => __('admin.mail.no_own_email')]);
+        }
+
+        try {
+            Mail::raw(__('admin.mail.test_body', ['company' => setting('company.name'), 'url' => url('/'), 'date' => local_dt(now())]),
+                fn ($m) => $m->to($to)->subject(__('admin.mail.test_subject', ['company' => setting('company.name')])));
+        } catch (Throwable $e) {
+            report($e);
+            Audit::log('mail.test_failed', $request->user(), ['error' => mb_substr($e->getMessage(), 0, 300)]);
+
+            return back()->withErrors(['mail' => $e->getMessage()]);
+        }
+        Audit::log('mail.test_sent', $request->user(), ['to' => $to, 'from' => $mail->from()]);
+
+        return back()->with('status', __('admin.mail.test_ok', ['to' => $to]));
     }
 
     public function favicon(Request $request, Favicon $favicon)

@@ -54,8 +54,11 @@ class SystemCheck
         $rows[] = ['key' => 'db', 'label' => __('admin.system.database'), 'ok' => true, 'detail' => $driver === 'sqlite'
             ? 'SQLite · '.$db->getConfig('database')
             : strtoupper($driver).' · '.$db->getConfig('host').' / '.$db->getConfig('database')];
-        $rows[] = ['key' => 'mail', 'label' => __('admin.system.mail'), 'ok' => ! in_array(config('mail.default'), ['log', 'array'], true),
-            'detail' => config('mail.default'), 'optional' => true];
+        $mail = app(MailStatus::class);
+        $rows[] = ['key' => 'mail', 'label' => __('admin.system.mail'), 'ok' => $mail->canSend(), 'optional' => true,
+            'detail' => $mail->configured()
+                ? $mail->mailer().' · '.$mail->from().' · '.($mail->enabled() ? __('admin.mail.on') : __('admin.mail.off'))
+                : $mail->mailer().($mail->missing() !== ['MAIL_MAILER'] ? ' · '.__('admin.mail.missing', ['keys' => implode(', ', $mail->missing())]) : '')];
         $rows[] = ['key' => 'sso', 'label' => __('admin.system.sso'), 'ok' => filled(config('services.microsoft.client_id')),
             'detail' => filled(config('services.microsoft.client_id')) ? 'Microsoft Entra ID' : '—', 'optional' => true];
 

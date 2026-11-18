@@ -48,6 +48,31 @@
     </div>
 
     <section class="card">
+        <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('mail', 'size-6') !!}{{ __('admin.mail.title') }}</h2>
+        <p class="mt-2 text-muted">{{ __('admin.mail.lead') }}</p>
+        <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+            <dt class="font-bold">{{ __('admin.mail.mailer') }}</dt><dd class="font-mono">{{ $mail->mailer() }}</dd>
+            <dt class="font-bold">{{ __('admin.mail.sender') }}</dt><dd class="font-mono break-all">{{ $mail->from() ?? '—' }}</dd>
+            <dt class="font-bold">{{ __('admin.mail.status') }}</dt>
+            <dd>@if ($mail->canSend())<span class="chip bg-emerald-100 text-emerald-800 !text-xs">{{ __('admin.mail.on') }}</span>@elseif ($mail->configured())<span class="chip bg-amber-100 text-amber-900 !text-xs">{{ __('admin.mail.off') }}</span>@else<span class="chip bg-slate-100 text-slate-700 !text-xs">{{ __('admin.mail.not_configured') }}</span>@endif</dd>
+        </dl>
+        @error('mail')<p class="mt-3 rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-900">{{ $message }}</p>@enderror
+        @if ($mail->configured())
+            <div class="mt-4 flex flex-wrap gap-3">
+                <form method="POST" action="{{ route('admin.settings.mail.test') }}">@csrf<button class="btn-ghost btn-sm">{!! icon_svg('send', 'size-4') !!}{{ __('admin.mail.test') }}</button></form>
+                <form method="POST" action="{{ route('admin.settings.mail') }}" @unless ($mail->enabled()) onsubmit="return confirm(@js(__('admin.mail.confirm_enable')))" @endunless>
+                    @csrf @method('PUT')
+                    <input type="hidden" name="enabled" value="{{ $mail->enabled() ? 0 : 1 }}">
+                    <button class="{{ $mail->enabled() ? 'btn-ghost' : 'btn-dark' }} btn-sm">{{ $mail->enabled() ? __('admin.mail.disable') : __('admin.mail.enable') }}</button>
+                </form>
+            </div>
+            <p class="mt-3 text-sm text-muted">{{ __('admin.mail.hint') }}</p>
+        @else
+            <p class="mt-4 rounded-xl bg-canvas p-3 text-sm">{{ __('admin.mail.setup_hint') }}@if ($mail->missing() !== ['MAIL_MAILER'])<br><strong>{{ __('admin.mail.missing', ['keys' => implode(', ', $mail->missing())]) }}</strong>@endif</p>
+        @endif
+    </section>
+
+    <section class="card">
         <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('image', 'size-6') !!}{{ __('admin.logo.title') }}</h2>
         <p class="mt-2 text-muted">{{ __('admin.logo.lead') }}</p>
         <div class="mt-4 flex items-center gap-4 rounded-2xl bg-header p-5 text-white">

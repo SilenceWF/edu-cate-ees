@@ -91,6 +91,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/settings/campaigns', [Admin\SettingsController::class, 'campaign'])->name('settings.campaign');
             Route::post('/settings/logo', [Admin\SettingsController::class, 'logo'])->name('settings.logo');
             Route::delete('/settings/logo', [Admin\SettingsController::class, 'logoRemove'])->name('settings.logo.remove');
+            Route::put('/settings/mail', [Admin\SettingsController::class, 'mailToggle'])->name('settings.mail');
+            Route::post('/settings/mail/test', [Admin\SettingsController::class, 'mailTest'])->name('settings.mail.test');
             Route::post('/settings/favicon', [Admin\SettingsController::class, 'favicon'])->name('settings.favicon');
             Route::delete('/settings/favicon', [Admin\SettingsController::class, 'faviconRemove'])->name('settings.favicon.remove');
             Route::post('/settings/pack', [Admin\SettingsController::class, 'packUpload'])->name('settings.pack');

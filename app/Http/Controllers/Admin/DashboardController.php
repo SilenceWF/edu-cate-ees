@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\TrainingGroup;
 use App\Models\TrainingSession;
 use App\Services\Roster;
+use App\Support\MailStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -50,6 +51,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', [
             'campaign' => $campaign,
+            'canSendMail' => app(MailStatus::class)->canSend(),
             'campaigns' => Campaign::orderByDesc('id')->get(),
             'kpis' => $kpis,
             'groups' => $groups,

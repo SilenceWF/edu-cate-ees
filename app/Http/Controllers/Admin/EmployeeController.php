@@ -12,10 +12,12 @@ use App\Models\User;
 use App\Services\Audit;
 use App\Services\Progress;
 use App\Services\RosterImporter;
+use App\Support\MailStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class EmployeeController extends Controller
 {
@@ -52,10 +54,18 @@ class EmployeeController extends Controller
     public function remind(Request $request, User $user)
     {
         abort_unless($user->email, 422);
+        abort_unless(app(MailStatus::class)->canSend(), 409);
 
-        Mail::raw(__('admin.reminder.body', ['name' => $user->name, 'url' => url('/'), 'company' => setting('company.name')]),
-            fn ($m) => $m->to($user->email)->subject(__('admin.reminder.subject', ['company' => setting('company.name')])));
-        Audit::log('reminder.sent', $user);
+        try {
+            Mail::raw(__('admin.reminder.body', ['name' => $user->name, 'url' => url('/'), 'company' => setting('company.name')]),
+                fn ($m) => $m->to($user->email)->subject(__('admin.reminder.subject', ['company' => setting('company.name')])));
+        } catch (Throwable $e) {
+            report($e);
+            Audit::log('reminder.failed', $user, ['error' => mb_substr($e->getMessage(), 0, 300)]);
+
+            return back()->withErrors(['mail' => __('admin.reminder.failed', ['name' => $user->name]).' '.$e->getMessage()]);
+        }
+        Audit::log('reminder.sent', $user, ['to' => $user->email]);
 
         return back()->with('status', __('admin.reminder.sent', ['name' => $user->name]));
     }
