@@ -27,6 +27,7 @@ timezone: Europe/Athens     # times are stored in UTC and shown in this timezone
 
 branding:
   logo: branding/logo.svg   # optional; svg or png
+  # favicon: branding/favicon.ico   # optional browser-tab icon (ico, png or svg); defaults to the logo
   colors:
     primary: "#2563EB"      # main accent (buttons, progress)
     primary_dark: "#1D4ED8" # hover / pressed accent

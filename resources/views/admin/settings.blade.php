@@ -64,6 +64,29 @@
         @if ($logoUrl)
             <form method="POST" action="{{ route('admin.settings.logo.remove') }}" class="mt-3" onsubmit="return confirm(@js(__('admin.logo.confirm_remove')))">@csrf @method('DELETE')<button class="btn-ghost btn-sm text-red-700">{!! icon_svg('trash-2', 'size-4') !!}{{ __('admin.logo.remove') }}</button></form>
         @endif
+
+        <div class="mt-6 border-t border-line pt-5">
+            <h3 class="text-lg">{{ __('admin.favicon.title') }}</h3>
+            <p class="mt-1 text-sm text-muted">{{ __('admin.favicon.lead') }}</p>
+            <div class="mt-3 flex items-center gap-3">
+                @if ($faviconUrl ?? null)
+                    <span class="flex size-12 items-center justify-center rounded-xl border border-line bg-white"><img src="{{ $faviconUrl }}" alt="" class="size-8 object-contain"></span>
+                    <span class="flex size-12 items-center justify-center rounded-xl bg-[#202124]"><img src="{{ $faviconUrl }}" alt="" class="size-8 object-contain"></span>
+                    <span class="text-sm text-muted">{{ __('admin.favicon.preview') }}</span>
+                @else
+                    <span class="text-sm text-muted">{{ __('admin.favicon.none') }}</span>
+                @endif
+            </div>
+            @error('favicon')<p class="mt-3 rounded-xl bg-red-50 p-3 font-semibold text-red-900">{{ $message }}</p>@enderror
+            <form method="POST" action="{{ route('admin.settings.favicon') }}" enctype="multipart/form-data" class="mt-3 flex flex-wrap gap-3">
+                @csrf
+                <input type="file" name="favicon" accept=".ico,.png,.svg,image/x-icon,image/png,image/svg+xml" required class="field flex-1 py-2.5" aria-label="{{ __('admin.favicon.title') }}">
+                <button class="btn-dark">{!! icon_svg('upload', 'size-5') !!}{{ __('admin.logo.upload') }}</button>
+            </form>
+            @if ($faviconUrl ?? null)
+                <form method="POST" action="{{ route('admin.settings.favicon.remove') }}" class="mt-3">@csrf @method('DELETE')<button class="btn-ghost btn-sm text-red-700">{!! icon_svg('trash-2', 'size-4') !!}{{ __('admin.favicon.remove') }}</button></form>
+            @endif
+        </div>
     </section>
 
     <section class="card">

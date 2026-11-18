@@ -7,6 +7,7 @@ use App\Models\Policy;
 use App\Models\User;
 use App\Packs\PackLoader;
 use App\Services\Progress;
+use App\Support\Favicon;
 use App\Support\Logo;
 use App\Support\Settings;
 use App\Support\SystemCheck;
@@ -156,5 +157,43 @@ class SettingsBrandingTest extends TestCase
         $html = $this->actingAs($this->admin)->get('/')->getContent();
         $this->assertStringContainsString('alt="Helios Foods"', $html);
         $this->assertStringNotContainsString($nameSpan, $html);
+    }
+
+    private function ico(): UploadedFile
+    {
+        $img = imagecreatetruecolor(32, 32);
+        ob_start();
+        imagepng($img);
+        $png = ob_get_clean();
+        // Single-image ICO wrapping a PNG.
+        $ico = pack('vvv', 0, 1, 1).pack('CCCCvvVV', 32, 32, 0, 0, 1, 32, strlen($png), 22).$png;
+        $path = tempnam(sys_get_temp_dir(), 'fav').'.ico';
+        file_put_contents($path, $ico);
+
+        return new UploadedFile($path, 'favicon.ico', 'image/x-icon', null, true);
+    }
+
+    public function test_favicon_falls_back_to_the_logo_and_can_be_set_separately(): void
+    {
+        $this->actingAs($this->admin)->post('/admin/settings/logo', ['logo' => $this->png()]);
+        app(Settings::class)->flush();
+        $this->assertStringContainsString('/brand/logo?v=', app(Favicon::class)->urlOrLogo());
+
+        $this->actingAs($this->admin)->post('/admin/settings/favicon', ['favicon' => $this->ico()])->assertSessionHasNoErrors();
+        app(Settings::class)->flush();
+
+        $url = app(Favicon::class)->urlOrLogo();
+        $this->assertStringContainsString('/brand/favicon?v=', $url);
+        $this->actingAs($this->admin)->get('/')->assertSee('<link rel="icon" href="'.$url.'">', false);
+        $this->get('/brand/favicon')->assertOk()->assertHeader('Content-Type', 'image/x-icon');
+    }
+
+    public function test_fake_ico_is_rejected(): void
+    {
+        $path = tempnam(sys_get_temp_dir(), 'fav').'.ico';
+        file_put_contents($path, '<html>not an icon</html>');
+
+        $this->actingAs($this->admin)->post('/admin/settings/favicon', ['favicon' => new UploadedFile($path, 'favicon.ico', null, null, true)])
+            ->assertSessionHasErrors('favicon');
     }
 }

@@ -8,6 +8,7 @@ use App\Packs\PackException;
 use App\Packs\PackExporter;
 use App\Packs\PackLoader;
 use App\Services\Audit;
+use App\Support\Favicon;
 use App\Support\Logo;
 use App\Support\Settings;
 use App\Support\SystemCheck;
@@ -17,13 +18,14 @@ use InvalidArgumentException;
 
 class SettingsController extends Controller
 {
-    public function index(SystemCheck $system, Logo $logo)
+    public function index(SystemCheck $system, Logo $logo, Favicon $favicon)
     {
         return view('admin.settings', [
             'campaigns' => Campaign::orderByDesc('id')->get(),
             'brokenLink' => Audit::firstBrokenLink(),
             'system' => $system->report(),
             'logoUrl' => $logo->url(),
+            'faviconUrl' => $favicon->url(),
         ]);
     }
 
@@ -39,6 +41,28 @@ class SettingsController extends Controller
         Audit::log('settings.logo_changed', null, ['file' => $request->file('logo')->getClientOriginalName()]);
 
         return back()->with('status', __('admin.logo.saved'));
+    }
+
+    public function favicon(Request $request, Favicon $favicon)
+    {
+        $request->validate(['favicon' => 'required|file|max:'.Favicon::MAX_KB]);
+
+        try {
+            $favicon->store($request->file('favicon'));
+        } catch (InvalidArgumentException $e) {
+            return back()->withErrors(['favicon' => $e->getMessage()]);
+        }
+        Audit::log('settings.favicon_changed', null, ['file' => $request->file('favicon')->getClientOriginalName()]);
+
+        return back()->with('status', __('admin.favicon.saved'));
+    }
+
+    public function faviconRemove(Favicon $favicon)
+    {
+        $favicon->remove();
+        Audit::log('settings.favicon_removed');
+
+        return back()->with('status', __('admin.favicon.removed'));
     }
 
     public function logoRemove(Logo $logo)

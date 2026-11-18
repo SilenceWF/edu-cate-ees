@@ -148,6 +148,15 @@ return [
         'bad_image' => 'The file is not a valid image.',
         'unsafe_svg' => 'This SVG contains scripts or external links and cannot be used. Export it again as a plain SVG or upload a PNG.',
     ],
+    'favicon' => [
+        'title' => 'Browser tab icon (favicon)',
+        'lead' => 'The small icon in the browser tab. If none is set, the logo is used. ICO, PNG or SVG, square, up to 512 KB.',
+        'preview' => 'On a light and a dark tab',
+        'none' => 'Not set; the logo is used.',
+        'remove' => 'Remove icon',
+        'saved' => 'Tab icon updated.', 'removed' => 'Tab icon removed.',
+        'bad_type' => 'Only ICO, PNG or SVG files are allowed.',
+    ],
     'system' => [
         'title' => 'System check',
         'lead' => 'What the platform needs from the server. Red lines must be fixed; amber ones are optional.',

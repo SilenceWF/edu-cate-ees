@@ -62,6 +62,7 @@ title:
 | `company.contact_email` | Shown to people who need help |
 | `locales`, `default_locale`, `timezone` | Interface languages; timezone for displaying times (stored in UTC) |
 | `branding.logo` | Path inside the pack |
+| `branding.favicon` | Browser-tab icon (ico, png or svg), optional; the logo is used if absent |
 | `branding.colors.primary`, `primary_dark`, `header`, `on_primary` | 6-digit hex colours |
 | `quiz.pass_threshold` | Pass mark in percent (initial value; editable in Settings) |
 | `kiosk.pin` | Initial kiosk PIN, quoted (`"2468"`). Change it in Settings |

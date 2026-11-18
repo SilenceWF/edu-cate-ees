@@ -47,6 +47,12 @@ class PackExporter
                 $manifest['branding']['logo'] = 'branding/'.$logo;
             }
         }
+        if ($favicon = setting('branding.favicon')) {
+            if (is_file(storage_path('app/pack/branding/'.$favicon))) {
+                File::copy(storage_path('app/pack/branding/'.$favicon), "$dir/branding/$favicon");
+                $manifest['branding']['favicon'] = 'branding/'.$favicon;
+            }
+        }
         $this->write("$dir/pack.yaml", $manifest);
 
         $this->write("$dir/tracks.yaml", Track::with('modules')->orderBy('sort_order')->get()->map(fn (Track $t) => array_filter([

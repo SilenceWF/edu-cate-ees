@@ -9,6 +9,7 @@ use App\Http\Controllers\SetupController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/brand/logo', [BrandController::class, 'logo'])->name('brand.logo');
+Route::get('/brand/favicon', [BrandController::class, 'favicon'])->name('brand.favicon');
 Route::post('/locale', [AuthController::class, 'locale'])->name('locale');
 
 // First run: no company pack installed yet.
@@ -90,6 +91,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/settings/campaigns', [Admin\SettingsController::class, 'campaign'])->name('settings.campaign');
             Route::post('/settings/logo', [Admin\SettingsController::class, 'logo'])->name('settings.logo');
             Route::delete('/settings/logo', [Admin\SettingsController::class, 'logoRemove'])->name('settings.logo.remove');
+            Route::post('/settings/favicon', [Admin\SettingsController::class, 'favicon'])->name('settings.favicon');
+            Route::delete('/settings/favicon', [Admin\SettingsController::class, 'faviconRemove'])->name('settings.favicon.remove');
             Route::post('/settings/pack', [Admin\SettingsController::class, 'packUpload'])->name('settings.pack');
             Route::get('/settings/pack/export', [Admin\SettingsController::class, 'packExport'])->name('settings.pack.export');
         });

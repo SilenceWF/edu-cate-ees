@@ -13,7 +13,7 @@ class KioskLock
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->session()->get('kiosk.active') && ! $request->routeIs('kiosk.*', 'brand.logo', 'locale')) {
+        if ($request->session()->get('kiosk.active') && ! $request->routeIs('kiosk.*', 'brand.logo', 'brand.favicon', 'locale')) {
             return redirect()->route('kiosk.index');
         }
 

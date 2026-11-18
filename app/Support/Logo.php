@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
-/** The company logo shown in the header, favicon and PDFs. */
+/** The company logo shown in the header and PDFs (and as the favicon when none is set). */
 class Logo
 {
     public const MAX_KB = 2048;
 
     public const TYPES = ['svg', 'png', 'jpg', 'jpeg', 'webp'];
+
+    /** Key under settings.branding, file name prefix and route name. */
+    protected const KEY = 'logo';
 
     public function __construct(private Settings $settings) {}
 
@@ -23,7 +26,7 @@ class Logo
 
     public function path(): ?string
     {
-        $logo = $this->settings->get('branding.logo');
+        $logo = $this->settings->get('branding.'.static::KEY);
         $path = $logo ? self::dir().'/'.basename($logo) : null;
 
         return $path && is_file($path) ? $path : null;
@@ -33,34 +36,39 @@ class Logo
     {
         $path = $this->path();
 
-        return $path ? route('brand.logo', ['v' => filemtime($path)]) : null;
+        return $path ? route('brand.'.static::KEY, ['v' => filemtime($path)]) : null;
     }
 
     /** Store an admin-uploaded logo. Throws InvalidArgumentException with a user-facing message. */
     public function store(UploadedFile $file): void
     {
         $ext = strtolower($file->getClientOriginalExtension());
-        if (! in_array($ext, self::TYPES, true)) {
-            throw new InvalidArgumentException(__('admin.logo.bad_type'));
+        if (! in_array($ext, static::TYPES, true)) {
+            throw new InvalidArgumentException(__('admin.'.static::KEY.'.bad_type'));
         }
-        if ($ext === 'svg') {
-            self::assertSafeSvg((string) file_get_contents($file->getRealPath()));
-        } elseif (! @getimagesize($file->getRealPath())) {
-            throw new InvalidArgumentException(__('admin.logo.bad_image'));
-        }
+        $this->assertValid($ext, (string) file_get_contents($file->getRealPath()), $file->getRealPath());
 
         File::ensureDirectoryExists(self::dir());
-        $name = 'logo-'.Str::lower(Str::random(8)).'.'.($ext === 'jpeg' ? 'jpg' : $ext);
+        $name = static::KEY.'-'.Str::lower(Str::random(8)).'.'.($ext === 'jpeg' ? 'jpg' : $ext);
         $file->move(self::dir(), $name);
 
         $this->deleteCurrent();
-        $this->settings->set('branding', array_merge((array) $this->settings->get('branding', []), ['logo' => $name, 'logo_source' => 'admin']));
+        $this->settings->set('branding', array_merge((array) $this->settings->get('branding', []), [static::KEY => $name, static::KEY.'_source' => 'admin']));
     }
 
     public function remove(): void
     {
         $this->deleteCurrent();
-        $this->settings->set('branding', array_merge((array) $this->settings->get('branding', []), ['logo' => null, 'logo_source' => 'admin']));
+        $this->settings->set('branding', array_merge((array) $this->settings->get('branding', []), [static::KEY => null, static::KEY.'_source' => 'admin']));
+    }
+
+    protected function assertValid(string $ext, string $contents, string $path): void
+    {
+        if ($ext === 'svg') {
+            self::assertSafeSvg($contents);
+        } elseif (! @getimagesize($path)) {
+            throw new InvalidArgumentException(__('admin.logo.bad_image'));
+        }
     }
 
     /**

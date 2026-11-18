@@ -2,18 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\Favicon;
 use App\Support\Logo;
 
 class BrandController extends Controller
 {
     public function logo(Logo $logo)
     {
-        $path = $logo->path();
+        return $this->serve($logo->path());
+    }
+
+    public function favicon(Favicon $favicon)
+    {
+        return $this->serve($favicon->path());
+    }
+
+    private function serve(?string $path)
+    {
         abort_unless($path, 404);
-        $svg = str_ends_with($path, '.svg');
+        $type = match (strtolower(pathinfo($path, PATHINFO_EXTENSION))) {
+            'svg' => 'image/svg+xml',
+            'ico' => 'image/x-icon',
+            default => mime_content_type($path),
+        };
 
         return response()->file($path, [
-            'Content-Type' => $svg ? 'image/svg+xml' : mime_content_type($path),
+            'Content-Type' => $type,
             'Cache-Control' => 'public, max-age=31536000, immutable',
             // Even if an SVG slipped through, nothing in it can run or load.
             'Content-Security-Policy' => "default-src 'none'; style-src 'unsafe-inline'; img-src data:",

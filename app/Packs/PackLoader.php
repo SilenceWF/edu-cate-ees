@@ -225,8 +225,18 @@ class PackLoader
         $this->settings->set('locales', array_values($m['locales'] ?? ['el', 'en']));
         $this->settings->set('default_locale', $m['default_locale'] ?? ($m['locales'][0] ?? 'el'));
         $this->settings->set('timezone', $m['timezone'] ?? 'Europe/Athens');
+        $keepAdminFavicon = ($current['favicon_source'] ?? null) === 'admin';
+        $favicon = $keepAdminFavicon ? ($current['favicon'] ?? null) : null;
+        if (! $keepAdminFavicon && ! empty($m['branding']['favicon']) && is_file($dir.'/'.$m['branding']['favicon'])) {
+            $favicon = 'favicon.'.strtolower(pathinfo($m['branding']['favicon'], PATHINFO_EXTENSION));
+            File::ensureDirectoryExists(storage_path('app/pack/branding'));
+            File::copy($dir.'/'.$m['branding']['favicon'], storage_path('app/pack/branding/'.$favicon));
+        }
+
         $this->settings->set('branding', array_filter([
-            'logo' => $logo, 'logo_source' => $keepAdminLogo ? 'admin' : null, 'colors' => $m['branding']['colors'] ?? [],
+            'logo' => $logo, 'logo_source' => $keepAdminLogo ? 'admin' : null,
+            'favicon' => $favicon, 'favicon_source' => $keepAdminFavicon ? 'admin' : null,
+            'colors' => $m['branding']['colors'] ?? [],
         ], fn ($v) => $v !== null));
         $this->settings->set('declaration', $m['declaration'] ?? null);
         $this->settings->set('import', $m['import'] ?? []);

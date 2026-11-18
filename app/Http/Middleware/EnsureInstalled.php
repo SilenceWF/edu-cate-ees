@@ -11,7 +11,7 @@ class EnsureInstalled
 {
     public function handle(Request $request, Closure $next)
     {
-        if (! app(Settings::class)->installed() && ! $request->routeIs('setup', 'setup.*', 'brand.logo', 'locale')) {
+        if (! app(Settings::class)->installed() && ! $request->routeIs('setup', 'setup.*', 'brand.logo', 'brand.favicon', 'locale')) {
             return redirect()->route('setup');
         }
 
