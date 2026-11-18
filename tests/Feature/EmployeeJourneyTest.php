@@ -7,6 +7,7 @@ use App\Models\Policy;
 use App\Models\QuizAttempt;
 use App\Models\QuizQuestion;
 use App\Services\Progress;
+use App\Support\Settings;
 use Tests\TestCase;
 
 class EmployeeJourneyTest extends TestCase
@@ -144,5 +145,24 @@ class EmployeeJourneyTest extends TestCase
         $attempt = $this->takeQuiz($user, 8);
 
         $this->actingAs($this->person('hr@helios-foods.example'))->get("/quiz/attempts/{$attempt->id}")->assertForbidden();
+    }
+
+    public function test_certificate_stays_on_one_page_with_long_company_texts(): void
+    {
+        $settings = app(Settings::class);
+        $settings->set('company', array_merge((array) $settings->get('company'), [
+            'legal_name' => 'Εταιρεία Δοκιμών Μακράς Επωνυμίας Ανώνυμη Βιομηχανική Εμπορική Εταιρεία Α.Β.Ε.Ε.',
+            'frameworks' => 'ISO/IEC 27001:2022 (§7.2, §7.3, Παράρτημα Α 6.3) · Ν. 5160/2024 (NIS2) · ΚΥΑ 1689/2025',
+            'signatory' => ['name' => 'Αλέξανδρος Μιχαηλίδης', 'title' => 'Υπεύθυνος Ασφάλειας Συστημάτων Πληροφορικής και Επικοινωνιών (Υ.Α.Σ.Π.Ε.)'],
+        ]));
+        $settings->flush();
+
+        $user = $this->employee();
+        $this->signPolicies($user);
+        $this->completeModules($user);
+        $this->takeQuiz($user, 8);
+
+        $pdf = $this->actingAs($user)->get('/certificate')->getContent();
+        $this->assertSame(1, preg_match_all('#/Type\s*/Page[^s]#', $pdf), 'certificate must be exactly one page');
     }
 }
