@@ -35,7 +35,7 @@ class Progress
 
     public function __construct(public readonly Campaign $campaign, ?array $userIds = null)
     {
-        $this->policies = Policy::active()->get();
+        $this->policies = Policy::ordered(Policy::active());
         $this->tracks = Track::with(['modules' => fn ($q) => $q->where('is_active', true)])->get()->keyBy('id');
 
         $scope = fn ($q) => $userIds === null ? $q : $q->whereIn('user_id', $userIds);

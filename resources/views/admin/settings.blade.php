@@ -48,6 +48,25 @@
     </div>
 
     <section class="card">
+        <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('image', 'size-6') !!}{{ __('admin.logo.title') }}</h2>
+        <p class="mt-2 text-muted">{{ __('admin.logo.lead') }}</p>
+        <div class="mt-4 flex items-center gap-4 rounded-2xl bg-header p-5 text-white">
+            @if ($logoUrl)<img src="{{ $logoUrl }}" alt="" class="h-12 w-auto max-w-48 object-contain">@else<span class="text-sm text-white/60">{{ __('admin.logo.none') }}</span>@endif
+            <span class="text-xl font-extrabold">{{ setting('company.name') }}</span>
+        </div>
+        @error('logo')<p class="mt-3 rounded-xl bg-red-50 p-3 font-semibold text-red-900">{{ $message }}</p>@enderror
+        <form method="POST" action="{{ route('admin.settings.logo') }}" enctype="multipart/form-data" class="mt-4 flex flex-wrap gap-3">
+            @csrf
+            <input type="file" name="logo" accept=".svg,.png,.jpg,.jpeg,.webp,image/svg+xml,image/png,image/jpeg,image/webp" required class="field flex-1 py-2.5" aria-label="{{ __('admin.logo.title') }}">
+            <button class="btn-dark">{!! icon_svg('upload', 'size-5') !!}{{ __('admin.logo.upload') }}</button>
+        </form>
+        <p class="mt-2 text-sm text-muted">{{ __('admin.logo.hint') }}</p>
+        @if ($logoUrl)
+            <form method="POST" action="{{ route('admin.settings.logo.remove') }}" class="mt-3" onsubmit="return confirm(@js(__('admin.logo.confirm_remove')))">@csrf @method('DELETE')<button class="btn-ghost btn-sm text-red-700">{!! icon_svg('trash-2', 'size-4') !!}{{ __('admin.logo.remove') }}</button></form>
+        @endif
+    </section>
+
+    <section class="card">
         <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('package', 'size-6') !!}{{ __('admin.settings.pack') }}</h2>
         <p class="mt-2 text-muted">{{ __('admin.settings.pack_lead') }}</p>
         <p class="mt-3 text-sm font-bold">{{ setting('pack.slug') }} · v{{ setting('pack.version') }} · {{ local_dt(setting('pack.installed_at')) }}</p>
@@ -67,6 +86,19 @@
         @else
             <p class="mt-4 flex items-center gap-3 rounded-2xl bg-emerald-50 p-4 font-bold text-emerald-900">{!! icon_svg('circle-check', 'size-6') !!}{{ __('admin.settings.integrity_ok') }}</p>
         @endif
+    </section>
+
+    <section class="card lg:col-span-2">
+        <h2 class="flex items-center gap-3 text-2xl">{!! icon_svg('server', 'size-6') !!}{{ __('admin.system.title') }}</h2>
+        <p class="mt-2 text-muted">{{ __('admin.system.lead') }}</p>
+        <ul class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            @foreach ($system as $row)
+                <li @class(['flex items-start gap-3 rounded-xl p-3', 'bg-emerald-50 text-emerald-900' => $row['ok'], 'bg-red-50 text-red-900' => ! $row['ok'] && empty($row['optional']), 'bg-amber-50 text-amber-900' => ! $row['ok'] && ! empty($row['optional'])])>
+                    {!! icon_svg($row['ok'] ? 'circle-check' : (empty($row['optional']) ? 'circle-x' : 'circle-alert'), 'size-5 shrink-0 mt-0.5') !!}
+                    <span class="min-w-0"><span class="block font-bold">{{ $row['label'] }}</span>@if ($row['detail'])<span class="block text-sm break-all opacity-80">{{ $row['detail'] }}</span>@endif</span>
+                </li>
+            @endforeach
+        </ul>
     </section>
 </div>
 @endsection

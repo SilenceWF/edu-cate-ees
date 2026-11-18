@@ -24,7 +24,7 @@
 
 ## Γρήγορη εκκίνηση (τοπικά)
 
-Απαιτούνται PHP 8.3+ (με `intl`, `zip`, `gd`, `pdo_sqlite`), Composer και Node 20+.
+Απαιτούνται PHP 8.3+ (με `intl`, `zip`, `xml`, `xmlreader`, `gd`, `mbstring`, `pdo_sqlite` ή `pdo_mysql`), Composer και Node 20+. Σε Ubuntu: `sudo apt install php8.3-{intl,zip,xml,gd,mbstring,sqlite3,mysql}`. Το **Διαχείριση → Ρυθμίσεις → Έλεγχος συστήματος** δείχνει τι λείπει.
 
 ```bash
 git clone https://github.com/SilenceWF/edu-cate-ees.git && cd edu-cate-ees
@@ -76,6 +76,21 @@ docker compose exec app php artisan pack:install packs/<φάκελος-εται�
 4. Στο `.env`: `MICROSOFT_CLIENT_ID`, `MICROSOFT_CLIENT_SECRET`, `MICROSOFT_TENANT_ID`.
 
 Συνδέονται μόνο όσοι υπάρχουν στο μητρώο. Όταν λειτουργήσει, ορίστε `ENABLE_LOCAL_AUTH=false`.
+
+## Πού αποθηκεύονται τα δεδομένα; Αντίγραφα ασφαλείας
+
+| Τι | Πού |
+| --- | --- |
+| Όλες οι εγγραφές (προσωπικό, αποδοχές, τεστ, εκπαιδεύσεις, αρχείο ενεργειών, ρυθμίσεις) | Στη βάση του `.env`. Με `DB_CONNECTION=sqlite` είναι το αρχείο `database/database.sqlite`· με MySQL η βάση που έχει οριστεί. Το **Διαχείριση → Ρυθμίσεις → Έλεγχος συστήματος** δείχνει ποια χρησιμοποιείται. |
+| Αρχεία (λογότυπο, PDF πολιτικών) | `storage/app/pack/` |
+| Αρχείο σφαλμάτων | `storage/logs/laravel.log` |
+
+Κρατάτε αντίγραφο της βάσης (ή του αρχείου `.sqlite`) **και** του `storage/app/` μαζί. Π.χ. `sqlite3 database/database.sqlite ".backup backup.sqlite"`.
+
+Αλλαγές κάνετε από τις οθόνες διαχείρισης ή με `php artisan tinker`, όχι απευθείας στη βάση. Το άνοιγμα του αρχείου μόνο για ανάγνωση (π.χ. *DB Browser for SQLite*) είναι ασφαλές. Προσοχή:
+
+- Το `audit_logs` δεν αλλάζει ούτε διαγράφεται (το εμποδίζει η ίδια η βάση) και το `php artisan audit:verify` εντοπίζει αλλοιώσεις.
+- Οι αποδοχές, οι ολοκληρώσεις και τα τεστ είναι τεκμήρια ελέγχου· η χειροκίνητη αλλαγή τους τα αποδυναμώνει.
 
 ## Άδεια
 

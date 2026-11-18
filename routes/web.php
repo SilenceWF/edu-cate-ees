@@ -88,6 +88,8 @@ Route::middleware('auth')->group(function () {
             Route::put('/settings/kiosk-pin', [Admin\SettingsController::class, 'kioskPin'])->name('settings.kiosk-pin');
             Route::put('/settings/quiz', [Admin\SettingsController::class, 'quiz'])->name('settings.quiz');
             Route::post('/settings/campaigns', [Admin\SettingsController::class, 'campaign'])->name('settings.campaign');
+            Route::post('/settings/logo', [Admin\SettingsController::class, 'logo'])->name('settings.logo');
+            Route::delete('/settings/logo', [Admin\SettingsController::class, 'logoRemove'])->name('settings.logo.remove');
             Route::post('/settings/pack', [Admin\SettingsController::class, 'packUpload'])->name('settings.pack');
             Route::get('/settings/pack/export', [Admin\SettingsController::class, 'packExport'])->name('settings.pack.export');
         });

@@ -8,18 +8,45 @@ use App\Packs\PackException;
 use App\Packs\PackExporter;
 use App\Packs\PackLoader;
 use App\Services\Audit;
+use App\Support\Logo;
 use App\Support\Settings;
+use App\Support\SystemCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use InvalidArgumentException;
 
 class SettingsController extends Controller
 {
-    public function index()
+    public function index(SystemCheck $system, Logo $logo)
     {
         return view('admin.settings', [
             'campaigns' => Campaign::orderByDesc('id')->get(),
             'brokenLink' => Audit::firstBrokenLink(),
+            'system' => $system->report(),
+            'logoUrl' => $logo->url(),
         ]);
+    }
+
+    public function logo(Request $request, Logo $logo)
+    {
+        $request->validate(['logo' => 'required|file|max:'.Logo::MAX_KB]);
+
+        try {
+            $logo->store($request->file('logo'));
+        } catch (InvalidArgumentException $e) {
+            return back()->withErrors(['logo' => $e->getMessage()]);
+        }
+        Audit::log('settings.logo_changed', null, ['file' => $request->file('logo')->getClientOriginalName()]);
+
+        return back()->with('status', __('admin.logo.saved'));
+    }
+
+    public function logoRemove(Logo $logo)
+    {
+        $logo->remove();
+        Audit::log('settings.logo_removed');
+
+        return back()->with('status', __('admin.logo.removed'));
     }
 
     public function kioskPin(Request $request, Settings $settings)
@@ -55,9 +82,12 @@ class SettingsController extends Controller
         return back()->with('status', __('admin.settings.campaign_started', ['name' => $campaign->name]));
     }
 
-    public function packUpload(Request $request, PackLoader $loader)
+    public function packUpload(Request $request, PackLoader $loader, SystemCheck $system)
     {
         $request->validate(['pack' => 'required|file|mimes:zip|max:51200']);
+        if ($missing = $system->missingFor('excel')) {
+            return back()->withErrors(['pack' => __('admin.system.missing', ['ext' => implode(', ', $missing)])]);
+        }
 
         try {
             $summary = $loader->install($request->file('pack')->getRealPath());

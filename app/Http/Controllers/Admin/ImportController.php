@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\Audit;
 use App\Services\RosterImporter;
+use App\Support\SystemCheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -18,9 +19,14 @@ class ImportController extends Controller
     }
 
     /** Dry run: show what the file would change before anything is written. */
-    public function preview(Request $request, RosterImporter $importer)
+    public function preview(Request $request, RosterImporter $importer, SystemCheck $system)
     {
         $request->validate(['file' => 'required|file|mimes:xlsx,xls|max:10240']);
+
+        // The usual cause of "cannot read" on a bare server: PHP's zip/xml extensions are not installed.
+        if ($missing = $system->missingFor('excel')) {
+            return back()->withErrors(['file' => __('admin.system.missing', ['ext' => implode(', ', $missing)])]);
+        }
 
         File::ensureDirectoryExists(storage_path('app/imports'));
         $name = Str::uuid().'.xlsx';
@@ -29,7 +35,10 @@ class ImportController extends Controller
         try {
             $rows = $importer->readSpreadsheet(storage_path('app/imports/'.$name));
         } catch (Throwable $e) {
-            return back()->withErrors(['file' => __('admin.import.unreadable')]);
+            report($e);
+            File::delete(storage_path('app/imports/'.$name));
+
+            return back()->withErrors(['file' => __('admin.import.unreadable').' ('.Str::limit($e->getMessage(), 200).')']);
         }
         if (! $rows) {
             return back()->withErrors(['file' => __('admin.import.empty')]);

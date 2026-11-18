@@ -63,7 +63,7 @@ class PackExporter
             'name' => $d->name, 'location' => $d->location, 'color' => $d->hex_color,
         ]))->all());
 
-        foreach (Policy::where('is_active', true)->orderBy('sort_order')->get() as $i => $p) {
+        foreach (Policy::ordered(Policy::active()) as $i => $p) {
             $document = $p->document_url;
             if ($document && ! $p->documentIsExternal() && is_file(storage_path('app/pack/documents/'.$document))) {
                 File::ensureDirectoryExists("$dir/documents");

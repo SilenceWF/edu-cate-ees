@@ -21,7 +21,7 @@ class ContentController extends Controller
     public function index()
     {
         return view('admin.content', [
-            'policies' => Policy::orderBy('sort_order')->get(),
+            'policies' => Policy::ordered(),
             'modules' => TrainingModule::with('tracks')->orderBy('sort_order')->get(),
             'tracks' => Track::orderBy('sort_order')->get(),
             'questions' => QuizQuestion::orderBy('sort_order')->get()->groupBy('track_id'),
@@ -91,7 +91,6 @@ class ContentController extends Controller
             'document_url' => 'nullable|url|max:500',
             'document_file' => 'nullable|file|mimes:pdf|max:20480',
             'track_keys' => 'array',
-            'sort_order' => 'nullable|integer|min:0',
         ]);
 
         $document = $data['document_url'] ?? ($policy->documentIsExternal() ? null : $policy->document_url);
@@ -108,7 +107,6 @@ class ContentController extends Controller
             'is_mandatory_all' => $request->boolean('is_mandatory_all'),
             'track_keys' => $request->boolean('is_mandatory_all') ? null : array_values($data['track_keys'] ?? []),
             'is_active' => $request->boolean('is_active'),
-            'sort_order' => $data['sort_order'] ?? ($policy->sort_order ?: (int) Policy::max('sort_order') + 1),
         ])->save();
     }
 

@@ -46,8 +46,8 @@
     <h2 class="mt-10 text-2xl">{{ __('admin.employees.ack_history') }}</h2>
     <div class="card mt-4 overflow-x-auto !p-0"><table class="table-clean">
         <thead><tr><th>{{ __('admin.cols.policy') }}</th><th>{{ __('admin.cols.version') }}</th><th>{{ __('admin.audit.when') }}</th><th>IP</th></tr></thead>
-        <tbody>@foreach ($p['acknowledgments']->sortBy('acknowledged_at') as $a)
-            @php($policy = $p['required_policies']->firstWhere('id', $a->policy_id) ?? \App\Models\Policy::find($a->policy_id))
+        <tbody>@foreach ($p['acknowledgments']->load('policy')->sort(fn ($x, $y) => [$x->acknowledged_at->timestamp] <=> [$y->acknowledged_at->timestamp] ?: strnatcasecmp((string) $x->policy?->code, (string) $y->policy?->code)) as $a)
+            @php($policy = $a->policy)
             <tr><td><span class="font-bold">{{ $policy?->code }}</span> {{ loc($policy?->title) }}</td><td>{{ $a->policy_version }}</td><td>{{ local_dt($a->acknowledged_at) }}</td><td class="text-muted">{{ $a->ip_address }}</td></tr>
         @endforeach</tbody></table></div>
 @endif

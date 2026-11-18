@@ -25,7 +25,7 @@ Everything company-specific (name, logo, colours, policies, modules, questions, 
 
 ## Quick start (local, about 2 minutes)
 
-Requirements: PHP 8.3+ with `intl`, `zip`, `gd`, `pdo_sqlite`; Composer; Node 20+.
+Requirements: PHP 8.3+ with `intl`, `zip`, `xml`, `xmlreader`, `gd`, `mbstring`, `pdo_sqlite` (or `pdo_mysql`); Composer; Node 20+. On Ubuntu: `sudo apt install php8.3-{intl,zip,xml,gd,mbstring,sqlite3,mysql}`. **Admin → Settings → System check** lists anything missing.
 
 ```bash
 git clone https://github.com/SilenceWF/edu-cate-ees.git && cd edu-cate-ees
@@ -100,6 +100,21 @@ MICROSOFT_TENANT_ID=<Directory (tenant) ID>
 ```
 
 People sign in only if their email is on the roster. Once SSO works, set `ENABLE_LOCAL_AUTH=false`.
+
+## Where is my data? Backups
+
+| What | Where |
+| --- | --- |
+| All records (people, acknowledgments, quiz attempts, sessions, audit log, settings) | The database in `.env`. With `DB_CONNECTION=sqlite` that is the single file `database/database.sqlite`; with MySQL it is the configured database. **Admin → Settings → System check** shows which one is in use. |
+| Uploaded files (logo, policy PDFs) | `storage/app/pack/` |
+| Application log (errors) | `storage/logs/laravel.log` |
+
+Back up the database (or the `.sqlite` file) **and** `storage/app/` together. Copy the SQLite file while the site is idle, or use `sqlite3 database/database.sqlite ".backup backup.sqlite"`.
+
+Make changes through the admin screens or `php artisan tinker` rather than by editing the database directly. Opening the SQLite file read-only with a tool such as *DB Browser for SQLite* is fine. Keep in mind:
+
+- `audit_logs` cannot be changed or deleted, by design (database triggers block it), and `php artisan audit:verify` detects tampering.
+- Acknowledgments, completions and quiz attempts are audit evidence. Editing them by hand undermines that evidence; correct mistakes with a new record instead.
 
 ## Useful commands
 

@@ -18,7 +18,7 @@
             <div class="ml-auto flex items-center gap-2">
                 @if (auth()->user()->canLaunchKiosk())
                     <a href="{{ route('kiosk.unlock') }}" class="btn btn-sm bg-brand text-on-brand">
-                        {!! icon_svg('tablet-smartphone', 'size-4') !!}<span class="hidden md:inline">{{ __('ui.nav.kiosk') }}</span><span class="md:hidden">Kiosk</span>
+                        {!! icon_svg('tablet-smartphone', 'size-4') !!}<span class="hidden 2xl:inline">{{ __('ui.nav.kiosk') }}</span><span class="2xl:hidden" title="{{ __('ui.nav.kiosk') }}">Kiosk</span>
                     </a>
                 @endif
                 @include('partials.locale')

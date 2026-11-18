@@ -210,8 +210,11 @@ class PackLoader
         $m = $pack['manifest'];
         $dir = $pack['dir'];
 
-        $logo = null;
-        if (! empty($m['branding']['logo']) && is_file($dir.'/'.$m['branding']['logo'])) {
+        // A logo uploaded in Admin → Settings wins over the pack's, like the PIN and pass mark.
+        $current = (array) $this->settings->get('branding', []);
+        $keepAdminLogo = ($current['logo_source'] ?? null) === 'admin';
+        $logo = $keepAdminLogo ? ($current['logo'] ?? null) : null;
+        if (! $keepAdminLogo && ! empty($m['branding']['logo']) && is_file($dir.'/'.$m['branding']['logo'])) {
             $logo = 'logo.'.strtolower(pathinfo($m['branding']['logo'], PATHINFO_EXTENSION));
             File::ensureDirectoryExists(storage_path('app/pack/branding'));
             File::copy($dir.'/'.$m['branding']['logo'], storage_path('app/pack/branding/'.$logo));
@@ -222,7 +225,9 @@ class PackLoader
         $this->settings->set('locales', array_values($m['locales'] ?? ['el', 'en']));
         $this->settings->set('default_locale', $m['default_locale'] ?? ($m['locales'][0] ?? 'el'));
         $this->settings->set('timezone', $m['timezone'] ?? 'Europe/Athens');
-        $this->settings->set('branding', ['logo' => $logo, 'colors' => $m['branding']['colors'] ?? []]);
+        $this->settings->set('branding', array_filter([
+            'logo' => $logo, 'logo_source' => $keepAdminLogo ? 'admin' : null, 'colors' => $m['branding']['colors'] ?? [],
+        ], fn ($v) => $v !== null));
         $this->settings->set('declaration', $m['declaration'] ?? null);
         $this->settings->set('import', $m['import'] ?? []);
         $this->settings->set('locations', $m['locations'] ?? []);

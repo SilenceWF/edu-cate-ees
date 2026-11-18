@@ -99,7 +99,10 @@ class AuditComplianceExport
             $t('ack_date').' ('.setting('timezone', 'Europe/Athens').')', $t('ack_date').' (UTC)', 'IP', 'User agent', $t('supervisor')]);
 
         $n = 2;
-        $acks = PolicyAcknowledgment::where('campaign_id', $campaign->id)->with(['user.department', 'policy', 'supervisor'])->orderBy('acknowledged_at')->cursor();
+        // Grouped by person and moment of signing, then in policy-code order within each sign-off.
+        $acks = PolicyAcknowledgment::where('campaign_id', $campaign->id)->with(['user.department', 'policy', 'supervisor'])->get()
+            ->sort(fn ($a, $b) => [$a->acknowledged_at->timestamp, $a->user_id] <=> [$b->acknowledged_at->timestamp, $b->user_id]
+                ?: strnatcasecmp((string) $a->policy?->code, (string) $b->policy?->code));
         foreach ($acks as $a) {
             $sheet->fromArray([
                 $a->user?->name, $a->user?->email, $a->user?->department?->name, $a->policy?->code, loc($a->policy?->title), $a->policy_version,
