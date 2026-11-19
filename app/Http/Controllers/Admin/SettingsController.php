@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\TrainingReminderMail;
 use App\Models\Campaign;
 use App\Packs\PackException;
 use App\Packs\PackExporter;
@@ -57,6 +58,12 @@ class SettingsController extends Controller
         Audit::log($on ? 'mail.sending_enabled' : 'mail.sending_disabled', null, ['mailer' => $mail->mailer(), 'from' => $mail->from()]);
 
         return back()->with('status', __($on ? 'admin.mail.enabled' : 'admin.mail.disabled'));
+    }
+
+    /** The reminder email as the signed-in admin would receive it, rendered in the browser. */
+    public function mailPreview(Request $request)
+    {
+        return response((new TrainingReminderMail($request->user()))->render());
     }
 
     /** Send a test message to the signed-in admin (works even while sending is switched off). */

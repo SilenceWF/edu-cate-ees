@@ -57,6 +57,7 @@
             <dd>@if ($mail->canSend())<span class="chip bg-emerald-100 text-emerald-800 !text-xs">{{ __('admin.mail.on') }}</span>@elseif ($mail->configured())<span class="chip bg-amber-100 text-amber-900 !text-xs">{{ __('admin.mail.off') }}</span>@else<span class="chip bg-slate-100 text-slate-700 !text-xs">{{ __('admin.mail.not_configured') }}</span>@endif</dd>
         </dl>
         @error('mail')<p class="mt-3 rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-900">{{ $message }}</p>@enderror
+        <a href="{{ route('admin.settings.mail.preview') }}" target="_blank" rel="noopener" class="btn-ghost btn-sm mt-4">{!! icon_svg('eye', 'size-4') !!}{{ __('admin.reminder.preview') }}</a>
         @if ($mail->configured())
             <div class="mt-4 flex flex-wrap gap-3">
                 <form method="POST" action="{{ route('admin.settings.mail.test') }}">@csrf<button class="btn-ghost btn-sm">{!! icon_svg('send', 'size-4') !!}{{ __('admin.mail.test') }}</button></form>

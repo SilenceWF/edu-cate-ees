@@ -102,7 +102,7 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($p['status'] !== 'complete' && $u->email)
                             @if (! $canSendMail)
-                                <a class="btn-ghost btn-sm !min-h-9 !px-2.5" title="{{ __('admin.reminder.send') }}" aria-label="{{ __('admin.reminder.send') }}: {{ $u->name }}" href="mailto:{{ $u->email }}?subject={{ rawurlencode(__('admin.reminder.subject', ['company' => setting('company.name')])) }}&body={{ rawurlencode(__('admin.reminder.body', ['name' => $u->name, 'url' => url('/'), 'company' => setting('company.name')])) }}">{!! icon_svg('mail', 'size-4') !!}</a>
+                                <a class="btn-ghost btn-sm !min-h-9 !px-2.5" title="{{ __('admin.reminder.send') }}" aria-label="{{ __('admin.reminder.send') }}: {{ $u->name }}" href="{{ (new \App\Mail\TrainingReminderMail($u, $campaign, $p))->mailtoHref() }}">{!! icon_svg('mail', 'size-4') !!}</a>
                             @else
                                 <form method="POST" action="{{ route('admin.employees.remind', $u) }}" class="inline">@csrf<button class="btn-ghost btn-sm !min-h-9 !px-2.5" title="{{ __('admin.reminder.send') }}" aria-label="{{ __('admin.reminder.send') }}: {{ $u->name }}">{!! icon_svg('mail', 'size-4') !!}</button></form>
                             @endif

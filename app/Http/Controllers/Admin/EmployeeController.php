@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PortalController;
+use App\Mail\TrainingReminderMail;
 use App\Models\Campaign;
 use App\Models\Department;
 use App\Models\Track;
@@ -57,8 +58,7 @@ class EmployeeController extends Controller
         abort_unless(app(MailStatus::class)->canSend(), 409);
 
         try {
-            Mail::raw(__('admin.reminder.body', ['name' => $user->name, 'url' => url('/'), 'company' => setting('company.name')]),
-                fn ($m) => $m->to($user->email)->subject(__('admin.reminder.subject', ['company' => setting('company.name')])));
+            Mail::to($user->email, $user->name)->send(new TrainingReminderMail($user));
         } catch (Throwable $e) {
             report($e);
             Audit::log('reminder.failed', $user, ['error' => mb_substr($e->getMessage(), 0, 300)]);
