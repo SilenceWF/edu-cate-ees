@@ -6,6 +6,7 @@ use App\Models\Campaign;
 use App\Models\Department;
 use App\Models\Policy;
 use App\Models\QuizQuestion;
+use App\Models\ToolkitItem;
 use App\Models\Track;
 use App\Models\TrainingGroup;
 use App\Models\TrainingModule;
@@ -87,6 +88,7 @@ class PackLoader
             'modules' => $this->collect($dir, 'modules'),
             'quizzes' => [],
             'people' => is_file($dir.'/people.csv') ? $this->roster->readCsv($dir.'/people.csv') : [],
+            'toolkit' => $this->yaml($dir, 'toolkit.yaml', optional: true) ?? [],
         ];
         foreach (glob($dir.'/quizzes/*.{yaml,yml}', GLOB_BRACE) ?: [] as $file) {
             $pack['quizzes'][pathinfo($file, PATHINFO_FILENAME)] = $this->yaml($dir, 'quizzes/'.basename($file)) ?? [];
@@ -180,6 +182,28 @@ class PackLoader
                 }
             }
 
+            foreach (array_values($pack['toolkit']) as $i => $t) {
+                $file = $this->storeToolkitFile($pack['dir'], $t['file'] ?? null);
+                $item = ToolkitItem::firstOrNew(['code' => (string) $t['code']]);
+                $item->fill([
+                    'type' => $t['type'],
+                    'title' => $this->tr($t['title']),
+                    'summary' => isset($t['summary']) ? $this->tr($t['summary']) : null,
+                    'when_to_use' => isset($t['when_to_use']) ? $this->tr($t['when_to_use']) : null,
+                    'roles_guidance' => isset($t['roles_guidance']) ? $this->tr($t['roles_guidance']) : null,
+                    'example_usage' => isset($t['example_usage']) ? $this->tr($t['example_usage']) : null,
+                    'related_codes' => array_values(array_map('strval', (array) ($t['related'] ?? []))) ?: null,
+                    'file_path' => $file,
+                    'original_filename' => $file ? basename((string) $t['file']) : null,
+                    'sort_order' => $t['sort_order'] ?? $i + 1,
+                ]);
+                // Like the PIN and pass mark, an item an admin switched off stays off unless the pack says otherwise.
+                if (array_key_exists('active', $t) || ! $item->exists) {
+                    $item->is_active = (bool) ($t['active'] ?? true);
+                }
+                $item->save();
+            }
+
             if (! Campaign::where('is_current', true)->exists()) {
                 $c = $m['campaign'] ?? [];
                 Campaign::create([
@@ -197,6 +221,7 @@ class PackLoader
                 'departments' => count($pack['departments']), 'policies' => count($pack['policies']),
                 'modules' => count($pack['modules']), 'questions' => $questions,
                 'people_created' => $people['create'], 'people_updated' => $people['update'],
+                'toolkit' => count($pack['toolkit']),
             ];
         });
 
@@ -263,6 +288,22 @@ class PackLoader
         }
         File::ensureDirectoryExists(storage_path('app/pack/documents'));
         File::copy($source, storage_path('app/pack/documents/'.basename($source)));
+
+        return basename($source);
+    }
+
+    /** Copy a toolkit template shipped inside the pack (toolkit/…) into private storage. */
+    private function storeToolkitFile(string $dir, ?string $file): ?string
+    {
+        if (blank($file)) {
+            return null;
+        }
+        $source = $dir.'/'.ltrim($file, '/');
+        if (! is_file($source)) {
+            return null;
+        }
+        File::ensureDirectoryExists(ToolkitItem::storageDir());
+        File::copy($source, ToolkitItem::storageDir().'/'.basename($source));
 
         return basename($source);
     }
@@ -378,6 +419,40 @@ class PackLoader
             $have = count($pack['quizzes'][$t['quiz_from'] ?? ($t['key'] ?? '')] ?? []);
             if (isset($t['key']) && $have < (int) ($t['quiz_questions'] ?? 8)) {
                 $this->errors[] = "quizzes/{$t['key']}.yaml: track asks for ".($t['quiz_questions'] ?? 8)." questions but only $have are defined.";
+            }
+        }
+
+        if (! array_is_list($pack['toolkit'])) {
+            $this->errors[] = 'toolkit.yaml: must be a list of items (each starting with "- code: …").';
+        } else {
+            $codes = array_map(fn ($t) => is_array($t) ? (string) ($t['code'] ?? '') : '', $pack['toolkit']);
+            foreach ($pack['toolkit'] as $n => $t) {
+                $label = 'toolkit.yaml: item '.($n + 1);
+                if (! is_array($t) || blank($t['code'] ?? null) || blank($t['title'] ?? null)) {
+                    $this->errors[] = "$label needs 'code' and 'title'.";
+
+                    continue;
+                }
+                $label = "toolkit.yaml: '{$t['code']}'";
+                if (count(array_keys($codes, (string) $t['code'], true)) > 1) {
+                    $this->errors[] = "$label is listed more than once.";
+                }
+                if (! in_array($t['type'] ?? null, ToolkitItem::TYPES, true)) {
+                    $this->errors[] = "$label: 'type' must be one of ".implode(', ', ToolkitItem::TYPES).'.';
+                }
+                if (filled($t['file'] ?? null)) {
+                    $ext = strtolower(pathinfo((string) $t['file'], PATHINFO_EXTENSION));
+                    if (! in_array($ext, ToolkitItem::TEMPLATE_EXTENSIONS, true)) {
+                        $this->errors[] = "$label: file must be ".implode(', ', ToolkitItem::TEMPLATE_EXTENSIONS).'.';
+                    } elseif (str_contains((string) $t['file'], '..') || ! is_file($pack['dir'].'/'.ltrim((string) $t['file'], '/'))) {
+                        $this->errors[] = "$label: file '{$t['file']}' was not found in the pack.";
+                    }
+                }
+                foreach ((array) ($t['related'] ?? []) as $code) {
+                    if (! in_array((string) $code, $codes, true)) {
+                        $this->errors[] = "$label: related code '$code' is not in toolkit.yaml.";
+                    }
+                }
             }
         }
 

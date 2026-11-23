@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Policy;
 use App\Models\QuizQuestion;
+use App\Models\ToolkitItem;
 use App\Models\Track;
 use App\Models\TrainingModule;
 use App\Services\Audit;
@@ -13,10 +14,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-/** In-browser editing of policies, training modules and quiz questions. */
+/** In-browser editing of policies, training modules, quiz questions and the ISMS toolkit. */
 class ContentController extends Controller
 {
-    private const TYPES = ['policies' => Policy::class, 'modules' => TrainingModule::class, 'questions' => QuizQuestion::class];
+    private const TYPES = ['policies' => Policy::class, 'modules' => TrainingModule::class, 'questions' => QuizQuestion::class, 'toolkit' => ToolkitItem::class];
 
     public function index()
     {
@@ -25,6 +26,7 @@ class ContentController extends Controller
             'modules' => TrainingModule::with('tracks')->orderBy('sort_order')->get(),
             'tracks' => Track::orderBy('sort_order')->get(),
             'questions' => QuizQuestion::orderBy('sort_order')->get()->groupBy('track_id'),
+            'toolkit' => ToolkitItem::ordered(ToolkitItem::withCount('submissions')),
         ]);
     }
 
@@ -73,6 +75,7 @@ class ContentController extends Controller
             'policies' => $this->savePolicy($request, $item),
             'modules' => $this->saveModule($request, $item),
             'questions' => $this->saveQuestion($request, $item),
+            'toolkit' => $this->saveToolkitItem($request, $item),
         };
 
         Audit::log('content.'.($item->wasRecentlyCreated ? 'created' : 'updated'), null, [
@@ -170,6 +173,54 @@ class ContentController extends Controller
             'is_active' => $request->boolean('is_active'),
             'sort_order' => $question->sort_order ?: (int) QuizQuestion::where('track_id', $data['track_id'])->max('sort_order') + 1,
         ])->save();
+    }
+
+    private function saveToolkitItem(Request $request, ToolkitItem $item): void
+    {
+        $data = $request->validate([
+            'code' => ['required', 'string', 'max:50', Rule::unique('toolkit_items')->ignore($item->id)],
+            'type' => ['required', Rule::in(ToolkitItem::TYPES)],
+            'related_codes' => 'nullable|string|max:1000',
+            'template_file' => 'nullable|file|extensions:'.implode(',', ToolkitItem::TEMPLATE_EXTENSIONS).'|max:20480',
+        ], [], ['template_file' => __('admin.content.template_file')]);
+
+        $code = trim($data['code']);
+        $related = collect(preg_split('/[,;\n]+/u', (string) ($data['related_codes'] ?? '')))
+            ->map(fn ($c) => trim($c))->filter(fn ($c) => $c !== '' && $c !== $code)->unique()->values()->all();
+
+        $file = $item->file_path;
+        $original = $item->original_filename;
+        if ($request->boolean('remove_file') && ! $request->hasFile('template_file')) {
+            $file = $original = null;
+        }
+        if ($request->hasFile('template_file')) {
+            // A new master template; people download copies of it, never the file itself.
+            $upload = $request->file('template_file');
+            $ext = strtolower($upload->getClientOriginalExtension());
+            $base = Str::slug($code) ?: 'toolkit';
+            $file = "$base.$ext";
+            if (ToolkitItem::where('file_path', $file)->where('id', '!=', $item->id)->exists()) {
+                $file = $base.'-'.Str::lower(Str::random(4)).".$ext";
+            }
+            $original = Str::limit(basename(str_replace('\\', '/', $upload->getClientOriginalName())), 200, '');
+            File::ensureDirectoryExists(ToolkitItem::storageDir());
+            $upload->move(ToolkitItem::storageDir(), $file);
+        }
+
+        $item->fill([
+            'code' => $code, 'type' => $data['type'], 'title' => $this->tr($request, 'title'),
+            'summary' => $this->tr($request, 'summary') ?: null,
+            'when_to_use' => $this->tr($request, 'when_to_use') ?: null,
+            'roles_guidance' => $this->tr($request, 'roles_guidance') ?: null,
+            'example_usage' => $this->tr($request, 'example_usage') ?: null,
+            'related_codes' => $related ?: null,
+            'file_path' => $file, 'original_filename' => $original,
+            'is_active' => $request->boolean('is_active'),
+        ]);
+        if (! $item->exists) {
+            $item->sort_order = (int) ToolkitItem::max('sort_order') + 1;
+        }
+        $item->save();
     }
 
     private function tr(Request $request, string $field): array

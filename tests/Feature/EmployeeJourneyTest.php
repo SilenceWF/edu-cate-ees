@@ -53,6 +53,24 @@ class EmployeeJourneyTest extends TestCase
         $this->assertAuthenticated();
     }
 
+    public function test_language_switch_is_offered_when_signed_in_even_for_a_single_language_pack(): void
+    {
+        app(Settings::class)->set('locales', ['el']);
+        app(Settings::class)->flush();
+        $user = $this->employee();
+
+        $this->actingAs($user)->get('/')->assertSee('action="'.route('locale').'"', false)
+            ->assertSee('value="el"', false)->assertSee('value="en"', false)
+            ->assertSee(__('ui.nav.my_training', [], 'el'));
+
+        $this->actingAs($user)->from('/')->post('/locale', ['locale' => 'en'])->assertRedirect('/');
+        $this->assertSame('en', $user->fresh()->locale);
+        $this->actingAs($user->fresh())->get('/')->assertSee(__('ui.nav.my_training', [], 'en'));
+
+        $this->actingAs($user)->post('/locale', ['locale' => 'xx']);
+        $this->assertSame('en', $user->fresh()->locale);
+    }
+
     public function test_policies_require_every_acknowledgment_and_the_declaration(): void
     {
         $user = $this->employee();

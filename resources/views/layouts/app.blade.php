@@ -10,6 +10,9 @@
 
             <nav class="order-3 flex w-full items-center gap-1 overflow-x-auto text-sm font-bold sm:order-none sm:ml-6 sm:w-auto">
                 <a href="{{ route('home') }}" @class(['rounded-xl px-3 py-2 whitespace-nowrap', 'bg-white/15' => request()->routeIs('home', 'policies.*', 'modules.*', 'quiz.*')])>{{ __('ui.nav.my_training') }}</a>
+                @if (auth()->user()->canAccessToolkit())
+                    <a href="{{ route('toolkit.index') }}" @class(['rounded-xl px-3 py-2 whitespace-nowrap', 'bg-white/15' => request()->routeIs('toolkit.*')])>{{ __('ui.nav.toolkit') }}</a>
+                @endif
                 @if (auth()->user()->isStaffViewer())
                     <a href="{{ route('admin.dashboard') }}" @class(['rounded-xl px-3 py-2 whitespace-nowrap', 'bg-white/15' => request()->routeIs('admin.*')])>{{ __('ui.nav.admin') }}</a>
                 @endif

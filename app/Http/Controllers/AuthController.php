@@ -92,7 +92,7 @@ class AuthController extends Controller
     public function locale(Request $request)
     {
         $data = $request->validate(['locale' => 'required|string|max:5']);
-        if (in_array($data['locale'], setting('locales', ['el', 'en']), true)) {
+        if (in_array($data['locale'], ui_locales(), true)) {
             $request->session()->put('locale', $data['locale']);
             $request->user()?->forceFill(['locale' => $data['locale']])->save();
         }

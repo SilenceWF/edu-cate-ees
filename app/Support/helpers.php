@@ -32,6 +32,21 @@ if (! function_exists('setting')) {
     }
 }
 
+if (! function_exists('ui_locales')) {
+    /**
+     * Languages offered by the language switch: the pack's own languages first, then every
+     * language the interface is translated into (lang/*). Pack texts that are not translated
+     * fall back to the pack's default language (see loc()).
+     */
+    function ui_locales(): array
+    {
+        static $interface = null;
+        $interface ??= array_map('basename', glob(lang_path('*'), GLOB_ONLYDIR) ?: []);
+
+        return array_values(array_unique(array_merge((array) setting('locales', ['el', 'en']), $interface)));
+    }
+}
+
 if (! function_exists('local_dt')) {
     /** Format a UTC timestamp in the company's timezone. */
     function local_dt(mixed $value, string $format = 'd/m/Y H:i'): string

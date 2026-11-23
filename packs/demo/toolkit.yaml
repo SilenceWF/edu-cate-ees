@@ -1,0 +1,47 @@
+# ISMS toolkit (optional): the procedures, forms and guides managers use day to day.
+# Shown under "ISMS Toolkit" to supervisors, HR, admins and anyone granted access.
+- code: PR-05
+  type: procedure
+  title: { el: "Διαδικασία Ασφάλειας Προμηθευτών", en: "Supplier Security Procedure" }
+  summary:
+    el: "Πώς αξιολογούμε, εγκρίνουμε και παρακολουθούμε τους προμηθευτές που έχουν πρόσβαση σε δεδομένα ή συστήματα."
+    en: "How we assess, approve and monitor suppliers that access our data or systems."
+  when_to_use:
+    el: "Πριν από κάθε νέα συνεργασία με προμηθευτή IT, cloud ή συντήρησης, και κάθε χρόνο για τους κρίσιμους προμηθευτές."
+    en: "Before any new IT, cloud or maintenance supplier is engaged, and every year for critical suppliers."
+  roles_guidance:
+    el: "Ο υπεύθυνος του τμήματος που ζητά τον προμηθευτή συμπληρώνει την αξιολόγηση. Ο Υπεύθυνος Ασφάλειας Πληροφοριών την εγκρίνει."
+    en: "The manager of the department requesting the supplier completes the assessment. The Information Security Officer approves it."
+  example_usage:
+    el: "Το Λογιστήριο θέλει νέα υπηρεσία μισθοδοσίας στο cloud: συμπληρώνει το FRM-05 πριν υπογραφεί η σύμβαση."
+    en: "Accounting wants a new cloud payroll service: it completes FRM-05 before the contract is signed."
+  related: [FRM-05, GD-01]
+
+- code: FRM-05
+  type: form
+  title: { el: "Ερωτηματολόγιο Αξιολόγησης Προμηθευτή", en: "Supplier Security Questionnaire" }
+  summary:
+    el: "Σύντομο ερωτηματολόγιο ασφάλειας για νέους ή κρίσιμους προμηθευτές."
+    en: "A short security questionnaire for new or critical suppliers."
+  when_to_use:
+    el: "Σε κάθε νέο προμηθευτή που θα επεξεργάζεται δεδομένα της εταιρείας."
+    en: "For every new supplier that will process company data."
+  roles_guidance:
+    el: "Συμπληρώνει: ο υπεύθυνος του τμήματος μαζί με τον προμηθευτή. Εγκρίνει: ο Υπεύθυνος Ασφάλειας Πληροφοριών."
+    en: "Filled in by the department manager together with the supplier. Approved by the Information Security Officer."
+  example_usage:
+    el: "Κατεβάστε νέο αντίγραφο, συμπληρώστε το με τον προμηθευτή και υποβάλετέ το με αναφορά το όνομα του προμηθευτή."
+    en: "Download a fresh copy, complete it with the supplier and submit it with the supplier's name as the reference."
+  file: toolkit/frm-05-supplier-questionnaire.xlsx
+  related: [PR-05]
+
+- code: GD-01
+  type: guide
+  title: { el: "Οδηγός Χρήσης της Εργαλειοθήκης", en: "How to Use the Toolkit" }
+  summary:
+    el: "Πού βρίσκετε τα σωστά έντυπα και πώς τα υποβάλλετε."
+    en: "Where to find the right form and how to submit it."
+  when_to_use:
+    el: "Την πρώτη φορά που χρησιμοποιείτε την εργαλειοθήκη."
+    en: "The first time you use the toolkit."
+  related: [PR-05]

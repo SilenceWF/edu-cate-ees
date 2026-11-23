@@ -51,7 +51,7 @@ class TrainingReminderMail extends Mailable
         $this->campaign = $campaign ?? Campaign::current();
         $this->progress = $progress ?? Progress::forUser($user, $this->campaign);
 
-        $locales = (array) setting('locales', ['el', 'en']);
+        $locales = ui_locales();
         $this->recipientLocale = in_array($user->locale, $locales, true) ? $user->locale : (string) setting('default_locale', 'el');
         $this->locale($this->recipientLocale);
 

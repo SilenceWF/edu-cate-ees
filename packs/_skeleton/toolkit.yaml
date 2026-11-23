@@ -1,0 +1,15 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# ISMS toolkit (optional). Procedures, forms and guides that supervisors, HR,
+# admins and anyone granted access use in their daily work. Remove the "#" to
+# use the example. Templates go in toolkit/ (docx, xlsx, pdf or pptx).
+# ─────────────────────────────────────────────────────────────────────────────
+# - code: FRM-10                  # unique; sorted naturally (FRM-2 before FRM-10)
+#   type: form                    # form | procedure | guide
+#   title: New Project Security Checklist
+#   summary: Security checks for every new project.
+#   when_to_use: At the start of every IT or business project.
+#   roles_guidance: The project manager fills it in; the Security Officer approves it.
+#   example_usage: A new packaging line: complete the checklist before go-live.
+#   file: toolkit/frm-10-project-checklist.xlsx   # optional template file
+#   related: [PR-07]              # codes of other toolkit items
+#   active: true                  # optional; set false to hide it

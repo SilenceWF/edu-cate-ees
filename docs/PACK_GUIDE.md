@@ -23,6 +23,8 @@ packs/my-company/
 ├── policies/*.yaml      # one file per policy                               (required)
 ├── modules/*.yaml       # one file per training module                      (required)
 ├── quizzes/<track>.yaml # question bank per track                           (required)
+├── toolkit.yaml         # ISMS toolkit: procedures, forms, guides           (optional)
+├── toolkit/*            # toolkit template files (docx, xlsx, pdf, pptx)    (optional)
 ├── people.csv           # roster                                            (optional)
 ├── branding/logo.svg    # logo, svg or png                                  (optional)
 └── documents/*.pdf      # full policy documents                             (optional)
@@ -60,7 +62,7 @@ title:
 | `company.trainer` | Default trainer for live sessions |
 | `company.signatory.name` / `.title` | Signature block on the certificate |
 | `company.contact_email` | Shown to people who need help |
-| `locales`, `default_locale`, `timezone` | Interface languages; timezone for displaying times (stored in UTC) |
+| `locales`, `default_locale`, `timezone` | Languages your content is written in (listed first in the language switch, which also offers every language the interface is translated into); timezone for displaying times (stored in UTC) |
 | `branding.logo` | Path inside the pack |
 | `branding.favicon` | Browser-tab icon (ico, png or svg), optional; the logo is used if absent |
 | `branding.colors.primary`, `primary_dark`, `header`, `on_primary` | 6-digit hex colours |
@@ -128,6 +130,25 @@ slides:
 
 Write more questions than `quiz_questions`; each attempt draws a random set.
 
+### `toolkit.yaml` (optional)
+
+The **ISMS Toolkit** page lists the procedures, forms and guides people need once the policies are approved. Supervisors, HR auditors and admins see it automatically; an admin can grant it to anyone else (e.g. management or IT staff) with the *Access to the ISMS Toolkit* checkbox on their profile.
+
+```yaml
+- code: FRM-10                 # unique; sorted naturally
+  type: form                   # form | procedure | guide
+  title: New Project Security Checklist
+  summary: Security checks for every new project.
+  when_to_use: At the start of every IT or business project.
+  roles_guidance: The project manager fills it in; the Security Officer approves it.
+  example_usage: A new packaging line - complete the checklist before go-live.
+  file: toolkit/frm-10-project-checklist.xlsx   # docx, xlsx, pdf or pptx. Optional
+  related: [PR-07, GD-01]      # other toolkit codes, shown as links
+  active: true                 # optional; an item an admin switched off stays off unless set here
+```
+
+People download a fresh, dated copy of the template (the master is never changed). Forms can be submitted back (docx, xlsx, pdf or zip, up to 20 MB): the file is kept as evidence and, when server email is switched on, sent with the file attached to `company.contact_email`. Downloads and submissions are recorded in the audit log. Items can also be created and edited under **Admin → Content → Toolkit**, and are included in **Export current content as a pack**.
+
 ### `people.csv`
 
 ```
@@ -163,5 +184,6 @@ A pack often contains internal policies and staff names. `packs/*` is git-ignore
 3. Έλεγχος: `php artisan pack:install packs/<εταιρεία> --validate-only`. Εμφανίζονται όλα τα λάθη μαζί, με αρχείο και γραμμή.
 4. Εγκατάσταση: `php artisan pack:install packs/<εταιρεία>` ή ανέβασμα του φακέλου σε .zip από **Διαχείριση → Ρυθμίσεις**.
 5. Το προσωπικό εισάγεται από **Διαχείριση → Εισαγωγή Excel**.
+6. Προαιρετικά, το `toolkit.yaml` (με τα πρότυπα στον φάκελο `toolkit/`) γεμίζει την **Εργαλειοθήκη ΣΔΑΠ**: διαδικασίες, έντυπα και οδηγούς, με λήψη νέου αντιγράφου του προτύπου και υποβολή του συμπληρωμένου εντύπου στον Υ.Α.Σ.Π.Ε. Τα ίδια επεξεργάζονται και από **Διαχείριση → Περιεχόμενο → Εργαλειοθήκη**.
 
 Κρατήστε το πακέτο σε **ιδιωτικό** αποθετήριο: περιέχει εσωτερικές πολιτικές και ονόματα.

@@ -23,6 +23,7 @@ class User extends Authenticatable
         return [
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'can_access_toolkit' => 'boolean',
             'last_login_at' => 'datetime',
         ];
     }
@@ -86,5 +87,16 @@ class User extends Authenticatable
     public function canLaunchKiosk(): bool
     {
         return $this->hasRole('admin', 'hr_auditor', 'supervisor');
+    }
+
+    /** The ISMS toolkit: by role, or granted one by one (e.g. management or IT staff). */
+    public function canAccessToolkit(): bool
+    {
+        return $this->hasRole('admin', 'hr_auditor', 'supervisor') || (bool) $this->can_access_toolkit;
+    }
+
+    public function toolkitSubmissions(): HasMany
+    {
+        return $this->hasMany(ToolkitSubmission::class);
     }
 }

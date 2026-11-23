@@ -103,13 +103,14 @@ class EmployeeController extends Controller
             'role' => ['nullable', Rule::in(User::ROLES)],
             'password' => 'nullable|string|min:8',
             'is_active' => 'nullable|boolean',
+            'can_access_toolkit' => 'nullable|boolean',
         ]);
 
         if (filled($data['new_department'] ?? null)) {
             $data['department_id'] = Department::firstOrCreate(['name' => trim($data['new_department'])])->id;
         }
 
-        $before = $user->only(['name', 'email', 'role', 'training_group_id', 'department_id', 'track_id', 'is_active']);
+        $before = $user->only(['name', 'email', 'role', 'can_access_toolkit', 'training_group_id', 'department_id', 'track_id', 'is_active']);
         $user->fill([
             'name' => $data['name'],
             'email' => filled($data['email'] ?? null) ? Str::lower($data['email']) : null,
@@ -119,9 +120,12 @@ class EmployeeController extends Controller
             'track_id' => $data['track_id'] ?? null,
             'is_active' => $request->boolean('is_active'),
         ]);
-        // Only admins may grant roles or set passwords; HR maintains the roster itself.
+        // Only admins may grant roles, toolkit access or set passwords; HR maintains the roster itself.
         if ($isAdmin) {
             $user->role = $data['role'] ?? $user->role;
+            if ($request->has('can_access_toolkit')) {
+                $user->can_access_toolkit = $request->boolean('can_access_toolkit');
+            }
             if (filled($data['password'] ?? null)) {
                 $user->password = $data['password'];
             }
@@ -135,7 +139,7 @@ class EmployeeController extends Controller
 
         Audit::log($user->wasRecentlyCreated ? 'user.created' : 'user.updated', $user, [
             'before' => $user->wasRecentlyCreated ? null : $before,
-            'after' => $user->only(['name', 'email', 'role', 'training_group_id', 'department_id', 'track_id', 'is_active']),
+            'after' => $user->only(['name', 'email', 'role', 'can_access_toolkit', 'training_group_id', 'department_id', 'track_id', 'is_active']),
         ]);
     }
 }

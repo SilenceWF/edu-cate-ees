@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\KioskController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\SetupController;
+use App\Http\Controllers\ToolkitController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/brand/logo', [BrandController::class, 'logo'])->name('brand.logo');
@@ -37,6 +38,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/quiz', [PortalController::class, 'submitQuiz'])->name('quiz.submit');
     Route::get('/quiz/attempts/{attempt}', [PortalController::class, 'quizResult'])->name('quiz.result');
     Route::get('/certificate', [PortalController::class, 'certificate'])->name('certificate');
+
+    // ISMS toolkit: forms, procedures and guides for supervisors, HR, admins and anyone granted access.
+    Route::prefix('toolkit')->name('toolkit.')->middleware('toolkit')->group(function () {
+        Route::get('/', [ToolkitController::class, 'index'])->name('index');
+        Route::get('/submissions/{submission}/download', [ToolkitController::class, 'submissionDownload'])->name('submissions.download');
+        Route::get('/{item}/download', [ToolkitController::class, 'download'])->name('download');
+        Route::post('/{item}/submit', [ToolkitController::class, 'submit'])->name('submit');
+    });
 
     // Supervised kiosk mode
     Route::prefix('kiosk')->name('kiosk.')->group(function () {

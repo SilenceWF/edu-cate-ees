@@ -5,6 +5,7 @@ namespace App\Packs;
 use App\Models\Department;
 use App\Models\Policy;
 use App\Models\QuizQuestion;
+use App\Models\ToolkitItem;
 use App\Models\Track;
 use App\Models\TrainingGroup;
 use App\Models\TrainingModule;
@@ -99,6 +100,25 @@ class PackExporter
                 'question' => $q->question_text, 'options' => $q->options,
                 'correct' => $q->correct_option, 'explanation' => $q->explanation,
             ]))->all());
+        }
+
+        $toolkit = ToolkitItem::ordered();
+        if ($toolkit->isNotEmpty()) {
+            $this->write("$dir/toolkit.yaml", $toolkit->map(function (ToolkitItem $t) use ($dir) {
+                $file = null;
+                if ($t->hasFile()) {
+                    File::ensureDirectoryExists("$dir/toolkit");
+                    File::copy($t->filePath(), "$dir/toolkit/".basename($t->file_path));
+                    $file = 'toolkit/'.basename($t->file_path);
+                }
+
+                return array_filter([
+                    'code' => $t->code, 'type' => $t->type, 'title' => $t->title, 'summary' => $t->summary,
+                    'when_to_use' => $t->when_to_use, 'roles_guidance' => $t->roles_guidance,
+                    'example_usage' => $t->example_usage, 'related' => $t->related_codes, 'file' => $file,
+                    'active' => $t->is_active ? null : false,
+                ], fn ($v) => $v !== null && $v !== []);
+            })->all());
         }
 
         $zipPath = $dir.'.zip';

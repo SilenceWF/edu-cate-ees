@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureInstalled;
 use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\EnsureToolkitAccess;
 use App\Http\Middleware\KioskLock;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
@@ -17,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [SetLocale::class, EnsureInstalled::class, KioskLock::class]);
-        $middleware->alias(['role' => EnsureRole::class]);
+        $middleware->alias(['role' => EnsureRole::class, 'toolkit' => EnsureToolkitAccess::class]);
         $middleware->redirectGuestsTo(fn () => route('login'));
         if ($proxies = env('TRUSTED_PROXIES')) {
             $middleware->trustProxies(at: $proxies === '*' ? '*' : explode(',', $proxies));

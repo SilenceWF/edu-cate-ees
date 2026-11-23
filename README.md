@@ -17,7 +17,8 @@ Everything company-specific (name, logo, colours, policies, modules, questions, 
 - **Audit exports.** A three-sheet compliance workbook, a printable A4 attendance sheet with a signature column, and the full audit log.
 - **Live sessions.** Record classroom or Teams sessions and who attended (digital, kiosk or paper sheet).
 - **Training cycles (campaigns).** Start a new cycle each year; history is kept. A new policy version triggers re-acknowledgment of that policy only.
-- **In-browser content editor** for policies, modules and questions, with export back to a pack.
+- **In-browser content editor** for policies, modules, questions and the toolkit, with export back to a pack.
+- **ISMS Toolkit.** Procedures, forms and guides (with when to use them, who fills them in, a worked example and related documents) for supervisors, HR, admins and anyone granted access. People download a fresh dated copy of each template and submit completed forms to the security officer, with the file attached by email when server sending is on. Every download and submission is audited.
 - **Microsoft Entra ID (Azure AD) single sign-on**, plus optional email and password sign-in.
 - **Greek and English** interface; packs can provide content in both.
 - **Intranet-ready.** No CDNs, with all fonts, icons and scripts bundled. Runs on SQLite or MySQL 8.
@@ -125,7 +126,8 @@ To change the sender later, IT updates the scope filter and you update `MAIL_FRO
 | What | Where |
 | --- | --- |
 | All records (people, acknowledgments, quiz attempts, sessions, audit log, settings) | The database in `.env`. With `DB_CONNECTION=sqlite` it is one file: `database/database.sqlite` by default, or whatever path `DB_DATABASE` gives (a bare name such as `educateees` means a file with that name in the project folder). With MySQL it is the configured database. **Admin → Settings → System check** shows the exact one in use. |
-| Uploaded files (logo, policy PDFs) | `storage/app/pack/` |
+| Uploaded files (logo, policy PDFs, toolkit templates) | `storage/app/pack/` |
+| Submitted toolkit forms (evidence) | `storage/app/toolkit-submissions/` |
 | Application log (errors) | `storage/logs/laravel.log` |
 
 **Moving an existing SQLite file** (e.g. an older install created `educateees` in the project folder): this is optional. Stop the site, move the file to `database/database.sqlite`, remove the `DB_DATABASE` line from `.env` (or point it at the new path), then run `php artisan config:clear`.

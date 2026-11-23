@@ -40,6 +40,33 @@
                     @foreach ($tracks as $t)<label class="flex items-center gap-2"><input type="checkbox" name="track_keys[]" value="{{ $t->key }}" class="size-5 accent-[var(--brand)]" @checked(in_array($t->key, old('track_keys', $item->track_keys ?? [])))>{{ loc($t->name) }}</label>@endforeach
                 </div></fieldset>
             </div>
+        @elseif ($type === 'toolkit')
+            <div class="card grid gap-5 sm:grid-cols-3">
+                <div class="sm:col-span-2"><label class="label" for="code">{{ __('admin.content.code') }} *</label><input class="field" id="code" name="code" value="{{ old('code', $item->code) }}" required maxlength="50"><p class="mt-1 text-sm text-muted">{{ __('admin.content.code_hint') }}</p></div>
+                <div><label class="label" for="type">{{ __('admin.content.type') }} *</label><select class="field" id="type" name="type" required>
+                    @foreach (\App\Models\ToolkitItem::TYPES as $t)<option value="{{ $t }}" @selected(old('type', $item->type ?? 'form') === $t)>{{ __('ui.toolkit.type_one.'.$t) }}</option>@endforeach</select></div>
+                @foreach ($locales as $l)
+                    <div class="sm:col-span-3"><label class="label" for="title_{{ $l }}">{{ __('admin.content.title') }} @if ($multi)<span class="text-muted uppercase">({{ $l }})</span>@endif</label><input class="field" id="title_{{ $l }}" name="title[{{ $l }}]" value="{{ $val('title', $l) }}"></div>
+                @endforeach
+                @foreach (['summary' => 2, 'when_to_use' => 3, 'roles_guidance' => 3, 'example_usage' => 4] as $field => $rows)
+                    @foreach ($locales as $l)
+                        <div class="sm:col-span-3"><label class="label" for="{{ $field }}_{{ $l }}">{{ __('admin.content.'.$field) }} @if ($multi)<span class="text-muted uppercase">({{ $l }})</span>@endif</label>
+                            <textarea class="field py-3" id="{{ $field }}_{{ $l }}" name="{{ $field }}[{{ $l }}]" rows="{{ $rows }}">{{ $val($field, $l) }}</textarea></div>
+                    @endforeach
+                @endforeach
+                <div class="sm:col-span-3"><label class="label" for="related_codes">{{ __('admin.content.related_codes') }}</label><input class="field" id="related_codes" name="related_codes" value="{{ old('related_codes', implode(', ', $item->related_codes ?? [])) }}"><p class="mt-1 text-sm text-muted">{{ __('admin.content.related_hint') }}</p></div>
+                <div class="sm:col-span-3"><label class="label" for="template_file">{{ __('admin.content.template_file') }}</label>
+                    <input class="field py-2.5" id="template_file" type="file" name="template_file" accept=".{{ implode(',.', \App\Models\ToolkitItem::TEMPLATE_EXTENSIONS) }}">
+                    <p class="mt-1 text-sm text-muted">{{ __('admin.content.template_hint') }}</p>
+                    @if ($item->hasFile())
+                        <div class="mt-3 flex flex-wrap items-center gap-4 rounded-2xl bg-canvas p-3 text-sm">
+                            <span class="flex items-center gap-2 font-bold">{!! icon_svg('file', 'size-4') !!}{{ $item->original_filename ?: $item->file_path }}</span>
+                            <a class="font-bold hover:underline" href="{{ route('toolkit.download', $item) }}">{{ __('ui.action.download') }}</a>
+                            <label class="flex items-center gap-2"><input type="checkbox" name="remove_file" value="1" class="size-5 accent-[var(--brand)]">{{ __('admin.content.remove_file') }}</label>
+                        </div>
+                    @endif
+                </div>
+            </div>
         @elseif ($type === 'modules')
             <div class="card grid gap-5 sm:grid-cols-3">
                 <div class="sm:col-span-2"><label class="label" for="key">{{ __('admin.content.key') }} *</label><input class="field font-mono" id="key" name="key" value="{{ old('key', $item->key) }}" @disabled($item->exists) required><p class="mt-1 text-sm text-muted">{{ __('admin.content.key_hint') }}</p></div>

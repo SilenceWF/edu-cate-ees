@@ -22,6 +22,10 @@
         @if (auth()->user()->hasRole('admin'))
             <div><label class="label" for="role">{{ __('admin.cols.role') }}</label><select class="field" id="role" name="role">
                 @foreach (\App\Models\User::ROLES as $r)<option value="{{ $r }}" @selected(old('role', $user->role) === $r)>{{ __('admin.roles.'.$r) }}</option>@endforeach</select></div>
+            <div class="sm:col-span-2">
+                <label class="flex items-center gap-3 font-bold"><input type="hidden" name="can_access_toolkit" value="0"><input type="checkbox" name="can_access_toolkit" value="1" class="size-6 accent-[var(--brand)]" @checked(old('can_access_toolkit', $user->can_access_toolkit))>{{ __('admin.employees.toolkit_access') }}</label>
+                <p class="mt-1 pl-9 text-sm text-muted">{{ __('admin.employees.toolkit_hint') }}</p>
+            </div>
             @if (config('portal.local_auth'))
                 <div><label class="label" for="password">{{ __('admin.employees.password') }}</label><input class="field" id="password" type="password" name="password" autocomplete="new-password"><p class="mt-1 text-sm text-muted">{{ __('admin.employees.password_hint') }}</p></div>
             @endif
