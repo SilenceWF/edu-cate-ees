@@ -16,5 +16,6 @@
         </form>
         <a href="{{ route('home') }}" class="mt-5 inline-block font-bold text-muted hover:text-ink">{{ __('ui.action.back') }}</a>
     </div>
+    @include('partials.kiosk-codes-form', ['class' => 'card mt-6 !p-8'])
 </div>
 @endsection

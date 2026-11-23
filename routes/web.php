@@ -47,6 +47,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/{item}/submit', [ToolkitController::class, 'submit'])->name('submit');
     });
 
+    // Employee codes for kiosk sessions (deliberately outside kiosk.*: blocked while the kiosk is active)
+    Route::get('/kiosk-codes', [KioskController::class, 'codes'])->name('kiosk-codes');
+
     // Supervised kiosk mode
     Route::prefix('kiosk')->name('kiosk.')->group(function () {
         Route::get('/unlock', [KioskController::class, 'unlockForm'])->name('unlock');

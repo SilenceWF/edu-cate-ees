@@ -5,7 +5,7 @@
 <h1 class="text-4xl sm:text-5xl">{{ __('admin.exports.title') }}</h1>
 <p class="mt-3 max-w-3xl text-lg text-muted">{{ __('admin.exports.lead', ['campaign' => $campaign->name]) }}</p>
 
-<div class="mt-8 grid gap-6 lg:grid-cols-3">
+<div class="mt-8 grid gap-6 md:grid-cols-2">
     <div class="card flex flex-col">
         <span class="flex size-14 items-center justify-center rounded-2xl bg-brand text-on-brand">{!! icon_svg('file-spreadsheet', 'size-7') !!}</span>
         <h2 class="mt-4 text-2xl">{{ __('admin.exports.compliance_title') }}</h2>
@@ -30,5 +30,6 @@
         <p class="mt-2 flex-1 text-muted">{{ __('admin.exports.audit_lead') }}</p>
         <a href="{{ route('admin.exports.audit') }}" class="btn-ghost mt-5">{!! icon_svg('download', 'size-5') !!}Excel (.xlsx)</a>
     </div>
+    @include('partials.kiosk-codes-form', ['departments' => $kioskDepartments])
 </div>
 @endsection

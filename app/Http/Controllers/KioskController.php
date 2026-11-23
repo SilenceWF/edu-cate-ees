@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\Department;
 use App\Models\Track;
 use App\Models\User;
 use App\Services\Audit;
 use App\Services\Progress;
 use App\Services\Training;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 /**
  * Supervised kiosk mode for people without a company account. A supervisor unlocks it
@@ -28,7 +32,7 @@ class KioskController extends Controller
             return redirect()->route('kiosk.index');
         }
 
-        return view('kiosk.unlock');
+        return view('kiosk.unlock', ['departments' => self::kioskDepartments()]);
     }
 
     public function unlock(Request $request)
@@ -49,9 +53,7 @@ class KioskController extends Controller
         }
         $request->session()->forget(['kiosk.worker_id', 'kiosk.quiz']);
 
-        $trackIds = Track::where('kiosk_enabled', true)->pluck('id');
-        $workers = User::where('is_active', true)->with('group')->orderBy('name')->get()
-            ->filter(fn (User $u) => $trackIds->contains($u->track_id ?? $u->group?->track_id))
+        $workers = self::kioskWorkers()
             ->map(fn (User $u) => ['id' => $u->id, 'name' => $u->name, 'department_id' => $u->department_id])->values();
 
         return view('kiosk.index', [
@@ -168,6 +170,51 @@ class KioskController extends Controller
         abort_unless($worker, 409);
 
         return $worker;
+    }
+
+    /**
+     * A printable list of kiosk workers and their employee codes, for the supervisor running a
+     * session (kept apart from the attendance sheet, which everyone signs). Not reachable while
+     * the kiosk is active, so a worker at the tablet cannot open it.
+     */
+    public function codes(Request $request)
+    {
+        abort_unless($request->user()->canLaunchKiosk(), 403);
+        $data = $request->validate(['department' => 'nullable|integer|exists:departments,id', 'pending' => 'nullable|boolean']);
+        $department = filled($data['department'] ?? null) ? Department::find($data['department']) : null;
+        $campaign = Campaign::current();
+        $progress = new Progress($campaign);
+
+        $rows = self::kioskWorkers()->load('department')
+            ->when($department, fn (Collection $c) => $c->where('department_id', $department->id))
+            ->map(fn (User $u) => ['user' => $u, 'done' => $progress->of($u)['status'] === 'complete'])
+            ->when($request->boolean('pending'), fn (Collection $c) => $c->reject(fn ($r) => $r['done']))
+            ->sortBy(fn ($r) => mb_strtolower(($r['user']->department?->name ?? "\u{10FFFF}").'|'.$r['user']->name))
+            ->values();
+
+        Audit::log('kiosk.codes_printed', $request->user(), [
+            'department' => $department?->name, 'pending_only' => $request->boolean('pending'), 'count' => $rows->count(),
+        ]);
+
+        return Pdf::loadView('pdf.kiosk-codes', [
+            'rows' => $rows, 'department' => $department, 'pendingOnly' => $request->boolean('pending'),
+            'campaign' => $campaign, 'printedBy' => $request->user(), 'logo' => BrandController::logoDataUri(),
+        ])->setPaper('a4')->download(Str::slug(__('ui.kiosk.codes.filename').'-'.($department?->name ?? 'all')).'-'.now()->format('Ymd').'.pdf');
+    }
+
+    /** Active people whose track runs in kiosk mode. */
+    public static function kioskWorkers(): Collection
+    {
+        $trackIds = Track::where('kiosk_enabled', true)->pluck('id');
+
+        return User::where('is_active', true)->with('group')->orderBy('name')->get()
+            ->filter(fn (User $u) => $trackIds->contains($u->track_id ?? $u->group?->track_id))->values();
+    }
+
+    /** Departments that have kiosk workers, for the code-list filter. */
+    public static function kioskDepartments(): Collection
+    {
+        return Department::whereIn('id', self::kioskWorkers()->pluck('department_id')->filter()->unique())->orderBy('name')->get();
     }
 
     private function checkPin(Request $request, string $key): void

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\AuditComplianceExport;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\KioskController;
 use App\Models\AuditLog;
 use App\Models\Campaign;
 use App\Models\TrainingGroup;
@@ -25,6 +26,7 @@ class ExportController extends Controller
             'campaign' => Campaign::current(),
             'groups' => TrainingGroup::orderBy('sort_order')->get(),
             'sessions' => TrainingSession::orderByDesc('session_date')->get(),
+            'kioskDepartments' => KioskController::kioskDepartments(),
         ]);
     }
 

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\KioskController;
+use App\Models\AuditLog;
 use App\Models\QuizQuestion;
 use App\Models\User;
 use App\Services\Progress;
@@ -76,5 +78,37 @@ class KioskTest extends TestCase
         $p = Progress::forUser($this->worker);
         $this->assertSame('complete', $p['status']);
         $this->assertSame($this->supervisor->id, $p['passed_attempt']->supervised_by_user_id);
+    }
+
+    public function test_supervisors_print_a_confidential_code_list_that_is_audited(): void
+    {
+        $workers = KioskController::kioskWorkers();
+        $this->assertNotEmpty($workers);
+        $department = $workers->first()->department;
+
+        $this->actingAs($this->supervisor)->get('/kiosk/unlock')->assertOk()
+            ->assertSee(__('ui.kiosk.codes.title'))->assertSee('action="'.route('kiosk-codes').'"', false);
+        $this->actingAs($this->person('hr@helios-foods.example'))->get('/admin/exports')->assertOk()->assertSee(__('ui.kiosk.codes.title'));
+
+        $response = $this->actingAs($this->supervisor)->get('/kiosk-codes')->assertOk();
+        $this->assertSame('application/pdf', $response->headers->get('content-type'));
+        $this->assertStringContainsString('kiosk', (string) $response->headers->get('content-disposition'));
+        $log = AuditLog::where('action', 'kiosk.codes_printed')->latest('id')->first();
+        $this->assertSame($workers->count(), $log->metadata['count']);
+        $this->assertFalse($log->metadata['pending_only']);
+
+        $this->actingAs($this->supervisor)->get('/kiosk-codes?pending=1&department='.$department->id)->assertOk();
+        $log = AuditLog::where('action', 'kiosk.codes_printed')->latest('id')->first();
+        $this->assertSame($department->name, $log->metadata['department']);
+        $this->assertSame($workers->where('department_id', $department->id)->count(), $log->metadata['count']);
+
+        $this->actingAs($this->employee())->get('/kiosk-codes')->assertForbidden();
+    }
+
+    public function test_code_list_cannot_be_opened_while_the_kiosk_is_active(): void
+    {
+        $this->unlocked();
+        $this->get('/kiosk-codes')->assertRedirect('/kiosk');
+        $this->assertFalse(AuditLog::where('action', 'kiosk.codes_printed')->exists());
     }
 }
