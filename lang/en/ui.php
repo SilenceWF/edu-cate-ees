@@ -182,9 +182,9 @@ return [
         'roles' => 'Roles & responsibilities',
         'example' => 'Example in practice',
         'related' => 'Related documents / guides',
-        'download' => 'Download template copy',
-        'file_meta' => ':ext template',
-        'no_file' => 'There is no template file to download.',
+        'download' => ['form' => 'Download template copy', 'procedure' => 'Download procedure', 'guide' => 'Download guide'],
+        'file_meta' => ':ext file',
+        'no_file' => 'There is no file to download.',
         'submit' => 'Submit to the Security Officer',
         'submit_form' => [
             'title' => 'Submit a completed form',

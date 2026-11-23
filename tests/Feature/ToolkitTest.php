@@ -107,6 +107,11 @@ class ToolkitTest extends TestCase
         ToolkitItem::create(['code' => 'FRM-9', 'type' => 'form', 'title' => ['el' => 'Ένατο έντυπο'], 'related_codes' => ['PR-05', 'XX-99']]);
         ToolkitItem::create(['code' => 'FRM-99', 'type' => 'form', 'title' => ['el' => 'Ανενεργό'], 'is_active' => false]);
 
+        // A procedure with a file gets its own wording, not "template copy".
+        File::ensureDirectoryExists(ToolkitItem::storageDir());
+        File::put(ToolkitItem::storageDir().'/pr-05.pdf', '%PDF');
+        $this->item('PR-05')->update(['file_path' => 'pr-05.pdf']);
+
         // Natural code order: FRM-9 before FRM-10.
         $response = $this->actingAs($this->supervisor)->get('/toolkit')->assertOk()
             ->assertSeeInOrder(['FRM-05', 'FRM-9', 'FRM-10', 'GD-01', 'PR-05'])
@@ -116,7 +121,9 @@ class ToolkitTest extends TestCase
             ->assertSee(__('ui.toolkit.roles'))
             ->assertSee(__('ui.toolkit.example'))
             ->assertSee('href="#item-'.$this->item('PR-05')->id.'"', false) // related pill jumps to the linked item
-            ->assertSee(__('ui.toolkit.download'))
+            ->assertSee(__('ui.toolkit.download.form'))
+            ->assertDontSee(__('ui.toolkit.download.guide')) // GD-01 has no file: no button
+            ->assertSee(__('ui.toolkit.download.procedure'))
             ->assertSee(__('ui.toolkit.submit'));
         $this->assertSame(['form' => 3, 'procedure' => 1, 'guide' => 1], $response->viewData('counts'));
         $this->assertCount(5, $response->viewData('visibleIds'));

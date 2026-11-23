@@ -92,7 +92,7 @@
                         <div class="flex shrink-0 flex-col gap-2 sm:flex-row">
                             @if ($item->hasFile())
                                 <a href="{{ route('toolkit.download', $item) }}" class="btn-ghost btn-sm w-full sm:w-auto" title="{{ __('ui.toolkit.file_meta', ['ext' => strtoupper($item->extension())]) }}">
-                                    {!! icon_svg('file-down', 'size-4') !!}{{ __('ui.toolkit.download') }} <span class="text-xs text-muted uppercase">.{{ $item->extension() }}</span>
+                                    {!! icon_svg('file-down', 'size-4') !!}{{ __('ui.toolkit.download.'.$item->type) }} <span class="text-xs text-muted uppercase">.{{ $item->extension() }}</span>
                                 </a>
                             @endif
                             @if ($item->acceptsSubmissions())
