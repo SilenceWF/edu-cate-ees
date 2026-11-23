@@ -17,10 +17,9 @@ class ToolkitImporter
 
     /**
      * @param  array  $items  the parsed toolkit.yaml
-     * @param  string[]  $knownCodes  codes that already exist elsewhere and may be referenced by 'related'
      * @return string[] every problem found
      */
-    public function validate(array $items, string $dir, array $knownCodes = [], string $where = 'in the pack'): array
+    public function validate(array $items, string $dir, string $where = 'in the pack'): array
     {
         if (! array_is_list($items)) {
             return ['toolkit.yaml: must be a list of items (each starting with "- code: …").'];
@@ -50,14 +49,34 @@ class ToolkitImporter
                     $errors[] = "$label: file '{$t['file']}' was not found $where.";
                 }
             }
-            foreach ((array) ($t['related'] ?? []) as $code) {
-                if (! in_array((string) $code, $codes, true) && ! in_array((string) $code, $knownCodes, true)) {
-                    $errors[] = "$label: related code '$code' is not in toolkit.yaml.";
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Related codes that match no item, in the file or already installed. Not an error: the page
+     * shows them as plain labels, and they start linking once an item with that code exists
+     * (e.g. one added later in Admin → Content).
+     *
+     * @return string[]
+     */
+    public function unknownRelated(array $items, array $knownCodes = []): array
+    {
+        if (! array_is_list($items)) {
+            return [];
+        }
+        $codes = array_merge(array_map(fn ($t) => is_array($t) ? (string) ($t['code'] ?? '') : '', $items), $knownCodes);
+        $warnings = [];
+        foreach ($items as $t) {
+            foreach (is_array($t) ? (array) ($t['related'] ?? []) : [] as $code) {
+                if (! in_array((string) $code, $codes, true)) {
+                    $warnings[] = "'{$t['code']}': related code '$code' does not exist yet; it is shown without a link until an item with that code is added.";
                 }
             }
         }
 
-        return $errors;
+        return $warnings;
     }
 
     /** Create or update every item, copying its template into private storage. Returns how many. */

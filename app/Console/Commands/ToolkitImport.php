@@ -57,13 +57,14 @@ class ToolkitImport extends Command
         }
 
         [$items, $errors, $warnings] = array_is_list($items) ? $importer->findFiles($items, $dir, $searchDir) : [$items, [], []];
-        $errors = [...$errors, ...$importer->validate($items, $dir, ToolkitItem::pluck('code')->all(), 'in the folder')];
+        $errors = [...$errors, ...$importer->validate($items, $dir, 'in the folder')];
 
         if (array_is_list($items)) {
             $this->table(['Code', 'Type', 'Template file'], collect($items)->filter(fn ($t) => is_array($t))->map(fn ($t) => [
                 $t['code'] ?? '?', $t['type'] ?? '?', $t['file'] ?? '—',
             ])->all());
         }
+        $warnings = [...$warnings, ...$importer->unknownRelated($items, ToolkitItem::pluck('code')->all())];
         foreach ($warnings as $warning) {
             $this->warn('  ! '.$warning);
         }

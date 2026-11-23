@@ -320,7 +320,7 @@ class ToolkitTest extends TestCase
             $this->assertStringContainsString("'A-1' is listed more than once", $text);
             $this->assertStringContainsString("'type' must be one of form, procedure, guide", $text);
             $this->assertStringContainsString("file 'toolkit/missing.docx' was not found", $text);
-            $this->assertStringContainsString("related code 'B-2' is not in toolkit.yaml", $text);
+            $this->assertStringNotContainsString("'B-2'", $text, 'an unknown related code is only a warning');
         }
     }
 
@@ -411,5 +411,24 @@ class ToolkitTest extends TestCase
         $this->artisan('toolkit:import', ['--validate-only' => true])
             ->expectsOutputToContain('packs/demo')
             ->assertSuccessful();
+    }
+
+    public function test_unknown_related_code_is_a_warning_not_an_error(): void
+    {
+        $dir = $this->storage.'/import-related';
+        File::ensureDirectoryExists($dir);
+        File::put("$dir/toolkit.yaml", "- { code: \"ΟΔ-07\", type: guide, title: Οδηγός, related: [\"Ε Α5-8\", PR-05] }\n");
+
+        $this->artisan('toolkit:import', ['path' => $dir])
+            ->expectsOutputToContain("'ΟΔ-07': related code 'Ε Α5-8' does not exist yet")
+            ->assertSuccessful();
+        $guide = $this->item('ΟΔ-07');
+        $this->assertSame(['Ε Α5-8', 'PR-05'], $guide->related_codes);
+
+        // Shown as a plain label until the item exists, then as a link.
+        $this->actingAs($this->supervisor)->get('/toolkit')->assertDontSee('href="#item-'.$guide->id.'"', false)
+            ->assertSee('Ε Α5-8')->assertSee('href="#item-'.$this->item('PR-05')->id.'"', false);
+        $form = ToolkitItem::create(['code' => 'Ε Α5-8', 'type' => 'form', 'title' => ['el' => 'Έντυπο Ένταξης – Αποχώρησης']]);
+        $this->actingAs($this->supervisor)->get('/toolkit')->assertSee('href="#item-'.$form->id.'"', false);
     }
 }

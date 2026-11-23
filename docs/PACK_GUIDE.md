@@ -143,7 +143,7 @@ The **ISMS Toolkit** page lists the procedures, forms and guides people need onc
   roles_guidance: The project manager fills it in; the Security Officer approves it.
   example_usage: A new packaging line - complete the checklist before go-live.
   file: toolkit/frm-10-project-checklist.xlsx   # docx, xlsx, pdf, pptx (or doc, xls). Optional
-  related: [PR-07, GD-01]      # other toolkit codes, shown as links
+  related: [PR-07, GD-01]      # other toolkit codes, shown as links (a code with no item yet is shown without a link)
   active: true                 # optional; an item an admin switched off stays off unless set here
 ```
 
