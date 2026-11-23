@@ -370,4 +370,39 @@ class ToolkitTest extends TestCase
             ->assertFailed();
         $this->assertSame('Αντίγραφα ασφαλείας', loc($this->item('Δ Α8-6')->title));
     }
+
+    public function test_pack_finds_toolkit_documents_in_its_toolkit_folders(): void
+    {
+        $dir = $this->storage.'/packs/dryfo';
+        File::copyDirectory(base_path('packs/demo'), $dir);
+        foreach (['toolkit/Δ/Δ Α5-7 ΔΙΑΔΙΚΑΣΙΑ ΕΡΓΩΝ.docx', 'toolkit/Ε/Ε Α5-10 ΔΕΛΤΙΟ ΕΛΕΓΧΟΥ ΑΣΦΑΛΕΙΑΣ ΕΡΓΟΥ.xlsx', 'toolkit/Ε/Ε Α5-1 Φόρμα 24ωρών.xlsx'] as $name) {
+            File::ensureDirectoryExists(dirname("$dir/$name"));
+            File::put("$dir/$name", $name);
+        }
+        File::append("$dir/toolkit.yaml", "\n".implode("\n", [
+            '- { code: "Δ Α5-7", type: procedure, title: Έργα, related: ["Ε Α5-10"] }',
+            '- { code: "Ε Α5-10", type: form, title: Δελτίο έργου }',
+            '- { code: "Ε Α5-1", type: form, title: Φόρμα 24 ωρών }',
+        ])."\n");
+
+        // pack:install finds the documents by code inside toolkit/ and its sub-folders.
+        app(PackLoader::class)->install($dir);
+        $this->assertSame('Δ Α5-7 ΔΙΑΔΙΚΑΣΙΑ ΕΡΓΩΝ.docx', $this->item('Δ Α5-7')->original_filename);
+        $this->assertSame('Ε Α5-10 ΔΕΛΤΙΟ ΕΛΕΓΧΟΥ ΑΣΦΑΛΕΙΑΣ ΕΡΓΟΥ.xlsx', $this->item('Ε Α5-10')->original_filename);
+        $this->assertSame('Ε Α5-1 Φόρμα 24ωρών.xlsx', $this->item('Ε Α5-1')->original_filename);
+        $this->assertTrue($this->item('Ε Α5-10')->hasFile());
+        $this->assertNull($this->item('PR-05')->file_path, 'an item with no matching document simply has no template');
+
+        // toolkit:import on the same pack folder does the same, without reinstalling the pack.
+        File::put("$dir/toolkit/Ε/Ε Α5-1 Φόρμα 24ωρών.xlsx", 'new version');
+        $this->artisan('toolkit:import', ['path' => $dir])->expectsOutputToContain('toolkit')->assertSuccessful();
+        $this->assertSame('new version', file_get_contents($this->item('Ε Α5-1')->filePath()));
+    }
+
+    public function test_import_command_defaults_to_the_installed_pack_folder(): void
+    {
+        $this->artisan('toolkit:import', ['--validate-only' => true])
+            ->expectsOutputToContain('packs/demo')
+            ->assertSuccessful();
+    }
 }

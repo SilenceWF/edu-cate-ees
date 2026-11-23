@@ -93,6 +93,12 @@ class PackLoader
             $pack['quizzes'][pathinfo($file, PATHINFO_FILENAME)] = $this->yaml($dir, 'quizzes/'.basename($file)) ?? [];
         }
 
+        // Toolkit templates may simply sit in toolkit/ (any sub-folders): files are found by their code.
+        if (array_is_list($pack['toolkit'])) {
+            [$pack['toolkit'], $fileErrors] = $this->toolkit->findFiles($pack['toolkit'], $dir, $dir.'/toolkit');
+            array_push($this->errors, ...$fileErrors);
+        }
+
         $this->validate($pack);
 
         if ($this->errors) {

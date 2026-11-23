@@ -89,19 +89,24 @@ class ToolkitImporter
     }
 
     /**
-     * For `toolkit:import`: work out each item's template file inside a folder of documents.
+     * Work out each item's template file inside a folder of documents (a pack's toolkit/ folder, or the
+     * folder given to `toolkit:import`).
      *  - no 'file' key: the file whose name starts with the item's code ("Δ Α5-7 ΔΙΑΔΙΚΑΣΙΑ….docx");
      *  - 'file' with * or ?: a pattern on the file name ("Δ Α5-5*.pdf");
      *  - 'file' empty or false: no template.
      * Matching ignores case, accents, Latin/Greek look-alike capitals (E/Ε, A/Α) and "_" versus spaces.
      * Office lock files (~$…) and other file types are ignored.
      *
+     * File paths come back relative to $dir; only $searchDir (default: $dir) is searched, sub-folders included.
+     *
      * @return array{0: array, 1: string[], 2: string[]} [items with 'file' filled in, errors, warnings]
      */
-    public function findFiles(array $items, string $dir): array
+    public function findFiles(array $items, string $dir, ?string $searchDir = null): array
     {
-        $files = collect(File::allFiles($dir))
-            ->map(fn ($f) => str_replace('\\', '/', $f->getRelativePathname()))
+        $searchDir ??= $dir;
+        $prefix = trim(str_replace('\\', '/', substr(realpath($searchDir) ?: $searchDir, strlen(realpath($dir) ?: $dir))), '/');
+        $files = collect(is_dir($searchDir) ? File::allFiles($searchDir) : [])
+            ->map(fn ($f) => ltrim($prefix.'/'.str_replace('\\', '/', $f->getRelativePathname()), '/'))
             ->filter(fn ($path) => in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), ToolkitItem::TEMPLATE_EXTENSIONS, true))
             ->reject(fn ($path) => str_starts_with(basename($path), '~$') || str_starts_with(basename($path), '.'))
             ->values();

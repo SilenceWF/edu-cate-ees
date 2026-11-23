@@ -17,21 +17,31 @@ use Symfony\Component\Yaml\Yaml;
 class ToolkitImport extends Command
 {
     protected $signature = 'toolkit:import
-        {path : Folder that holds toolkit.yaml and the documents (sub-folders are searched too), or the toolkit.yaml itself}
+        {path? : Pack folder (toolkit.yaml + documents in toolkit/), any folder holding toolkit.yaml and the documents, or the toolkit.yaml itself. Default: packs/<installed pack>}
         {--validate-only : Show what would be imported without changing anything}';
 
     protected $description = 'Import ISMS toolkit items (procedures, forms, guides) and their template files';
 
     public function handle(ToolkitImporter $importer): int
     {
-        $path = rtrim((string) $this->argument('path'), '/\\');
+        $path = rtrim((string) ($this->argument('path') ?? 'packs/'.setting('pack.slug', 'company')), '/\\');
+        if (! file_exists($path) && file_exists(base_path($path))) {
+            $path = base_path($path);
+        }
         $yaml = is_dir($path) ? $path.DIRECTORY_SEPARATOR.'toolkit.yaml' : $path;
-        $dir = dirname($yaml);
+        if (is_dir($path) && ! is_file($yaml) && is_file($path.'/toolkit/toolkit.yaml')) {
+            $yaml = $path.'/toolkit/toolkit.yaml';
+        }
         if (! is_file($yaml)) {
             $this->error("toolkit.yaml was not found: $yaml");
+            $this->line('Pass the folder that holds it, e.g. php artisan toolkit:import packs/my-company');
 
             return self::FAILURE;
         }
+        $dir = dirname($yaml);
+        // In a pack the documents live in toolkit/ (e.g. toolkit/Δ, toolkit/Ε); otherwise next to toolkit.yaml.
+        $searchDir = is_dir($dir.'/toolkit') ? $dir.'/toolkit' : $dir;
+        $this->line('Reading '.$yaml.'; looking for documents in '.$searchDir);
 
         try {
             $items = Yaml::parseFile($yaml) ?? [];
@@ -46,7 +56,7 @@ class ToolkitImport extends Command
             return self::FAILURE;
         }
 
-        [$items, $errors, $warnings] = array_is_list($items) ? $importer->findFiles($items, $dir) : [$items, [], []];
+        [$items, $errors, $warnings] = array_is_list($items) ? $importer->findFiles($items, $dir, $searchDir) : [$items, [], []];
         $errors = [...$errors, ...$importer->validate($items, $dir, ToolkitItem::pluck('code')->all(), 'in the folder')];
 
         if (array_is_list($items)) {
