@@ -6,6 +6,7 @@ return [
         'toolkit' => 'ISMS Toolkit',
         'admin' => 'Administration',
         'kiosk' => 'Kiosk mode (production / warehouse)',
+        'kiosk_short' => 'Kiosk mode',
         'logout' => 'Sign out',
     ],
     'action' => [
@@ -172,7 +173,7 @@ return [
         'submit_form' => [
             'title' => 'Submit a completed form',
             'file' => 'Completed file',
-            'file_hint' => '.docx, .xlsx, .pdf or .zip, up to 20 MB.',
+            'file_hint' => '.docx, .xlsx, .pdf, .zip (or older .doc / .xls), up to 20 MB.',
             'note' => 'Short reference',
             'note_hint' => 'e.g. project or supplier name',
             'auto' => 'The file is kept in the evidence archive and sent automatically as an attachment to :email.',

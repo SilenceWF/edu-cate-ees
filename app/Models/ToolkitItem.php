@@ -18,7 +18,7 @@ class ToolkitItem extends Model
     public const TYPES = ['form', 'procedure', 'guide'];
 
     /** Template files an admin may upload (and a pack may ship). */
-    public const TEMPLATE_EXTENSIONS = ['docx', 'xlsx', 'pdf', 'pptx'];
+    public const TEMPLATE_EXTENSIONS = ['docx', 'xlsx', 'pdf', 'pptx', 'doc', 'xls'];
 
     protected $guarded = ['id'];
 

@@ -145,6 +145,7 @@ Make changes through the admin screens or `php artisan tinker` rather than by ed
 | --- | --- |
 | `php artisan pack:install <folder or zip>` | Install or update a company pack (idempotent) |
 | `php artisan pack:install <path> --validate-only` | Check a pack and list every problem |
+| `php artisan toolkit:import <folder>` | Import many toolkit procedures / forms / guides from a folder of documents (see the pack guide) |
 | `php artisan pack:export` | Write the current content (as edited in the UI) to a pack zip |
 | `php artisan user:password <email>` | Set a local-login password |
 | `php artisan audit:verify` | Verify the audit log hash chain |

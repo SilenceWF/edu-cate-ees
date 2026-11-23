@@ -316,4 +316,58 @@ class ToolkitTest extends TestCase
             $this->assertStringContainsString("related code 'B-2' is not in toolkit.yaml", $text);
         }
     }
+
+    public function test_import_command_finds_documents_by_their_code(): void
+    {
+        $dir = $this->storage.'/ΣΔΑΠ';
+        foreach ([
+            'Έντυπα/Ε Α5-1 Φόρμα-Αναφοράς-24ωρών.xlsx', 'Έντυπα/Ε Α5-10 ΔΕΛΤΙΟ ΕΛΕΓΧΟΥ ΑΣΦΑΛΕΙΑΣ ΕΡΓΟΥ.xlsx',
+            'Έντυπα/E_A5-4 ΕΡΩΤΗΜΑΤΟΛΟΓΙΟ ΑΞΙΟΛΟΓΗΣΗΣ ΠΡΟΜΗΘΕΥΤΗ.xlsx', 'Έντυπα/~$E A5-4 ΕΡΩΤΗΜΑΤΟΛΟΓΙΟ.xlsx',
+            'Έντυπα/Ε 9.3-1 ΠΡΑΚΤΙΚΑ ΑΝΑΣΚΟΠΗΣΗΣ ΔΙΟΙΚΗΣΗΣ.doc', 'Έντυπα/Ε 7.5-1 ΚΑΤΑΛΟΓΟΣ.lnk',
+            'Διαδικασίες/Δ Α5-5 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΣΦΑΛΙΣΗΣ Α.Π. ΠΡΟΜΗΘΕΥΤΩΝ.docx', 'Διαδικασίες/Δ Α5-5 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΣΦΑΛΙΣΗΣ Α.Π. ΠΡΟΜΗΘΕΥΤΩΝ.pdf',
+            'Διαδικασίες/Δ Α8-6 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΧΕΙΡΙΣΗΣ ΚΑΙ ΕΠΑΝΑΦΟΡΑΣ ΑΝΤΙΓΡΑΦΩΝ.docx', 'Διαδικασίες/Δ Α8-6 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΧΕΙΡΙΣΗΣ ΚΡΥΠΤΟΓΡΑΦΙΑΣ.docx',
+        ] as $name) {
+            File::ensureDirectoryExists(dirname("$dir/$name"));
+            File::put("$dir/$name", "content of $name");
+        }
+        $yaml = <<<'YAML'
+        - { code: "Ε Α5-1", type: form, title: Φόρμα αναφοράς 24 ωρών }
+        - { code: "Ε Α5-10", type: form, title: Δελτίο ελέγχου ασφάλειας έργου, related: ["Δ Α5-5", PR-05] }
+        - { code: "Ε Α5-4", type: form, title: Ερωτηματολόγιο αξιολόγησης προμηθευτή }
+        - { code: "Ε 9.3-1", type: form, title: Πρακτικά ανασκόπησης διοίκησης }
+        - { code: "Δ Α5-5", type: procedure, title: Διασφάλιση Α.Π. προμηθευτών, file: "Δ Α5-5*.pdf" }
+        - { code: "Δ Α8-6", type: procedure, title: Αντίγραφα ασφαλείας, file: "*ΑΝΤΙΓΡΑΦΩΝ*" }
+        - { code: "ΟΔ-01", type: guide, title: Οδηγός }
+        YAML;
+        File::put("$dir/toolkit.yaml", $yaml);
+
+        $this->artisan('toolkit:import', ['path' => $dir, '--validate-only' => true])->assertSuccessful();
+        $this->assertSame(3, ToolkitItem::count(), 'validate-only changes nothing');
+
+        $this->artisan('toolkit:import', ['path' => $dir])
+            ->expectsOutputToContain("'ΟΔ-01': no file starting with this code")
+            ->assertSuccessful();
+
+        $files = ToolkitItem::pluck('original_filename', 'code');
+        $this->assertSame('Ε Α5-1 Φόρμα-Αναφοράς-24ωρών.xlsx', $files['Ε Α5-1']);
+        $this->assertSame('Ε Α5-10 ΔΕΛΤΙΟ ΕΛΕΓΧΟΥ ΑΣΦΑΛΕΙΑΣ ΕΡΓΟΥ.xlsx', $files['Ε Α5-10']);
+        $this->assertSame('E_A5-4 ΕΡΩΤΗΜΑΤΟΛΟΓΙΟ ΑΞΙΟΛΟΓΗΣΗΣ ΠΡΟΜΗΘΕΥΤΗ.xlsx', $files['Ε Α5-4']); // Latin E and underscore
+        $this->assertSame('Ε 9.3-1 ΠΡΑΚΤΙΚΑ ΑΝΑΣΚΟΠΗΣΗΣ ΔΙΟΙΚΗΣΗΣ.doc', $files['Ε 9.3-1']);
+        $this->assertSame('Δ Α5-5 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΣΦΑΛΙΣΗΣ Α.Π. ΠΡΟΜΗΘΕΥΤΩΝ.pdf', $files['Δ Α5-5']);
+        $this->assertSame('Δ Α8-6 ΔΙΑΔΙΚΑΣΙΑ ΔΙΑΧΕΙΡΙΣΗΣ ΚΑΙ ΕΠΑΝΑΦΟΡΑΣ ΑΝΤΙΓΡΑΦΩΝ.docx', $files['Δ Α8-6']);
+        $this->assertNull($files['ΟΔ-01']);
+        $this->assertTrue($this->item('Ε Α5-1')->hasFile());
+        $this->assertTrue(AuditLog::where('action', 'toolkit.imported')->exists());
+
+        $this->actingAs($this->supervisor)->get('/toolkit/'.$this->item('Ε Α5-10')->id.'/download')
+            ->assertDownload('e-a5-10-'.now()->timezone('Europe/Athens')->format('Y-m-d').'.xlsx');
+
+        // Two files for one code: nothing is imported until the right one is chosen.
+        File::put("$dir/toolkit.yaml", "- { code: \"Δ Α8-6\", type: procedure, title: X }\n- { code: \"Δ Α5-5\", type: procedure, title: Y }\n");
+        $this->artisan('toolkit:import', ['path' => $dir])
+            ->expectsOutputToContain("'Δ Α8-6' matches several files")
+            ->expectsOutputToContain("'Δ Α5-5' matches several files")
+            ->assertFailed();
+        $this->assertSame('Αντίγραφα ασφαλείας', loc($this->item('Δ Α8-6')->title));
+    }
 }

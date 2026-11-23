@@ -21,7 +21,7 @@ use Throwable;
 class ToolkitController extends Controller
 {
     /** Filled-in forms people may submit. */
-    public const SUBMISSION_EXTENSIONS = ['docx', 'xlsx', 'pdf', 'zip'];
+    public const SUBMISSION_EXTENSIONS = ['docx', 'xlsx', 'pdf', 'zip', 'doc', 'xls'];
 
     public function index(Request $request, MailStatus $mail)
     {

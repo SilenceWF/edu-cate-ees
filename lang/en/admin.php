@@ -129,7 +129,7 @@ return [
         'example_usage' => 'Practical example', 'related_codes' => 'Related codes',
         'related_hint' => 'Codes of other toolkit items, separated by commas (e.g. PR-07, FRM-10, GD-01).',
         'code_hint' => 'e.g. PR-07 (procedure), FRM-10 (form), GD-01 (guide).',
-        'template_file' => 'Template file', 'template_hint' => '.docx, .xlsx, .pdf or .pptx, up to 20 MB. People always download a fresh copy; the master never changes.',
+        'template_file' => 'Template file', 'template_hint' => '.docx, .xlsx, .pdf, .pptx (or older .doc / .xls), up to 20 MB. People always download a fresh copy; the master never changes.',
         'remove_file' => 'Remove the template file',
     ],
     'exports' => [

@@ -153,7 +153,7 @@
                                 <div class="mt-6 space-y-5">
                                     <div>
                                         <label class="label" for="file-{{ $item->id }}">{{ __('ui.toolkit.submit_form.file') }} *</label>
-                                        <input class="field py-2.5" id="file-{{ $item->id }}" type="file" name="file" required accept=".docx,.xlsx,.pdf,.zip">
+                                        <input class="field py-2.5" id="file-{{ $item->id }}" type="file" name="file" required accept=".docx,.xlsx,.pdf,.zip,.doc,.xls">
                                         <p class="mt-1 text-sm text-muted">{{ __('ui.toolkit.submit_form.file_hint') }}</p>
                                         @if ($openId === $item->id) @error('file')<p class="mt-1 text-sm font-bold text-red-700">{{ $message }}</p>@enderror @endif
                                     </div>

@@ -142,10 +142,19 @@ The **ISMS Toolkit** page lists the procedures, forms and guides people need onc
   when_to_use: At the start of every IT or business project.
   roles_guidance: The project manager fills it in; the Security Officer approves it.
   example_usage: A new packaging line - complete the checklist before go-live.
-  file: toolkit/frm-10-project-checklist.xlsx   # docx, xlsx, pdf or pptx. Optional
+  file: toolkit/frm-10-project-checklist.xlsx   # docx, xlsx, pdf, pptx (or doc, xls). Optional
   related: [PR-07, GD-01]      # other toolkit codes, shown as links
   active: true                 # optional; an item an admin switched off stays off unless set here
 ```
+
+**Importing many documents at once.** Put a `toolkit.yaml` in a folder together with your documents (sub-folders are fine) and run:
+
+```bash
+php artisan toolkit:import /path/to/folder --validate-only
+php artisan toolkit:import /path/to/folder
+```
+
+Here `file:` is optional: the command picks the file whose name starts with the item's code (`Δ Α5-7 ΔΙΑΔΙΚΑΣΙΑ….docx` for code `Δ Α5-7`), ignoring case, accents, Latin/Greek look-alike letters (E/Ε) and `_` versus spaces. When two files start with the same code, give a pattern such as `file: "Δ Α5-5*.pdf"`. Office lock files (`~$…`) and files not listed in `toolkit.yaml` are ignored. Nothing is imported until every problem is fixed. On Windows, use a folder path without Greek letters (e.g. `C:\toolkit-import`); the documents inside it may have Greek names.
 
 People download a fresh, dated copy of the template (the master is never changed). Forms can be submitted back (docx, xlsx, pdf or zip, up to 20 MB): the file is kept as evidence and, when server email is switched on, sent with the file attached to `company.contact_email`. Downloads and submissions are recorded in the audit log. Items can also be created and edited under **Admin → Content → Toolkit**, and are included in **Export current content as a pack**.
 
@@ -184,6 +193,6 @@ A pack often contains internal policies and staff names. `packs/*` is git-ignore
 3. Έλεγχος: `php artisan pack:install packs/<εταιρεία> --validate-only`. Εμφανίζονται όλα τα λάθη μαζί, με αρχείο και γραμμή.
 4. Εγκατάσταση: `php artisan pack:install packs/<εταιρεία>` ή ανέβασμα του φακέλου σε .zip από **Διαχείριση → Ρυθμίσεις**.
 5. Το προσωπικό εισάγεται από **Διαχείριση → Εισαγωγή Excel**.
-6. Προαιρετικά, το `toolkit.yaml` (με τα πρότυπα στον φάκελο `toolkit/`) γεμίζει την **Εργαλειοθήκη ΣΔΑΠ**: διαδικασίες, έντυπα και οδηγούς, με λήψη νέου αντιγράφου του προτύπου και υποβολή του συμπληρωμένου εντύπου στον Υ.Α.Σ.Π.Ε. Τα ίδια επεξεργάζονται και από **Διαχείριση → Περιεχόμενο → Εργαλειοθήκη**.
+6. Προαιρετικά, το `toolkit.yaml` (με τα πρότυπα στον φάκελο `toolkit/`) γεμίζει την **Εργαλειοθήκη ΣΔΑΠ**: διαδικασίες, έντυπα και οδηγούς, με λήψη νέου αντιγράφου του προτύπου και υποβολή του συμπληρωμένου εντύπου στον Υ.Α.Σ.Π.Ε. Τα ίδια επεξεργάζονται και από **Διαχείριση → Περιεχόμενο → Εργαλειοθήκη**, ή εισάγονται μαζικά από φάκελο εγγράφων με `php artisan toolkit:import <φάκελος>`: κάθε αρχείο βρίσκεται αυτόματα από τον κωδικό στην αρχή του ονόματός του.
 
 Κρατήστε το πακέτο σε **ιδιωτικό** αποθετήριο: περιέχει εσωτερικές πολιτικές και ονόματα.
